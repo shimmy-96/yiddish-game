@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>יידיש — בניית תשובות (סיפורים)</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+:root{
+  --paper:#F4F0E6; --paper-2:#EEE8D9; --card:#FFFDF8; --card-2:#FBF7EE;
+  --ink:#1B2A2C; --ink-soft:#4A5A5B; --ink-faint:#7C8A88;
+  --line:#E2D9C6; --line-soft:#EDE6D6;
+  --teal:#0E8A7C; --teal-deep:#0B6B60; --teal-soft:#D6ECE7;
+  --coral:#D8593F; --coral-soft:#F6DDD5; --gold:#C98A22; --gold-soft:#F3E5C6;
+  --grape:#6B5BB0; --grape-soft:#E4DEF4;
+  --good:#1F9E6E; --good-soft:#D3EEE1; --bad:#CC3A2E; --bad-soft:#F5D8D4;
+  --shadow:0 1px 2px rgba(27,42,44,.05),0 6px 18px rgba(27,42,44,.08);
+  --shadow-lg:0 2px 6px rgba(27,42,44,.06),0 18px 44px rgba(27,42,44,.13);
+}
+@media (prefers-color-scheme:dark){:root{
+  --paper:#12201F; --paper-2:#0E1A19; --card:#1A2A28; --card-2:#213432;
+  --ink:#ECE6D6; --ink-soft:#AFC0BC; --ink-faint:#7E918D; --line:#2C3E3B; --line-soft:#25352F;
+  --teal:#2FC8B4; --teal-deep:#5FD9C8; --teal-soft:#183430; --coral:#EE7A5F; --coral-soft:#3A231C;
+  --gold:#E1AC4E; --gold-soft:#382E19; --grape:#A99CE6; --grape-soft:#282146;
+  --good:#3FD08C; --good-soft:#143324; --bad:#F0796B; --bad-soft:#3A1C18;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 22px rgba(0,0,0,.35);
+  --shadow-lg:0 2px 8px rgba(0,0,0,.4),0 20px 50px rgba(0,0,0,.5);
+}}
+*{box-sizing:border-box;margin:0;padding:0}
+body{direction:rtl;background:var(--paper);color:var(--ink);min-height:100vh;
+  font-family:"Assistant","Heebo","Segoe UI",system-ui,-apple-system,"Arial Hebrew",Arial,sans-serif;
+  line-height:1.6;-webkit-font-smoothing:antialiased}
+.yid{font-family:"Frank Ruhl Libre","Times New Roman","David",serif;direction:rtl;unicode-bidi:isolate;font-weight:600}
+.wrap{max-width:640px;margin:0 auto;padding:14px 14px 60px}
+a.home{display:inline-block;color:var(--teal-deep);text-decoration:none;font-weight:700;font-size:14px;margin-bottom:8px}
+.topbar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.stories{display:flex;gap:6px;flex-wrap:wrap;flex:1}
+.sbtn{border:1px solid var(--line);background:var(--card);border-radius:99px;padding:7px 13px;font-size:13px;font-weight:700;color:var(--ink-soft);cursor:pointer;font-family:inherit}
+.sbtn.on{background:var(--teal);color:#fff;border-color:var(--teal)}
+.prog{height:8px;background:var(--line-soft);border-radius:99px;overflow:hidden;margin-bottom:14px}
+.prog>i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--teal),var(--teal-deep));border-radius:99px;transition:width .4s}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow);padding:18px 16px}
+.meta{display:flex;justify-content:space-between;align-items:center;color:var(--ink-faint);font-size:12px;font-weight:700;margin-bottom:6px}
+.pill{background:var(--teal-soft);color:var(--teal-deep);border-radius:99px;padding:3px 10px;font-size:12px;font-weight:800}
+.q{font-size:22px;margin:4px 0 2px}
+.hint{color:var(--ink-soft);font-size:14px;margin-bottom:8px}
+.hint b{color:var(--ink)}
+.answer{min-height:58px;border:2px dashed var(--line);border-radius:12px;padding:10px;display:flex;flex-wrap:wrap;gap:8px;align-content:flex-start;margin:12px 0}
+.answer.empty::before{content:"הקש/י על המילים למטה כדי לבנות את המשפט…";color:var(--ink-faint);font-size:14px;font-weight:600;font-family:"Assistant",sans-serif}
+.bank{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:8px}
+.tile{border:1px solid var(--line);background:var(--card-2);border-radius:10px;padding:8px 13px;font-size:20px;cursor:pointer;box-shadow:0 2px 0 var(--line);transition:transform .08s}
+.tile:active{transform:translateY(1px)}
+.tile.placed{background:var(--teal-soft);border-color:color-mix(in srgb,var(--teal) 45%,var(--line))}
+.tile.used{visibility:hidden}
+.row{display:flex;gap:10px;flex-wrap:wrap;margin-top:6px}
+.btn{flex:1;min-width:120px;background:var(--teal);color:#fff;border:none;border-radius:13px;padding:13px;font-size:16px;font-weight:800;cursor:pointer;font-family:inherit;box-shadow:0 4px 14px color-mix(in srgb,var(--teal) 30%,transparent)}
+.btn:disabled{opacity:.5}
+.btn.ghost{flex:0 0 auto;min-width:0;background:var(--card);color:var(--ink);border:1px solid var(--line);box-shadow:var(--shadow)}
+.fb{margin-top:12px;border-radius:12px;padding:12px 14px;font-size:15px;display:none;border-inline-start:4px solid transparent}
+.fb.show{display:block}
+.fb.ok{background:var(--good-soft);border:1px solid color-mix(in srgb,var(--good) 40%,var(--line));border-inline-start-color:var(--good)}
+.fb.no{background:var(--bad-soft);border:1px solid color-mix(in srgb,var(--bad) 40%,var(--line));border-inline-start-color:var(--bad)}
+.fb .h{font-weight:800;margin-bottom:4px}
+.fb .cor{font-size:20px;margin:4px 0}
+.fb .tr{color:var(--ink-soft);font-size:14px}
+.done{text-align:center;padding:30px 16px}
+.done .big{font-size:44px}
+footer{color:var(--ink-faint);font-size:12px;text-align:center;margin-top:22px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="home" href="index.html">→ חזרה למדריך</a>
+  <div class="topbar"><div class="stories" id="stories"></div></div>
+  <div class="prog"><i id="pbar"></i></div>
+  <div id="stage"></div>
+  <footer>תשובות המודל של המורה (ורד קופל) · יידיש · אין המצאות</footer>
+</div>
+
+<script>
+/* ===== data: teacher's Yiddish model answers, questions IN ORDER per story ===== */
+const DATA=[
+ {title:"דאָס פּעקעלע פּוטער 🕯️", key:"p", items:[
+  {q:"ווער זײַנען געווען די נאַציס?", a:"די נאַציס זײַנען געווען דײַטשן מיט ביקסן", he:"הנאצים היו גרמנים עם רובים."},
+  {q:"וואָס איז אַ געטאָ?", a:"אַ געטאָ איז אַ קליינער צאָל גאַסן מיט אַ מויער", he:"גטו הוא מספר קטן של רחובות עם חומה."},
+  {q:"וואָס האָבן די נאַציס געטאָן די ייִדן פֿון געטאָ?", a:"די נאַציס האָבן די ייִדן פֿון געטאָ פֿאַרגאַזט און פֿאַרברענט", he:"הנאצים הרגו בגז ושרפו את יהודי הגטו."},
+  {q:"צוליב וואָס איז וואָלאַדקע געבליבן אויף יענער זײַט מויער?", a:"וואָלאַדקע איז געבליבן אויף יענער זײַט מויער כּדי צו העלפֿן", he:"וולאדקה נשארה בצד השני של החומה כדי לעזור."},
+  {q:"ווי אַזוי האָט וואָלאַדקע געטראָגן דינאַמיט אין געטאָ?", a:"וואָלאַדקע האָט געטראָגן דינאַמיט אין געטאָ אין אַ פּעקעלע פּוטער", he:"בתוך חבילה שנראתה כמו חבילת חמאה."},
+  {q:"וואָס איז געשען ווען וואָלאַדקע איז געווען אויף דער מויער?", a:"האָבן זיך דערהערט שאָסן", he:"נשמעו יריות."},
+  {q:"וואָס איז געווען די סכּנה בײַם אַראָפּשפּרינגען?", a:"די סכּנה איז געווען אַז זי קען נאָך פֿאַלן און דאָס פּעקעלע פּוטער קען אויפֿרײַסן", he:"שתיפול והחבילה תתפוצץ."},
+ ]},
+ {title:"דאָס שיסעלע מיט בוימל 🕎", key:"s", items:[
+  {q:"ווו שטייט דאָס הייזל?", a:"דאָס הייזל שטייט בײַם עק דאָרף", he:"הבית עומד בקצה הכפר."},
+  {q:"ווי אַזוי האָט געהייסן דער בעל-הבית?", a:"דער באַלעבאָס האָט געהייסן אברהם", he:"קראו לו אברהם."},
+  {q:"ווען איז די מעשׂה געווען?", a:"די מעשׂה איז געווען מיט אַ צוואַנציק יאָר צוריק", he:"לפני כעשרים שנה."},
+  {q:"וואָס האָט געזאָגט דער ערשטער געדאַנק?", a:"דער ערשטער געדאַנק האָט געזאָגט וואָס טוסטו דרעמל ניט אײַן", he:"המחשבה הראשונה: מה אתה עושה? אל תירדם!"},
+  {q:"וואָס האָט ער דערזען אין חלום?", a:"ער האָט דערזען אין חלום אַ פֿײַערל", he:"הוא ראה אור/אש קטנה."},
+  {q:"וואָס טוט ער יעדן ווינטער?", a:"יעדן ווינטער צינדט ער אָן אַ שיסעלע מיט בוימל", he:"כל חורף הוא מדליק קערית שמן."},
+ ]},
+ {title:"דער בוים און דאָס יינגל 🌳", key:"b", items:[
+  {q:"וועמען האָט דער בוים ליב געהאַט?", a:"דער בוים האָט ליב געהאַט דאָס יינגל", he:"העץ אהב את הילד."},
+  {q:"וואָס האָט דאָס יינגל געזאַמלט?", a:"דאָס יינגל האָט געזאַמלט די בלעטער", he:"הילד אסף את העלים."},
+  {q:"אין וואָס האָבן זיי זיך געשפּילט?", a:"זיי האָבן זיך געשפּילט אין באַהעלטעניש", he:"הם שיחקו במחבואים."},
+  {q:"וואָס האָט דער בוים געגעבן?", a:"דער בוים האָט געגעבן זײַן פֿרוכט", he:"העץ נתן את פירותיו."},
+  {q:"פֿאַרוואָס האָט דאָס יינגל געוואָלט אַ שיף?", a:"דאָס יינגל האָט געוואָלט אַ שיף כּדי אַוועקצופֿאָרן", he:"כדי להפליג רחוק."},
+  {q:"וואָס האָט דאָס יינגל געטאָן מיט די עפּל?", a:"דאָס יינגל האָט גענומען די עפּל אין מאַרק פֿאַרקויפֿן", he:"לקח את התפוחים למכור בשוק."},
+  {q:"פֿאַרוואָס איז דער בוים געווען טרויעריק?", a:"דער בוים איז געווען טרויעריק ווײַל דאָס יינגל איז ניט צוריקגעקומען אַ לאַנגע צײַט", he:"כי הילד לא חזר זמן רב."},
+  {q:"פֿאַרוואָס האָט דאָס יינגל געוואָלט אַ הויז?", a:"דאָס יינגל האָט געוואָלט אַ הויז", he:"כי רצה אישה וילדים."},
+ ]},
+];
+
+/* pool of words for distractors */
+const POOL=[...new Set(DATA.flatMap(s=>s.items.flatMap(it=>it.a.split(' '))))];
+
+function norm(s){return (s||'').normalize('NFD').replace(/[֑-ׇ]/g,'')
+  .replace(/[.,!?;:'"״׳`\-–—()]/g,'').replace(/\s+/g,' ').trim()
+  .replace(/ך/g,'כ').replace(/ם/g,'מ').replace(/ן/g,'נ').replace(/ף/g,'פ').replace(/ץ/g,'צ');}
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+
+let si=0, qi=0, placed=[], bank=[], answered=false;
+
+function renderStories(){
+  document.getElementById('stories').innerHTML=DATA.map((s,i)=>
+    `<button class="sbtn ${i===si?'on':''}" onclick="pickStory(${i})">${s.title}</button>`).join('');
+}
+function pickStory(i){si=i;qi=0;loadQ();}
+function progress(){const tot=DATA[si].items.length;document.getElementById('pbar').style.width=Math.round(qi/tot*100)+'%';}
+
+function loadQ(){
+  answered=false; placed=[];
+  renderStories(); progress();
+  const st=DATA[si], it=st.items[qi];
+  if(!it){return finishStory();}
+  // build bank: answer words + up to 3 distractors (only if answer is short)
+  const words=it.a.split(' ');
+  let extras=[];
+  if(words.length<=8){
+    const cand=shuffle(POOL.filter(w=>!words.includes(w)));
+    extras=cand.slice(0,3);
+  }
+  bank=shuffle(words.concat(extras)).map((w,idx)=>({w,idx,used:false}));
+  render();
+}
+function render(){
+  const it=DATA[si].items[qi];
+  document.getElementById('stage').innerHTML=`
+    <div class="card">
+      <div class="meta"><span class="pill">שאלה ${qi+1}/${DATA[si].items.length}</span><span>${DATA[si].title}</span></div>
+      <div class="q yid">${it.q}</div>
+      <div class="hint"><b>רמז:</b> ${it.he}</div>
+      <div class="answer ${placed.length?'':'empty'}" id="ans">${placed.map((p,i)=>`<button class="tile placed yid" onclick="unplace(${i})">${p.w}</button>`).join('')}</div>
+      <div class="bank" id="bank">${bank.map(t=>`<button class="tile yid ${t.used?'used':''}" onclick="place(${t.idx})">${t.w}</button>`).join('')}</div>
+      <div class="row">
+        <button class="btn" id="check" onclick="check()" ${placed.length?'':'disabled'}>בדוק</button>
+        <button class="btn ghost" onclick="clearAns()">נקה</button>
+        <button class="btn ghost" onclick="reveal()">גלה</button>
+      </div>
+      <div class="fb" id="fb"></div>
+    </div>`;
+}
+function place(idx){if(answered)return;const t=bank.find(b=>b.idx===idx);if(!t||t.used)return;t.used=true;placed.push(t);render();}
+function unplace(i){if(answered)return;const t=placed.splice(i,1)[0];const b=bank.find(x=>x.idx===t.idx);if(b)b.used=false;render();}
+function clearAns(){if(answered)return;placed=[];bank.forEach(b=>b.used=false);render();}
+
+function check(){
+  const it=DATA[si].items[qi];
+  const mine=placed.map(p=>p.w).join(' ');
+  const ok=norm(mine)===norm(it.a);
+  answered=true;
+  const fb=document.getElementById('fb');
+  fb.className='fb show '+(ok?'ok':'no');
+  fb.innerHTML=(ok?'<div class="h">✔ מצוין!</div>':'<div class="h">✘ לא מדויק — התשובה הנכונה:</div>')
+    +`<div class="cor yid">${it.a}</div><div class="tr">תרגום: ${it.he}</div>`
+    +`<div class="row" style="margin-top:10px"><button class="btn" onclick="next()">${lastQ()?'סיום הסיפור ←':'הבא ←'}</button></div>`;
+  document.getElementById('check').disabled=true;
+}
+function reveal(){
+  const it=DATA[si].items[qi];answered=true;
+  const fb=document.getElementById('fb');
+  fb.className='fb show ok';
+  fb.innerHTML=`<div class="h">התשובה:</div><div class="cor yid">${it.a}</div><div class="tr">תרגום: ${it.he}</div>`
+    +`<div class="row" style="margin-top:10px"><button class="btn" onclick="next()">${lastQ()?'סיום הסיפור ←':'הבא ←'}</button></div>`;
+}
+function lastQ(){return qi>=DATA[si].items.length-1;}
+function next(){qi++;loadQ();}
+function finishStory(){
+  progress();document.getElementById('pbar').style.width='100%';
+  const hasNext=si<DATA.length-1;
+  document.getElementById('stage').innerHTML=`
+   <div class="card done">
+     <div class="big">🎉</div>
+     <h2>סיימת את "${DATA[si].title}"</h2>
+     <p style="color:var(--ink-soft);margin-top:6px">כל השאלות של הסיפור נענו לפי הסדר.</p>
+     <div class="row" style="justify-content:center;margin-top:14px">
+       ${hasNext?`<button class="btn" onclick="pickStory(${si+1})">לסיפור הבא ←</button>`:''}
+       <button class="btn ghost" onclick="pickStory(${si})">התחל מחדש</button>
+     </div>
+   </div>`;
+}
+renderStories();loadQ();
+</script>
+</body>
+</html>
