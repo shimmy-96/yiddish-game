@@ -1,0 +1,297 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>יידיש — דף נוסחאות + מבחן תרגול</title>
+<style>
+  :root{
+    --ink:#1a1a1a; --muted:#5a5a5a; --line:#c9c4b8; --soft:#efe9dc;
+    --bg:#fbf8f1; --card:#fffdf7; --accent:#7a2e2e; --accent2:#2e4b7a;
+    --good:#1f6b3a; --warn:#8a5a00;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--ink)}
+  body{font-family:"Times New Roman","Frank Ruehl",Georgia,serif;line-height:1.55;font-size:16px}
+  .yid{font-family:"SBL Hebrew","Times New Roman",serif;font-size:1.06em;letter-spacing:.2px}
+  .wrap{max-width:900px;margin:0 auto;padding:24px 22px 60px}
+  header.doc{text-align:center;border-bottom:3px double var(--accent);padding-bottom:14px;margin-bottom:22px}
+  header.doc .uni{font-size:14px;color:var(--muted);letter-spacing:1px}
+  header.doc h1{margin:6px 0 2px;font-size:27px;color:var(--accent)}
+  header.doc .sub{color:var(--muted);font-size:14px}
+  h2.sec{background:var(--accent);color:#fff;padding:8px 14px;border-radius:6px;margin:34px 0 14px;font-size:20px}
+  h2.sec.blue{background:var(--accent2)}
+  h3{margin:22px 0 8px;font-size:18px;color:var(--accent);border-bottom:1px solid var(--line);padding-bottom:4px}
+  h3.blue{color:var(--accent2)}
+  p{margin:8px 0}
+  table{border-collapse:collapse;width:100%;margin:10px 0;background:var(--card);font-size:15px}
+  th,td{border:1px solid var(--line);padding:6px 9px;text-align:right;vertical-align:top}
+  th{background:var(--soft);font-weight:bold}
+  .k{white-space:nowrap;font-weight:bold;background:#f6f1e6;width:120px}
+  .note{background:#fff6ea;border-right:4px solid var(--warn);padding:8px 12px;border-radius:4px;margin:10px 0;font-size:14.5px}
+  .rule{background:#eef4ff;border-right:4px solid var(--accent2);padding:8px 12px;border-radius:4px;margin:10px 0;font-size:14.5px}
+  .good{color:var(--good);font-weight:bold}
+  .bad{color:var(--accent);font-weight:bold}
+  ul{margin:8px 0;padding-inline-start:22px}
+  li{margin:4px 0}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:12px 14px}
+  .card h4{margin:0 0 6px;color:var(--accent2);font-size:16px}
+  .fields{display:flex;gap:26px;flex-wrap:wrap;justify-content:center;margin:10px 0 4px;color:var(--muted);font-size:14px}
+  .fields span{border-bottom:1px solid var(--line);min-width:150px;padding-bottom:2px}
+  .qnum{display:inline-block;background:var(--accent);color:#fff;border-radius:50%;width:26px;height:26px;line-height:26px;text-align:center;font-size:14px;margin-left:6px}
+  .blankt td{height:30px}
+  .lvl{font-size:12px;color:#fff;background:var(--muted);border-radius:10px;padding:1px 8px;margin-inline-start:8px;vertical-align:middle}
+  .answers{background:#f3f7f1}
+  .pill{display:inline-block;background:var(--soft);border:1px solid var(--line);border-radius:12px;padding:1px 9px;font-size:13px;margin:2px}
+  @media print{
+    body{font-size:12.5px} .wrap{max-width:none;padding:0 10px}
+    h2.sec{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+    .page-break{page-break-before:always}
+    th,td{padding:4px 6px}
+    .note,.rule{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  }
+  @media (max-width:640px){.grid2{grid-template-columns:1fr}.fields span{min-width:110px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="doc">
+  <div class="uni">אוניברסיטת בר־אילן · יידיש למתחילים (שנתי) · גב' ורד קופל</div>
+  <h1>דף נוסחאות + מבחן תרגול</h1>
+  <div class="sub">כל הכללים העיקריים להטיית הפועל · חומר מבוסס אך ורק על 60 משפטי המקור (עמ' 84 + 100)</div>
+</header>
+
+<!-- ============ FORMULA SHEET ============ -->
+<h2 class="sec">חלק 1 · דף נוסחאות</h2>
+
+<h3>א. שש הצורות של הגוף (הווה)</h3>
+<p>הבסיס של הפועל = <b>שם הפועל פחות ־ן/־ען</b> (לערנ<b>ען</b> ← <span class="yid">לערן</span>). מוסיפים סיומת:</p>
+<table>
+  <tr><th>גוף</th><th>סיומת</th><th>דוגמה <span class="yid">לערנען</span></th></tr>
+  <tr><td class="k">איך (אני)</td><td>— (הבסיס)</td><td class="yid">איך לערן</td></tr>
+  <tr><td class="k">דו (אתה)</td><td>־סט</td><td class="yid">דו לערנסט</td></tr>
+  <tr><td class="k">ער/זי/עס (הוא/היא)</td><td>־ט</td><td class="yid">ער לערנט</td></tr>
+  <tr><td class="k">מיר (אנחנו)</td><td>־ן / ־ען</td><td class="yid">מיר לערנען</td></tr>
+  <tr><td class="k">איר (אתם)</td><td>־ט</td><td class="yid">איר לערנט</td></tr>
+  <tr><td class="k">זיי (הם)</td><td>־ן / ־ען</td><td class="yid">זיי לערנען</td></tr>
+</table>
+<div class="note"><b>מלכודת ער↔איר:</b> שניהם מקבלים ־ט וזה נראה זהה (<span class="yid">ער לערנט / איר לערנט</span>). מזהים לפי הנושא במשפט.</div>
+
+<h3>ב. שבע השורות שממלאים לכל פועל במבחן</h3>
+<table>
+  <tr><th>שורה</th><th>הנוסחה</th><th>דוגמה (<span class="yid">ער שרײַבן</span>)</th></tr>
+  <tr><td class="k">תרגום</td><td>לעברית</td><td>הוא כותב מכתב</td></tr>
+  <tr><td class="k">עבר</td><td>עזר (האָבן/זײַן) + בינוני (<span class="yid">גע…ט</span>)</td><td class="yid">ער האָט געשריבן</td></tr>
+  <tr><td class="k">עתיד</td><td>וועל/וועסט/וועט… + שם הפועל</td><td class="yid">ער וועט שרײַבן</td></tr>
+  <tr><td class="k">ציווי</td><td>יחיד = הבסיס · רבים = בסיס+ט</td><td class="yid">שרײַב! / שרײַבט!</td></tr>
+  <tr><td class="k">שלילה</td><td>נישט / נישט קיין</td><td class="yid">ער שרײַבט נישט קיין בריוו</td></tr>
+  <tr><td class="k">שאלה +</td><td>מילת שאלה / צי + היפוך</td><td class="yid">צי שרײַבט ער אַ בריוו?</td></tr>
+  <tr><td class="k">שאלה −</td><td>פועל ראשון (כן/לא)</td><td class="yid">שרײַבט ער אַ בריוו?</td></tr>
+</table>
+
+<div class="grid2">
+  <div class="card">
+    <h4>ג. עתיד — פועל העזר וועלן</h4>
+    <table style="font-size:14px;margin:0">
+      <tr><td class="yid">איך וועל</td><td class="yid">מיר וועלן</td></tr>
+      <tr><td class="yid">דו וועסט</td><td class="yid">איר וועט</td></tr>
+      <tr><td class="yid">ער וועט</td><td class="yid">זיי וועלן</td></tr>
+    </table>
+    <p style="margin:6px 0 0;font-size:13.5px">+ שם הפועל המלא בסוף. <b>תמיד קל</b> — אין חריגים.</p>
+  </div>
+  <div class="card">
+    <h4>ד. עבר — שני פועלי עזר</h4>
+    <table style="font-size:14px;margin:0">
+      <tr><th>האָבן</th><th>זײַן</th></tr>
+      <tr><td class="yid">איך האָב</td><td class="yid">איך בין</td></tr>
+      <tr><td class="yid">דו האָסט</td><td class="yid">דו ביסט</td></tr>
+      <tr><td class="yid">ער האָט</td><td class="yid">ער איז</td></tr>
+      <tr><td class="yid">מיר/זיי האָבן</td><td class="yid">מיר/זיי זײַנען</td></tr>
+      <tr><td class="yid">איר האָט</td><td class="yid">איר זײַט</td></tr>
+    </table>
+  </div>
+</div>
+
+<h3>ה. האם העזר הוא <span class="yid">האָבן</span> או <span class="yid">זײַן</span>?</h3>
+<div class="rule">
+<b>כלל אצבע:</b> פועל של <b>תנועה עם כל הגוף</b> (ללכת, לרוץ, לבוא, לנסוע, לשחות, לטפס, לישון) → עזר <b class="yid">זײַן</b>.<br>
+כל השאר → עזר <b class="yid">האָבן</b>.
+</div>
+<div class="note"><b>חריגים לזכור:</b> <span class="yid">טאַנצן</span> (לרקוד) — למרות כל הגוף לוקח <b class="yid">האָבן</b>. גם <span class="yid">ווערן</span> (להיעשות) לוקח <b class="yid">זײַן</b> (איז געוואָרן).</div>
+
+<h3>ו. צורת הבינוני (העבר) — ההרכבה</h3>
+<table>
+  <tr><th>סוג הפועל</th><th>כלל</th><th>דוגמה</th></tr>
+  <tr><td class="k">רגיל</td><td><span class="yid">גע</span> + בסיס + <span class="yid">ט</span></td><td class="yid">מאַכן ← געמאַכט</td></tr>
+  <tr><td class="k">נגמר ב־ט</td><td>לא מוסיפים ט נוסף</td><td class="yid">אַרבעטן ← געאַרבעט</td></tr>
+  <tr><td class="k">מורחב מתפרק</td><td>גע נכנס <b>באמצע</b></td><td class="yid">אַרויספֿאָרן ← אַרויסגעפֿאָרן</td></tr>
+  <tr><td class="k">מורחב בלתי מתפרק</td><td><b class="bad">אין גע בכלל!</b></td><td class="yid">פֿאַרקויפֿן ← פֿאַרקויפֿט</td></tr>
+  <tr><td class="k">חריג</td><td>שינוי פנימי — לשנן</td><td class="yid">שרײַבן ← געשריבן</td></tr>
+</table>
+
+<h3>ז. ציווי · שלילה · שאלות</h3>
+<div class="rule"><b>ציווי:</b> יחיד = הבסיס (<span class="yid">קום!</span>) · רבים = בסיס+ט (<span class="yid">קומט!</span>). במורחב מתפרק התחילית עוברת לסוף: <span class="yid">פֿאָר אַרויס! / פֿאָרט אַרויס!</span></div>
+<div class="rule"><b>שלילה — נישט או נישט קיין?</b><br>
+• מושא <b>מיודע</b> (די/דעם/זײַן/מיין) או אין מושא → רק <b class="yid">נישט</b>: <span class="yid">ער פֿאַרקויפֿט נישט זײַן שטוב</span>.<br>
+• מושא <b>בלתי מיודע / כמות לא מוגדרת</b> (אַ/אַן/בלי כמות) → <b class="yid">נישט קיין</b>: <span class="yid">ער שרײַבט נישט קיין בריוו</span>.</div>
+<div class="rule"><b>שאלות:</b><br>
+• <b>שאלה +</b> = מילת שאלה (<span class="yid">וואָס · וווּ · ווער · ווען · וויפֿל · וווּהין · מיט וועמען</span>) או <span class="yid">צי</span>, ואז היפוך פועל־נושא.<br>
+• <b>שאלה −</b> = בלי מילת שאלה, הפועל ראשון (כן/לא).<br>
+• <b>עם דו:</b> הפועל והנושא מתמזגים: <span class="yid">גייסטו · קומסטו · שרײַבסטו</span>.</div>
+
+<h3 class="blue">ח. שבע רמות הפעלים (הסולם)</h3>
+<table>
+  <tr><th>רמה</th><th>סוג</th><th>מה מיוחד</th><th>דוגמה</th></tr>
+  <tr><td class="k">1</td><td>פשוט</td><td>האָבן · גע…ט · אין מלכודת</td><td class="yid">לערנען · מאַכן · אַרבעטן</td></tr>
+  <tr><td class="k">2</td><td>תנועה</td><td>עזר <span class="yid">זײַן</span></td><td class="yid">גיין · לויפֿן · קומען</td></tr>
+  <tr><td class="k">3</td><td>עזר כפועל</td><td>ההטיה על <span class="yid">האָבן/זײַן/ווערן</span></td><td class="yid">האָבן מורא · זײַן שולדיק</td></tr>
+  <tr><td class="k">4</td><td>עבר חריג</td><td>שינוי פנימי — לשנן</td><td class="yid">שרײַבן · נעמען · ברענגען</td></tr>
+  <tr><td class="k">5</td><td>מורחב מתפרק</td><td>מתפרק בהווה/ציווי · גע באמצע</td><td class="yid">אַרויספֿאָרן · אָפּקויפֿן</td></tr>
+  <tr><td class="k">6</td><td>מורחב בלתי מתפרק</td><td><b class="bad">אין גע בעבר</b></td><td class="yid">פֿאַרקויפֿן · דערציילן</td></tr>
+  <tr><td class="k">7</td><td>+ זיך</td><td>שומרים על <span class="yid">זיך</span> בכל צורה</td><td class="yid">וואַשן זיך · באַקענען זיך</td></tr>
+</table>
+<div class="note"><b>תחיליות מתפרקות (רמה 5):</b> <span class="yid">אַרויס · אַרײַן · אָפּ · אויס · מיט · נאָך · צו · בײַ · אויף</span>. <b>בלתי מתפרקות (רמה 6):</b> <span class="yid">באַ · פֿאַר · דער · צע · אַנט · גע</span>.</div>
+
+<h3>ט. עברים חריגים לשינון (מתוך המקור)</h3>
+<p>
+<span class="pill">שרײַבן ← געשריבן</span>
+<span class="pill">נעמען ← גענומען</span>
+<span class="pill">גיין ← געגאַנגען</span>
+<span class="pill">קומען ← געקומען</span>
+<span class="pill">לויפֿן ← געלאָפֿן</span>
+<span class="pill">פֿאָרן ← געפֿאָרן</span>
+<span class="pill">שלאָפֿן ← געשלאָפֿן</span>
+<span class="pill">שווימען ← געשווומען</span>
+<span class="pill">קריכן ← געקראָכן</span>
+<span class="pill">פֿליען ← געפֿלויגן</span>
+<span class="pill">האָבן ← געהאַט</span>
+<span class="pill">זײַן ← געווען</span>
+<span class="pill">ווערן ← געוואָרן</span>
+<span class="pill">ברענגען ← געברענגט / געבראַכט</span>
+<span class="pill">צעברעכן ← צעבראָכן</span>
+</p>
+
+<!-- ============ EXAM ============ -->
+<div class="page-break"></div>
+<h2 class="sec blue">חלק 2 · מבחן תרגול (מדלגים על הכל)</h2>
+<div class="fields"><span>שם: __________</span><span>ת.ז.: __________</span><span>ציון: ______</span></div>
+
+<h3 class="blue">חלק א' · הטיית פעלים <span class="lvl">70%</span></h3>
+<p>מלא/י את שבע השורות לכל פועל. הפעלים מכסים את כל 7 הרמות — שים/י לב לעזר, ל־גע ולנישט קיין.</p>
+
+<!-- helper to render blank tables -->
+<div id="exam"></div>
+
+<h3 class="blue">חלק ב' · זיהוי מהיר <span class="lvl">15%</span></h3>
+<p>לכל פועל כתוב/כתבי: (1) עזר בעבר — <span class="yid">האָבן</span> או <span class="yid">זײַן</span>? (2) הרמה (1–7). (3) צורת העבר (בינוני).</p>
+<table class="blankt">
+  <tr><th>שם הפועל</th><th>עזר</th><th>רמה</th><th>צורת עבר</th></tr>
+  <tr><td class="yid">מאַכן</td><td></td><td></td><td></td></tr>
+  <tr><td class="yid">קומען</td><td></td><td></td><td></td></tr>
+  <tr><td class="yid">נעמען</td><td></td><td></td><td></td></tr>
+  <tr><td class="yid">אַרויספֿאָרן</td><td></td><td></td><td></td></tr>
+  <tr><td class="yid">פֿאַרקויפֿן</td><td></td><td></td><td></td></tr>
+  <tr><td class="yid">טאַנצן</td><td></td><td></td><td></td></tr>
+  <tr><td class="yid">שווימען</td><td></td><td></td><td></td></tr>
+  <tr><td class="yid">דערציילן</td><td></td><td></td><td></td></tr>
+  <tr><td class="yid">וואַשן זיך</td><td></td><td></td><td></td></tr>
+  <tr><td class="yid">ווערן דורשטיק</td><td></td><td></td><td></td></tr>
+</table>
+
+<h3 class="blue">חלק ג' · שלילה — נישט או נישט קיין? <span class="lvl">15%</span></h3>
+<p>השלם/י את מילת השלילה הנכונה במקום הריק.</p>
+<ol class="yid" style="font-size:15px;line-height:2.1">
+  <li>ער פֿאַרקויפֿט ______ זײַן שטוב.</li>
+  <li>ער שרײַבט ______ בריוו צו זײַן קוזין.</li>
+  <li>זיי מאַכן ______ די היים-אַרבעט.</li>
+  <li>איך דערצייל ______ סך מעשיות.</li>
+  <li>די חברים פֿאָרן ______ אויף ______ וויזיט קיין חיפה.</li>
+</ol>
+
+<!-- ============ ANSWER KEY ============ -->
+<div class="page-break"></div>
+<h2 class="sec">מפתח תשובות</h2>
+
+<h3>חלק א' — טבלאות מלאות</h3>
+<div id="key"></div>
+
+<h3>חלק ב' — זיהוי מהיר</h3>
+<table class="answers">
+  <tr><th>פועל</th><th>עזר</th><th>רמה</th><th>עבר</th></tr>
+  <tr><td class="yid">מאַכן</td><td class="yid">האָבן</td><td>1</td><td class="yid">געמאַכט</td></tr>
+  <tr><td class="yid">קומען</td><td class="yid">זײַן</td><td>2</td><td class="yid">געקומען</td></tr>
+  <tr><td class="yid">נעמען</td><td class="yid">האָבן</td><td>4 (חריג)</td><td class="yid">גענומען</td></tr>
+  <tr><td class="yid">אַרויספֿאָרן</td><td class="yid">זײַן</td><td>5</td><td class="yid">אַרויסגעפֿאָרן</td></tr>
+  <tr><td class="yid">פֿאַרקויפֿן</td><td class="yid">האָבן</td><td>6</td><td class="yid">פֿאַרקויפֿט (אין גע)</td></tr>
+  <tr><td class="yid">טאַנצן</td><td class="yid">האָבן (חריג!)</td><td>1</td><td class="yid">געטאַנצט</td></tr>
+  <tr><td class="yid">שווימען</td><td class="yid">זײַן</td><td>2/4</td><td class="yid">געשווומען</td></tr>
+  <tr><td class="yid">דערציילן</td><td class="yid">האָבן</td><td>6</td><td class="yid">דערציילט (אין גע)</td></tr>
+  <tr><td class="yid">וואַשן זיך</td><td class="yid">האָבן</td><td>7</td><td class="yid">געוואַשן זיך</td></tr>
+  <tr><td class="yid">ווערן דורשטיק</td><td class="yid">זײַן</td><td>3</td><td class="yid">געוואָרן דורשטיק</td></tr>
+</table>
+
+<h3>חלק ג' — שלילה</h3>
+<ol class="yid answers" style="font-size:15px;line-height:2;padding:10px 30px;border-radius:6px">
+  <li>ער פֿאַרקויפֿט <b>נישט</b> זײַן שטוב. <span style="font-size:12px;color:#5a5a5a">(מיודע — <span class="yid">זײַן</span>)</span></li>
+  <li>ער שרײַבט <b>נישט קיין</b> בריוו. <span style="font-size:12px;color:#5a5a5a">(<span class="yid">אַ בריוו</span> — בלתי מיודע)</span></li>
+  <li>זיי מאַכן <b>נישט</b> די היים-אַרבעט. <span style="font-size:12px;color:#5a5a5a">(<span class="yid">די</span> — מיודע)</span></li>
+  <li>איך דערצייל <b>נישט קיין</b> סך מעשיות. <span style="font-size:12px;color:#5a5a5a">(כמות לא מוגדרת)</span></li>
+  <li>די חברים פֿאָרן <b>נישט</b> אויף <b>קיין</b> וויזיט. <span style="font-size:12px;color:#5a5a5a">(<span class="yid">אַ וויזיט</span> — בלתי מיודע)</span></li>
+</ol>
+
+<p style="text-align:center;color:var(--muted);margin-top:40px;font-size:13px">כל התוכן מבוסס על 60 משפטי המקור · עמ' 84 (1–40) + עמ' 100 (1–20) · אין המצאות.</p>
+
+</div>
+
+<script>
+// ---- exam data: all from source, spanning the 7 levels ----
+var ROWS = ["תרגום","עבר","עתיד","ציווי","שלילה","שאלה +","שאלה −"];
+var VERBS = [
+  {inf:"מאַכן", lvl:1, he:"לעשות", sent:"זיי מאַכן די היים-אַרבעט",
+   a:["הם עושים את עבודת הבית","זיי האָבן געמאַכט די היים-אַרבעט","זיי וועלן מאַכן די היים-אַרבעט","מאַך! / מאַכט!","זיי מאַכן נישט די היים-אַרבעט","וואָס מאַכן זיי? / צי מאַכן זיי די היים-אַרבעט?","מאַכן זיי די היים-אַרבעט?"]},
+  {inf:"קומען", lvl:2, he:"לבוא", sent:"דו קומסט אַהיים זייער שפּעט",
+   a:["אתה בא הביתה מאוד מאוחר","דו ביסט געקומען אַהיים זייער שפּעט","דו וועסט קומען אַהיים","קום! / קומט!","דו קומסט נישט אַהיים","ווען קומסטו אַהיים? / צי קומסטו אַהיים?","קומסטו אַהיים?"]},
+  {inf:"שרײַבן", lvl:4, he:"לכתוב", sent:"ער שרײַבט אַ בריוו צו זײַן קוזין",
+   a:["הוא כותב מכתב לבן דודו","ער האָט געשריבן אַ בריוו (חריג!)","ער וועט שרײַבן אַ בריוו","שרײַב! / שרײַבט!","ער שרײַבט נישט קיין בריוו","צי שרײַבט ער אַ בריוו?","שרײַבט ער אַ בריוו?"]},
+  {inf:"האָבן מורא", lvl:3, he:"לפחד", sent:"ער האָט מורא פֿון אַ קאַץ",
+   a:["הוא פוחד מחתולה","ער האָט געהאַט מורא פֿון אַ קאַץ","ער וועט האָבן מורא","האָב מורא! / האָט מורא!","ער האָט נישט מורא פֿון קיין קאַץ","צי האָט ער מורא פֿון אַ קאַץ?","האָט ער מורא פֿון אַ קאַץ?"]},
+  {inf:"אַרויספֿאָרן", lvl:5, he:"לצאת (לחופשה)", sent:"די עלטערן פֿאָרן אַרויס אויף אַ וואַקאַציע",
+   a:["ההורים יוצאים לחופשה","די עלטערן זײַנען אַרויסגעפֿאָרן","די עלטערן וועלן אַרויספֿאָרן","פֿאָר אַרויס! / פֿאָרט אַרויס!","די עלטערן פֿאָרן נישט אַרויס אויף קיין וואַקאַציע","צי פֿאָרן די עלטערן אַרויס? / אויף וואָס פֿאָרן זיי אַרויס?","פֿאָרן די עלטערן אַרויס אויף אַ וואַקאַציע?"]},
+  {inf:"פֿאַרקויפֿן", lvl:6, he:"למכור", sent:"ער פֿאַרקויפֿט זײַן שטוב",
+   a:["הוא מוכר את ביתו","ער האָט פֿאַרקויפֿט זײַן שטוב (אין גע!)","ער וועט פֿאַרקויפֿן זײַן שטוב","פֿאַרקויף! / פֿאַרקויפֿט!","ער פֿאַרקויפֿט נישט זײַן שטוב","וואָס פֿאַרקויפֿט ער? / צי פֿאַרקויפֿט ער זײַן שטוב?","פֿאַרקויפֿט ער זײַן שטוב?"]},
+  {inf:"וואַשן זיך", lvl:7, he:"להתרחץ", sent:"זיי וואַשן זיך יעדן טאָג אינדערפֿרי",
+   a:["הם מתרחצים כל יום בבוקר","זיי האָבן געוואַשן זיך יעדן טאָג","זיי וועלן וואַשן זיך יעדן טאָג","וואַש זיך! / וואַשט זיך!","זיי וואַשן זיך נישט יעדן טאָג","צי וואַשן זיי זיך יעדן טאָג?","וואַשן זיי זיך יעדן טאָג?"]},
+  {inf:"לויפֿן", lvl:2, he:"לרוץ", sent:"איר לויפֿט קויפֿן גוטע זאַכן",
+   a:["אתם רצים לקנות דברים טובים","איר זײַט געלאָפֿן קויפֿן גוטע זאַכן","איר וועט לויפֿן קויפֿן","לויף! / לויפֿט!","איר לויפֿט נישט קויפֿן קיין גוטע זאַכן","וואָס לויפֿט איר קויפֿן? / צי לויפֿט איר קויפֿן?","לויפֿט איר קויפֿן גוטע זאַכן?"]}
+];
+
+function tableFor(v, withAnswers, idx){
+  var h = '<div style="margin:14px 0">';
+  h += '<div style="font-weight:bold;margin-bottom:4px">'
+     + '<span class="qnum">'+(idx+1)+'</span> '
+     + '<span class="yid" style="font-size:1.1em">'+v.sent+'</span> · '
+     + '<span class="yid" style="color:#7a2e2e">'+v.inf+'</span> '
+     + '<span class="lvl">רמה '+v.lvl+'</span> '
+     + '<span style="color:#5a5a5a;font-size:13px">('+v.he+')</span></div>';
+  h += '<table'+(withAnswers?' class="answers"':' class="blankt"')+'>';
+  for(var i=0;i<ROWS.length;i++){
+    var val = withAnswers ? '<span class="yid">'+v.a[i]+'</span>' : '';
+    if(withAnswers && i===0) val = v.a[i]; // translation stays Hebrew
+    h += '<tr><td class="k">'+ROWS[i]+'</td><td>'+val+'</td></tr>';
+  }
+  h += '</table></div>';
+  return h;
+}
+
+var exam="", key="";
+for(var i=0;i<VERBS.length;i++){
+  exam += tableFor(VERBS[i], false, i);
+  key  += tableFor(VERBS[i], true, i);
+}
+document.getElementById("exam").innerHTML = exam;
+document.getElementById("key").innerHTML = key;
+</script>
+</body>
+</html>

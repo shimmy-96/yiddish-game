@@ -1,0 +1,1358 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>🎮 יידיש-קוועסט</title>
+<style>*{margin:0;padding:0;box-sizing:border-box}</style>
+<style>
+/* ============ יידיש-קוועסט — design system (aligned with Stats Wizard Quest) ============ */
+:root{
+  --paper:#F4F0E6; --paper-2:#EEE8D9; --card:#FFFDF8; --card-2:#FBF7EE;
+  --ink:#1B2A2C; --ink-soft:#4A5A5B; --ink-faint:#7C8A88;
+  --line:#E2D9C6; --line-soft:#EDE6D6;
+  --teal:#0E8A7C; --teal-deep:#0B6B60; --teal-soft:#D6ECE7;
+  --coral:#D8593F; --coral-soft:#F6DDD5;
+  --gold:#C98A22; --gold-soft:#F3E5C6;
+  --grape:#6B5BB0; --grape-soft:#E4DEF4;
+  --good:#1F9E6E; --good-soft:#D3EEE1;
+  --bad:#CC3A2E; --bad-soft:#F5D8D4;
+  --shadow:0 1px 2px rgba(27,42,44,.04),0 6px 18px rgba(27,42,44,.07);
+  --shadow-lg:0 2px 6px rgba(27,42,44,.06),0 18px 44px rgba(27,42,44,.13);
+  --r:16px; --r-sm:10px; --r-lg:22px;
+  --font:"Assistant","Heebo","Segoe UI",system-ui,-apple-system,"Arial Hebrew",Arial,sans-serif;
+  /* aliases kept so existing markup keeps working */
+  --bg:var(--paper); --bg2:var(--card-2); --muted:var(--ink-soft); --teal2:var(--teal-deep);
+  --tealbg:var(--teal-soft); --gold-c:var(--gold); --goldbg:var(--gold-soft);
+  --red:var(--bad); --redbg:var(--bad-soft); --green:var(--good); --greenbg:var(--good-soft);
+}
+@media (prefers-color-scheme:dark){:root{
+  --paper:#12201F; --paper-2:#0E1A19; --card:#1A2A28; --card-2:#213432;
+  --ink:#ECE6D6; --ink-soft:#AFC0BC; --ink-faint:#7E918D;
+  --line:#2C3E3B; --line-soft:#25352F; --teal:#2FC8B4; --teal-deep:#5FD9C8; --teal-soft:#183430;
+  --coral:#EE7A5F; --coral-soft:#3A231C; --gold:#E1AC4E; --gold-soft:#382E19;
+  --grape:#A99CE6; --grape-soft:#282146; --good:#3FD08C; --good-soft:#143324;
+  --bad:#F0796B; --bad-soft:#3A1C18;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 22px rgba(0,0,0,.35);
+  --shadow-lg:0 2px 8px rgba(0,0,0,.4),0 20px 50px rgba(0,0,0,.5);
+}}
+:root[data-theme="light"]{
+  --paper:#F4F0E6; --paper-2:#EEE8D9; --card:#FFFDF8; --card-2:#FBF7EE;
+  --ink:#1B2A2C; --ink-soft:#4A5A5B; --ink-faint:#7C8A88;
+  --line:#E2D9C6; --line-soft:#EDE6D6; --teal:#0E8A7C; --teal-deep:#0B6B60; --teal-soft:#D6ECE7;
+  --coral:#D8593F; --coral-soft:#F6DDD5; --gold:#C98A22; --gold-soft:#F3E5C6;
+  --grape:#6B5BB0; --grape-soft:#E4DEF4; --good:#1F9E6E; --good-soft:#D3EEE1;
+  --bad:#CC3A2E; --bad-soft:#F5D8D4;
+  --shadow:0 1px 2px rgba(27,42,44,.04),0 6px 18px rgba(27,42,44,.07);
+  --shadow-lg:0 2px 6px rgba(27,42,44,.06),0 18px 44px rgba(27,42,44,.13);
+}
+:root[data-theme="dark"]{
+  --paper:#12201F; --paper-2:#0E1A19; --card:#1A2A28; --card-2:#213432;
+  --ink:#ECE6D6; --ink-soft:#AFC0BC; --ink-faint:#7E918D;
+  --line:#2C3E3B; --line-soft:#25352F; --teal:#2FC8B4; --teal-deep:#5FD9C8; --teal-soft:#183430;
+  --coral:#EE7A5F; --coral-soft:#3A231C; --gold:#E1AC4E; --gold-soft:#382E19;
+  --grape:#A99CE6; --grape-soft:#282146; --good:#3FD08C; --good-soft:#143324;
+  --bad:#F0796B; --bad-soft:#3A1C18;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 22px rgba(0,0,0,.35);
+  --shadow-lg:0 2px 8px rgba(0,0,0,.4),0 20px 50px rgba(0,0,0,.5);
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  background:var(--paper); color:var(--ink);
+  font-family:var(--font); line-height:1.65; -webkit-font-smoothing:antialiased; text-align:right;
+  -webkit-text-size-adjust:100%;
+  background-image:radial-gradient(circle at 12% 8%,var(--paper-2) 0,transparent 45%),radial-gradient(circle at 88% 92%,var(--paper-2) 0,transparent 45%);
+}
+button{font-family:inherit}
+:focus-visible{outline:2.5px solid var(--teal);outline-offset:2px;border-radius:6px}
+.yi{font-family:"Frank Ruhl Libre","Times New Roman","David",serif; direction:rtl; font-weight:600;}
+.wrap{max-width:960px;margin:0 auto;padding:6px 20px 100px;}
+.view{animation:fade .4s ease}
+@keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+/* ---- header ---- */
+header.top{position:sticky;top:0;z-index:40;background:color-mix(in srgb,var(--paper) 86%,transparent);
+  backdrop-filter:blur(12px);border-bottom:1px solid var(--line-soft)}
+.topbar{max-width:960px;margin:0 auto;display:flex;align-items:center;gap:11px;padding:11px 20px;flex-wrap:wrap}
+.brand{font-weight:800;font-size:19px;letter-spacing:-.02em;cursor:pointer;display:flex;align-items:center;gap:8px}
+.brand .logo{font-size:20px;filter:drop-shadow(0 2px 3px rgba(14,138,124,.35))}
+.brand b{color:var(--teal-deep)}
+.brand small{font-weight:600;color:var(--ink-soft);font-size:12px;display:block;margin-top:-3px}
+.spacer{flex:1}
+.hd-stats{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.pbar{height:7px;background:var(--line-soft);border-radius:99px;overflow:hidden;width:120px;max-width:180px}
+.pbar>i{display:block;height:100%;background:linear-gradient(90deg,var(--teal),var(--teal-deep));border-radius:99px;transition:width .5s cubic-bezier(.4,0,.2,1);box-shadow:0 0 8px color-mix(in srgb,var(--teal) 60%,transparent)}
+.hstat{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:var(--ink-soft);background:color-mix(in srgb,var(--card-2) 82%,transparent);border:1px solid var(--line-soft);border-radius:99px;padding:4px 11px;white-space:nowrap}
+.hstat .hdot{width:7px;height:7px;border-radius:99px;background:var(--ink-faint)}
+.hstat b{color:var(--ink);font-weight:800;font-variant-numeric:tabular-nums;margin-inline-start:2px}
+.hstat.s-xp .hdot{background:var(--gold);box-shadow:0 0 8px color-mix(in srgb,var(--gold) 65%,transparent)}
+.hstat.s-mist .hdot{background:var(--coral);box-shadow:0 0 8px color-mix(in srgb,var(--coral) 65%,transparent)}
+.iconbtn{width:38px;height:38px;border-radius:11px;display:grid;place-items:center;background:var(--card);
+  border:1px solid var(--line);box-shadow:var(--shadow);transition:transform .15s,background .2s;font-size:16px;cursor:pointer;color:var(--ink)}
+.iconbtn:hover{transform:translateY(-1px);background:var(--card-2)}
+nav.tabs{display:flex;gap:8px;overflow-x:auto;padding:10px 20px 0;max-width:960px;margin:0 auto;-webkit-overflow-scrolling:touch}
+nav.tabs button{white-space:nowrap;padding:8px 14px;border-radius:99px;font-size:13.5px;font-weight:700;
+  background:var(--card);border:1px solid var(--line);color:var(--ink-soft);cursor:pointer;transition:.18s}
+nav.tabs button:hover:not(.active){background:var(--card-2)}
+nav.tabs button.active{background:var(--teal);color:#fff;border-color:var(--teal)}
+/* ---- generic ---- */
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);padding:20px;margin:16px 0}
+h1{font-size:clamp(26px,4vw,34px);margin:.2em 0;line-height:1.2;font-weight:800;letter-spacing:-.01em}
+h2{font-size:22px;margin:.4em 0;font-weight:800;letter-spacing:-.01em}
+h3{font-size:16px;margin:.4em 0;font-weight:800}
+.muted{color:var(--ink-soft)}
+.sub{color:var(--ink-soft);font-size:14.5px;margin-top:2px}
+.eyebrow{font-size:12px;font-weight:800;letter-spacing:.08em;color:var(--teal-deep)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:var(--teal);color:#fff;border:none;border-radius:13px;padding:12px 22px;
+  font-size:15px;font-weight:800;cursor:pointer;box-shadow:0 4px 14px color-mix(in srgb,var(--teal) 40%,transparent);transition:transform .15s,filter .2s}
+.btn:hover{transform:translateY(-2px);filter:brightness(1.05)}
+.btn:active{transform:translateY(0)}
+.btn.ghost{background:var(--card);color:var(--ink);border:1px solid var(--line);box-shadow:var(--shadow)}
+.btn.ghost:hover{background:var(--card-2);filter:none}
+.btn.gold{background:var(--gold);box-shadow:0 4px 14px color-mix(in srgb,var(--gold) 40%,transparent)}
+.btn.coral{background:var(--coral);box-shadow:0 4px 14px color-mix(in srgb,var(--coral) 40%,transparent)}
+.btn.sm{padding:8px 15px;font-size:13px;border-radius:10px}
+.btn.wide{width:100%}
+.btn:disabled{opacity:.5;cursor:default;transform:none}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:16px}
+/* topic cards */
+.tile{position:relative;background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);
+  padding:20px;cursor:pointer;transition:transform .18s,box-shadow .25s,border-color .2s;text-align:right;overflow:hidden;
+  display:flex;flex-direction:column;gap:6px;min-height:150px}
+.tile::before{content:"";position:absolute;inset-inline:0;top:0;height:3px;background:linear-gradient(90deg,var(--teal),var(--grape));transform:scaleX(0);transform-origin:right;transition:transform .3s ease}
+.tile:hover::before{transform:scaleX(1)}
+.tile:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg);border-color:color-mix(in srgb,var(--teal) 45%,var(--line))}
+.tile .emo{font-size:30px}
+.tile h3{font-size:18px;margin:.2em 0 0}
+.pill{display:inline-flex;align-items:center;gap:5px;background:var(--teal-soft);color:var(--teal-deep);border-radius:99px;padding:3px 11px;font-size:12px;font-weight:700}
+.pill.gold{background:var(--gold-soft);color:var(--gold)}
+.pill.red{background:var(--coral-soft);color:var(--coral)}
+.pill.green{background:var(--good-soft);color:var(--good)}
+/* hero */
+.hero{text-align:center;padding:14px 0 6px}
+.hero .logo{font-size:52px;display:inline-block;animation:bob 4s ease-in-out infinite;filter:drop-shadow(0 8px 12px rgba(14,138,124,.3))}
+@keyframes bob{0%,100%{transform:translateY(0) rotate(-4deg)}50%{transform:translateY(-9px) rotate(4deg)}}
+.hero h1{background:linear-gradient(120deg,var(--teal-deep),var(--grape));-webkit-background-clip:text;background-clip:text;color:transparent;margin:12px 0 6px}
+.hero .sub{font-size:clamp(15px,2vw,18px);font-weight:700;color:var(--ink)}
+.hero-cta{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:20px}
+/* progress ring */
+.ringrow{display:flex;align-items:center;justify-content:center;gap:22px;margin:22px auto 6px;flex-wrap:wrap;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px 24px;box-shadow:var(--shadow)}
+.ring{--p:0;width:112px;height:112px;border-radius:50%;flex:0 0 auto;
+  background:conic-gradient(var(--teal) calc(var(--p)*1%),var(--line-soft) 0);display:grid;place-items:center;
+  transition:background .6s cubic-bezier(.4,0,.2,1)}
+.ring i{width:86px;height:86px;border-radius:50%;background:var(--card);display:grid;place-items:center;font-style:normal;font-weight:800;font-size:23px;color:var(--teal-deep);font-variant-numeric:tabular-nums}
+.stat{display:flex;gap:12px;flex-wrap:wrap}
+.kpi{background:var(--card-2);border:1px solid var(--line-soft);border-radius:12px;padding:10px 14px;min-width:100px;text-align:center}
+.kpi b{font-size:22px;display:block;font-variant-numeric:tabular-nums}
+.kpi span{font-size:12px;color:var(--ink-soft)}
+/* conjugation table */
+table.conj{width:100%;border-collapse:collapse;margin-top:10px;border-radius:12px;overflow:hidden;box-shadow:var(--shadow)}
+table.conj td{border:1px solid var(--line);padding:9px 12px;vertical-align:middle}
+table.conj td.lbl{background:var(--card-2);font-weight:800;white-space:nowrap;width:96px;font-size:14px}
+table.conj input, table.conj .ans{width:100%;border:none;background:transparent;font-family:inherit;font-size:17px;color:var(--ink);padding:4px}
+table.conj input:focus{outline:none;box-shadow:0 0 0 3px var(--teal-soft);border-radius:8px}
+.rowres{padding:8px 12px;border-radius:10px;margin-top:5px;font-size:14px;border:1px solid var(--line-soft)}
+.ok{background:var(--good-soft);color:var(--good);border-color:color-mix(in srgb,var(--good) 35%,var(--line))}
+.bad{background:var(--bad-soft);color:var(--bad);border-color:color-mix(in srgb,var(--bad) 35%,var(--line))}
+.correct-line{font-weight:800}
+/* options */
+.opt{display:flex;align-items:center;gap:10px;width:100%;text-align:right;border:1.6px solid var(--line);background:var(--card-2);
+  border-radius:12px;padding:12px 15px;margin:7px 0;cursor:pointer;font-size:15px;font-weight:600;transition:.16s}
+.opt:hover{border-color:var(--teal);background:var(--teal-soft)}
+.opt.sel{border-color:var(--teal);background:var(--teal-soft)}
+.opt.right{border-color:var(--good);background:var(--good-soft)}
+.opt.wrong{border-color:var(--bad);background:var(--bad-soft)}
+/* callouts */
+.expl{background:var(--gold-soft);border-inline-start:4px solid var(--gold);padding:11px 14px;border-radius:10px;margin-top:12px;font-size:14px;color:var(--ink)}
+.review{background:var(--coral-soft);border-inline-start:4px solid var(--coral);padding:9px 13px;border-radius:10px;margin:8px 0;font-size:13px;color:var(--ink)}
+/* level toggle */
+.levels{display:inline-flex;gap:4px;margin:12px 0;background:var(--card-2);border:1px solid var(--line);border-radius:12px;padding:4px;width:100%}
+.levels button{flex:1;border:none;background:transparent;border-radius:9px;padding:9px;cursor:pointer;font-weight:800;font-size:13px;color:var(--ink-soft);transition:.16s}
+.levels button.on{color:#fff;background:var(--teal)}
+/* conj filter bar + mastery + full table (added) */
+.fbar{display:flex;flex-direction:column;gap:7px;margin-top:12px}
+.frow{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.fchip{border:1px solid var(--line);background:var(--card);border-radius:99px;padding:5px 12px;font-size:12.5px;font-weight:700;color:var(--ink-soft);cursor:pointer;transition:.15s;font-family:inherit}
+.fchip:hover{border-color:var(--teal)}
+.fchip.on{background:var(--teal);color:#fff;border-color:var(--teal)}
+.chip{display:inline-block;font-size:11px;font-weight:800;padding:2px 9px;border-radius:99px}
+.chip.strong{background:var(--good-soft);color:var(--good)}
+.chip.mid{background:var(--gold-soft);color:var(--gold)}
+.chip.weak{background:var(--bad-soft);color:var(--bad)}
+.alltbl{font-size:13px}
+.alltbl th{background:var(--card-2);font-weight:800;padding:8px 10px;text-align:right;border:1px solid var(--line);white-space:nowrap}
+.alltbl td{font-size:14.5px;vertical-align:top}
+.mini{font-size:11px;color:var(--ink-faint);font-weight:600;margin-top:2px}
+/* flashcards */
+.flash{perspective:1200px;margin:16px 0}
+.flash-inner{position:relative;transition:transform .5s;transform-style:preserve-3d;min-height:240px}
+.flash.flip .flash-inner{transform:rotateY(180deg)}
+.flash-face{position:absolute;inset:0;backface-visibility:hidden;background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);padding:22px;display:flex;flex-direction:column;justify-content:center}
+.flash-back{transform:rotateY(180deg)}
+/* story */
+.linebyline{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--line);border-radius:12px;overflow:hidden;box-shadow:var(--shadow)}
+.linebyline>div{padding:8px 12px;border-bottom:1px solid var(--line-soft)}
+.linebyline .l-yi{background:var(--card-2)}
+.storytext{font-size:19px;line-height:2;background:var(--card-2);border:1px solid var(--line-soft);border-radius:12px;padding:16px}
+.tag{display:inline-block;background:var(--card-2);border:1px solid var(--line-soft);border-radius:99px;padding:3px 10px;font-size:11px;margin:2px;color:var(--ink-soft);font-weight:600}
+/* mistakes bars */
+.barrow{display:flex;align-items:center;gap:8px;margin:6px 0}
+.barrow .bar{flex:1;height:12px;background:var(--card-2);border-radius:99px;overflow:hidden}
+.barrow .bar i{display:block;height:100%;background:linear-gradient(90deg,var(--coral),var(--gold));border-radius:99px}
+/* section banner */
+.banner{display:flex;align-items:center;gap:10px;font-weight:800;font-size:15px;color:var(--teal-deep);margin:20px 0 8px}
+.banner::after{content:"";flex:1;height:1px;background:var(--line)}
+.hidden{display:none!important}
+.toast{position:fixed;bottom:22px;right:50%;transform:translateX(50%);background:var(--teal-deep);color:#fff;padding:11px 20px;border-radius:99px;box-shadow:var(--shadow-lg);z-index:80;font-weight:800;font-size:14px;opacity:0;transition:opacity .25s}
+.toast.show{opacity:1}
+.fab{position:fixed;bottom:16px;inset-inline-start:16px;z-index:60}
+.fab .btn{border-radius:99px;box-shadow:var(--shadow-lg)}
+.floatbtn{position:fixed;bottom:16px;inset-inline-start:16px;z-index:60;border-radius:99px!important;box-shadow:var(--shadow-lg)}
+ul.golden{margin:6px 0;padding-inline-start:20px}
+ul.golden li{margin:5px 0}
+.small{font-size:13px}
+.timerbox{font-weight:800;font-size:16px;color:var(--teal-deep);font-variant-numeric:tabular-nums;font-family:ui-monospace,monospace}
+footer.ft{text-align:center;padding:30px 20px 90px;color:var(--ink-faint);font-size:13px}
+@media(max-width:560px){.linebyline{grid-template-columns:1fr}.ring{width:100px;height:100px}.ring i{width:76px;height:76px;font-size:19px}.hd-stats .pbar{display:none}.floatbtn span.lbl{display:none}}
+@media print{header.top,nav.tabs,.floatbtn,.fab,footer.ft,.btn,.iconbtn{display:none!important}body{background:#fff}}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="topbar">
+    <div class="brand" onclick="go('home')"><span class="logo">🎮</span><span>יידיש-<b>קוועסט</b><small>מאמן למבחן — לפי החומר האמיתי בלבד</small></span></div>
+    <div class="spacer"></div>
+    <div class="hd-stats">
+      <div class="pbar" title="התקדמות כללית"><i id="gpbar" style="width:0%"></i></div>
+      <span class="hstat s-xp" title="נקודות ניסיון"><i class="hdot"></i>XP<b id="gXP">0</b></span>
+      <span class="hstat s-mist" title="טעויות פתוחות"><i class="hdot"></i>טעויות<b id="gMist">0</b></span>
+    </div>
+    <button class="iconbtn" id="themeBtn" onclick="toggleTheme()" title="מצב תצוגה" aria-label="מצב תצוגה">🌙</button>
+  </div>
+  <nav class="tabs" id="tabs"></nav>
+</header>
+<main class="wrap" id="app"></main>
+<footer class="ft">🎮 יידיש-קוועסט · לפי חומרי הקורס · ההתקדמות נשמרת במכשיר שלך בלבד</footer>
+<button class="btn gold floatbtn" onclick="go('tenmin')"><span>⚡</span><span class="lbl">10 דקות לפני מבחן</span></button>
+<div class="toast" id="toast"></div>
+
+<!-- ============ DATA BANK (inlined at build) ============ -->
+<script>
+// DATA.js — בנק האמת ליידיש-קוועסט. חולץ מילה-במילה מחומרי הקורס.
+// מקור הטיות: 20_תרגולים/_פתרונות_מקור.md (עמ' 84 = 1–40, עמ' 100 = 41–60)
+// מקור סיפורים: FINAL_YIDDISH_GUIDE_OUTPUT/STORIES_QA_WITH_ANSWERS.md
+// מקור שיבוץ: 30_מבחנים/הכנה_למבחן/03_שאלות_שיבוץ.md
+// אין להמציא — כל תוכן פעיל מגיע מהמקורות. needsReview=true מסמן סתירה לבדיקה מול המרצה.
+window.YID = {
+  CONJUGATION_BANK: [
+    { id:1, sourcePage:84, infinitive:"לערנען", presentSentence:"איך לערן אין אוניווערסיטעט",
+      translation:"אני לומד באוניברסיטה", past:"איך האָב געלערנט אין אוניווערסיטעט",
+      future:"איך וועל לערנען אין אוניווערסיטעט", imperative:"לערן! לערנט!",
+      negative:"איך לערן נישט אין אוניווערסיטעט",
+      positiveQuestion:"וווּ לערן איך? צי לערן איך אין אוניווערסיטעט?",
+      negativeQuestion:"לערן איך אין אוניווערסיטעט?",
+      tags:["regular","hobn"], explanation:"פועל רגיל, עזר האָבן, עבר געלערנט.", needsReview:false, reviewNote:"" },
+    { id:2, sourcePage:84, infinitive:"גיין", presentSentence:"דו גייסט מיט די קינדער אַהײַם",
+      translation:"אתה הולך עם הילדים הביתה", past:"דו ביסט געגאַנגען מיט די קינדער אַהײַם",
+      future:"דו וועסט גיין מיט די קינדער אַהײַם", imperative:"גיי! גייט!",
+      negative:"דו גייסט נישט מיט די קינדער אַהײַם",
+      positiveQuestion:"וווּהין גייסטו מיט די קינדער? צי גייסטו מיט די קינדער אַהײַם?",
+      negativeQuestion:"גייסטו מיט די קינדער אַהײַם?",
+      tags:["motion","zayn","irregular_past"], explanation:"תנועה → עזר זײַן. עבר חריג: געגאַנגען. מיר/זיי גייען.", needsReview:false, reviewNote:"" },
+    { id:3, sourcePage:84, infinitive:"שרײַבן", presentSentence:"ער שרײַבט אַ בריוו צו זײַן קוזין",
+      translation:"הוא כותב מכתב לבן דודו", past:"ער האָט געשריבן אַ בריוו צו זײַן קוזין",
+      future:"ער וועט שרײַבן אַ בריוו צו זײַן קוזין", imperative:"שרײַב! שרײַבט!",
+      negative:"ער שרײַבט נישט קיין בריוו צו זײַן קוזין",
+      positiveQuestion:"צי שרײַבט ער אַ בריוו צו זײַן קוזין?",
+      negativeQuestion:"שרײַבט ער אַ בריוו צו זײַן קוזין?",
+      tags:["hobn","irregular_past","nisht_keyn"], explanation:"עבר חריג: געשריבן (י' יורדת, בלי ט). שלילה: אַ בריוו לא מיודע → נישט קיין.", needsReview:false, reviewNote:"" },
+    { id:4, sourcePage:84, infinitive:"זײַן", presentSentence:"זי איז די שענסטע אין קלאַס",
+      translation:"היא הכי יפה בכיתה", past:"זי איז געווען די שענסטע אין קלאָס",
+      future:"זי וועט זײַן די שענסטע אין קלאָס", imperative:"זײַ! זײַט!",
+      negative:"זי איז נישט די שענסטע אין קלאַס",
+      positiveQuestion:"צי איז זי די שענסטע אין קלאָס?",
+      negativeQuestion:"איז זי די שענסטע אין קלאָס?",
+      tags:["zayn","irregular_past"], explanation:"זײַן: עבר געווען. שלילה בלי קיין כי 'די שענסטע' מיודע.", needsReview:false, reviewNote:"" },
+    { id:5, sourcePage:84, infinitive:"האָבן", presentSentence:"מיר האָבן דרײַ קינדער",
+      translation:"יש לנו שלושה ילדים", past:"מיר האָבן געהאַט דרײַ קינדער",
+      future:"מיר וועלן האָבן דרײַ קינדער", imperative:"האָב! האָט!",
+      negative:"מיר האָבן נישט קיין דרײַ קינדער",
+      positiveQuestion:"וויפֿל קינדער האָבן מיר? צי האָבן מיר דרײַ קינדער?",
+      negativeQuestion:"האָבן מיר דרײַ קינדער?",
+      tags:["hobn","nisht_keyn"], explanation:"האָבן: עבר געהאַט. מספר (דרײַ) → נישט קיין.", needsReview:false, reviewNote:"" },
+    { id:6, sourcePage:84, infinitive:"לויפֿן", presentSentence:"איר לויפֿט קויפֿן גוטע זאַכן",
+      translation:"אתם רצים לקנות דברים טובים", past:"איר זײַט געלאָפֿן קויפֿן גוטע זאַכן",
+      future:"איר וועט לויפֿן קויפֿן גוטע זאַכן", imperative:"לויף! לויפֿט!",
+      negative:"איר לויפֿט נישט קויפֿן קיין גוטע זאַכן",
+      positiveQuestion:"וואָס לויפֿט איר קויפֿן? צי לויפֿט איר קויפֿן גוטע זאַכן?",
+      negativeQuestion:"לויפֿט איר קויפֿן גוטע זאַכן?",
+      tags:["motion","zayn","irregular_past","nisht_keyn"], explanation:"לרוץ = כל הגוף → זײַן. עבר געלאָפֿן.", needsReview:false, reviewNote:"" },
+    { id:7, sourcePage:84, infinitive:"מאַכן", presentSentence:"זיי מאַכן די היים-אַרבעט",
+      translation:"הם עושים את עבודת הבית", past:"זיי האָבן געמאַכט די היים-אַרבעט",
+      future:"זיי וועלן מאַכן די היים-אַרבעט", imperative:"מאַך! מאַכט!",
+      negative:"זיי מאַכן נישט די היים-אַרבעט",
+      positiveQuestion:"וואָס מאַכן זיי? צי מאַכן זיי די היים-אַרבעט?",
+      negativeQuestion:"מאַכן זיי די היים-אַרבעט?",
+      tags:["regular","hobn"], explanation:"רגיל, עזר האָבן, עבר געמאַכט. 'די היים-אַרבעט' מיודע → בלי קיין.", needsReview:false, reviewNote:"" },
+    { id:8, sourcePage:84, infinitive:"קוקן", presentSentence:"דער חבר קוקט אויף אַ שיינעם פֿילם",
+      translation:"החבר מסתכל על סרט יפה", past:"דער חבר האָט געקוקט אויף אַ שיינעם פֿילם",
+      future:"דער חבר וועט קוקן אויף אַ שיינעם פֿילם", imperative:"קוק! קוקט!",
+      negative:"דער חבר קוקט נישט אויף קיין שיינעם פֿילם",
+      positiveQuestion:"אויף וואָס קוקט דער חבר? צי קוקט דער חבר אויף שיינעם פֿילם?",
+      negativeQuestion:"קוקט דער חבר אויף שיינעם פֿילם?",
+      tags:["regular","hobn","nisht_keyn"], explanation:"רגיל, עבר געקוקט. קיין אחרי מילת יחס: אויף קיין.", needsReview:false, reviewNote:"" },
+    { id:9, sourcePage:84, infinitive:"נעמען", presentSentence:"די חברטע נעמט אַ בוך",
+      translation:"החברה לוקחת ספר", past:"די חברטע האָט גענומען אַ בוך",
+      future:"די חברטע וועט נעמען אַ בוך", imperative:"נעם! נעמט!",
+      negative:"די חברטע נעמט נישט קיין בוך",
+      positiveQuestion:"וואָס נעמט די חברטע? צי נעמט די חברטע אַ בוך?",
+      negativeQuestion:"נעמט די חברטע אַ בוך?",
+      tags:["hobn","irregular_past","nisht_keyn"], explanation:"עבר חריג: גענומען. אַ בוך → נישט קיין.", needsReview:false, reviewNote:"" },
+    { id:10, sourcePage:84, infinitive:"אַרבעטן", presentSentence:"די לערערס אַרבעטן מיט אַ סך תלמידים",
+      translation:"המורים עובדים עם הרבה תלמידים", past:"די לערערס האָבן געאַרבעט מיט אַ סך תלמידים",
+      future:"די לערערס וועלן אַרבעטן מיט אַ סך תלמידים", imperative:"אַרבעט! אַרבעט!",
+      negative:"די לערערס אַרבעטן נישט מיט קיין סך תלמידים",
+      positiveQuestion:"מיט וויפֿל תלמידים אַרבעטן די לערערס? צי אַרבעטן די לערערס מיט אַ סך תלמידים?",
+      negativeQuestion:"אַרבעטן די לערערס מיט אַ סך תלמידים?",
+      tags:["regular","hobn","no_double_t"], explanation:"מסתיים ב-ט → בלי טט: געאַרבעט. ציווי יחיד=רבים (אַרבעט).", needsReview:false, reviewNote:"" },
+    { id:11, sourcePage:84, infinitive:"רעדן", presentSentence:"איך רעד מיט חברים אין פּאַרק",
+      translation:"אני מדבר עם חברים בפארק", past:"איך האָב גערעדט מיט חברים אין פּאַרק",
+      future:"איך וועל רעדן מיט חברים אין פּאַרק", imperative:"רעד! רעדט!",
+      negative:"איך רעד נישט מיט קיין חברים אין קיין פּאַרק",
+      positiveQuestion:"מיט וועמען רעד איך? וווּ רעד איך מיט חברים? צי רעד איך מיט חברים אין פּאַרק?",
+      negativeQuestion:"רעד איך מיט חברים אין פּאַרק?",
+      tags:["regular","hobn","nisht_keyn"], explanation:"רגיל, עבר גערעדט. שלילה: חברים לא מיודע → נישט קיין.", needsReview:false, reviewNote:"" },
+    { id:12, sourcePage:84, infinitive:"קומען", presentSentence:"דו קומסט אַהיים זייער שפּעט אין אָוונט",
+      translation:"אתה בא הביתה מאוד מאוחר בערב", past:"דו ביסט געקומען אַהיים זייער שפּעט אין אָוונט",
+      future:"דו וועסט קומען אַהיים זייער שפּעט אין אָוונט", imperative:"קום! קומט!",
+      negative:"דו קומסט נישט אַהיים זייער שפּעט אין אָוונט",
+      positiveQuestion:"צי קומסטו אַהיים זייער שפּעט אין אָוונט? ווען קומסטו אַהיים?",
+      negativeQuestion:"קומסטו אַהיים זייער שפּעט אין אָוונט?",
+      tags:["motion","zayn","irregular_past"], explanation:"תנועה → זײַן. עבר חריג: געקומען. שאלה: קומסט+דו→קומסטו.", needsReview:false, reviewNote:"" },
+    { id:13, sourcePage:84, infinitive:"לערנען", presentSentence:"ער לערנט דרײַ נײַע לעקציעס",
+      translation:"הוא לומד שלושה שיעורים חדשים", past:"ער האָט געלערנט דרײַ נײַע לעקציעס",
+      future:"ער וועט לערנען דרײַ נײַע לעקציעס", imperative:"לערן! לערנט!",
+      negative:"ער לערנט נישט קיין דרײַ נײַע לעקציעס",
+      positiveQuestion:"וואָס לערנט ער? וויפֿל לעקציעס לערנט ער? צי לערנט ער דרײַ נײַע לעקציעס?",
+      negativeQuestion:"לערנט ער דרײַ נײַע לעקציעס?",
+      tags:["regular","hobn","nisht_keyn"], explanation:"רגיל, עבר געלערנט. מספר → נישט קיין.", needsReview:false, reviewNote:"" },
+    { id:14, sourcePage:84, infinitive:"וואַרטן", presentSentence:"זי וואַרט אַ לאַנגע צײַט",
+      translation:"היא מחכה זמן רב", past:"זי האָט געוואַרט אַ לאַנגע צײַט",
+      future:"זי וועט וואַרטן אַ לאַנגע צײַט", imperative:"וואַרט! וואַרט!",
+      negative:"זי וואַרט נישט קיין לאַנגע צײַט",
+      positiveQuestion:"צי וואַרט זי אַ לאַנגע צײַט? וויפֿל צײַט וואַרט זי? ווער וואַרט אַ לאַנגע צײַט?",
+      negativeQuestion:"וואַרט זי אַ לאַנגע צײַט?",
+      tags:["regular","hobn","no_double_t"], explanation:"מסתיים ב-ט → בלי טט: געוואַרט. ציווי יחיד=רבים.", needsReview:false, reviewNote:"" },
+    { id:15, sourcePage:84, infinitive:"פֿאָרן", presentSentence:"די חברים פֿאָרן אויף אַ וויזיט קיין חיפה",
+      translation:"החברים נוסעים לביקור בחיפה", past:"די חברים זײַנען געפֿאָרן אויף אַ וויזיט קיין חיפה",
+      future:"די חברים וועלן פֿאָרן אויף אַ וויזיט קיין חיפה", imperative:"פֿאָר! פֿאָרט!",
+      negative:"די חברים פֿאָרן נישט אויף קיין וויזיט קיין חיפה",
+      positiveQuestion:"צי פֿאָרן די חברים אויף אַ וויזיט קיין חיפה? וווּהין פֿאָרן די חברים אויף אַ וויזיט?",
+      negativeQuestion:"פֿאָרן די חברים אויף אַ וויזיט קיין חיפה?",
+      tags:["motion","zayn","irregular_past"], explanation:"לנסוע = כל הגוף → זײַן. עבר געפֿאָרן.", needsReview:false, reviewNote:"" },
+    { id:16, sourcePage:84, infinitive:"אַרויספֿאָרן", presentSentence:"די עלטערן פֿאָרן אַרויס אויף אַ וואַקאַציע",
+      translation:"ההורים יוצאים לחופשה", past:"די עלטערן זײַנען אַרויסגעפֿאָרן אויף אַ וואַקאַציע",
+      future:"די עלטערן וועלן אַרויספֿאָרן אויף אַ וואַקאַציע", imperative:"פֿאָר אַרויס! פֿאָרט אַרויס!",
+      negative:"די עלטערן פֿאָרן נישט אַרויס אויף קיין וואַקאַציע",
+      positiveQuestion:"צי פֿאָרן די עלטערן אַרויס אויף אַ וואַקאַציע? אויף וואָס פֿאָרן די עלטערן אַרויס?",
+      negativeQuestion:"פֿאָרן די עלטערן אַרויס אויף אַ וואַקאַציע?",
+      tags:["prefix_split","motion","zayn","irregular_past"], explanation:"מתפרק (אַרויס) — מתפרק בהווה ובציווי. עבר עם זײַן: אַרויסגעפֿאָרן (גע באמצע).", needsReview:false, reviewNote:"" },
+    { id:17, sourcePage:84, infinitive:"אַרײַנגיין", presentSentence:"מיר גייען אַרײַן אין דעם גרויסן פּאַרק",
+      translation:"אנחנו נכנסים לפארק הגדול", past:"מיר זײַנען אַרײַנגעגאַנגען אין דעם גרויסן פּאַרק",
+      future:"מיר וועלן אַרײַנגיין אין דעם גרויסן פּאַרק", imperative:"גיי אַרײַן! גייט אַרײַן!",
+      negative:"מיר גייען נישט אַרײַן אין דעם גרויסן פּאַרק",
+      positiveQuestion:"צי גייען מיר אַרײַן אין דעם גרויסן פּאַרק? וווּהין גייען מיר אַרײַן?",
+      negativeQuestion:"גייען מיר אַרײַן אין דעם גרויסן פּאַרק?",
+      tags:["prefix_split","motion","zayn","irregular_past"], explanation:"מתפרק (אַרײַן). עבר עם זײַן: אַרײַנגעגאַנגען. מיר/זיי גייען.", needsReview:false, reviewNote:"" },
+    { id:18, sourcePage:84, infinitive:"אָפּרעדן", presentSentence:"איר רעדט אָפּ מיט חברים",
+      translation:"אתם מסכמים עם חברים", past:"איר האָט אָפּגערעדט מיט חברים",
+      future:"איר וועט אָפּרעדן מיט חברים", imperative:"רעד אָפּ! רעדט אָפּ!",
+      negative:"איר רעדט נישט אָפּ מיט קיין חברים",
+      positiveQuestion:"צי רעדט איר אָפּ מיט חברים? מיט וועמען רעדט איר אָפּ?",
+      negativeQuestion:"רעדט איר אָפּ מיט חברים?",
+      tags:["prefix_split","hobn","nisht_keyn"], explanation:"מתפרק (אָפּ), עזר האָבן, עבר אָפּגערעדט. חברים לא מיודע → נישט קיין.", needsReview:false, reviewNote:"" },
+    { id:19, sourcePage:84, infinitive:"אָפּקויפֿן", presentSentence:"זיי קויפֿן אָפּ די נײַע ביכער",
+      translation:"הם קונים / משלימים את קניית הספרים החדשים", past:"זיי האָבן אָפּגעקויפֿט די נײַע ביכער",
+      future:"זיי וועלן אָפּקויפֿן די נײַע ביכער", imperative:"קויף אָפּ! קויפֿט אָפּ!",
+      negative:"זיי קויפֿן נישט אָפּ די נײַע ביכער",
+      positiveQuestion:"וואָס קויפֿן זיי אָפּ? וועלכע ביכער קויפֿן זיי אָפּ? צי קויפֿן זיי אָפּ די נײַע ביכער?",
+      negativeQuestion:"קויפֿן זיי אָפּ די נײַע ביכער?",
+      tags:["prefix_split","hobn"], explanation:"מתפרק (אָפּ). עבר אָפּגעקויפֿט (גע באמצע). 'די נײַע ביכער' מיודע → בלי קיין.", needsReview:false, reviewNote:"" },
+    { id:20, sourcePage:84, infinitive:"אויסלייענען", presentSentence:"דער חבר לייענט אויס אַן אַרטיקל",
+      translation:"החבר קורא מאמר", past:"דער חבר האָט אויסגעלייענט אַן אַרטיקל",
+      future:"דער חבר וועט אויסלייענען אַן אַרטיקל", imperative:"לייען אויס! לייענט אויס!",
+      negative:"דער חבר לייענט נישט אויס קיין אַרטיקל",
+      positiveQuestion:"וואָס לייענט דער חבר אויס? צי לייענט דער חבר אויס אַן אַרטיקל?",
+      negativeQuestion:"לייענט דער חבר אויס אַן אַרטיקל?",
+      tags:["prefix_split","hobn","nisht_keyn"], explanation:"מתפרק (אויס). אַן אַרטיקל לא מיודע → נישט קיין. עבר אויסגעלייענט.", needsReview:false, reviewNote:"" },
+    { id:21, sourcePage:84, infinitive:"באַשרײַבן", presentSentence:"איך באַשרײַב מײַן לעבן אין אַ בוך",
+      translation:"אני מתאר את חיי בספר", past:"איך האָב באַשריבן מײַן לעבן אין אַ בוך",
+      future:"איך וועל באַשרײַבן מײַן לעבן אין אַ בוך", imperative:"באַשרײַב! באַשרײַבט!",
+      negative:"איך באַשרײַב נישט מײַן לעבן אין קיין בוך",
+      positiveQuestion:"צי באַשרײַב איך מײַן לעבן אין אַ בוך? וואָס באַשרײַב איך?",
+      negativeQuestion:"באַשרײַב איך מײַן לעבן אין אַ בוך?",
+      tags:["prefix_fixed","hobn","irregular_past"], explanation:"בלתי מתפרק (באַ) → בלי גע. שורש שרײַבן חריג → באַשריבן.", needsReview:false, reviewNote:"" },
+    { id:22, sourcePage:84, infinitive:"אָפּקויפֿן", presentSentence:"דו קויפֿסט אָפּ די מאַשין",
+      translation:"אתה משלים את קניית המכונית", past:"דו האָסט אָפּגעקויפֿט די מאַשין",
+      future:"דו וועסט אָפּקויפֿן די מאַשין", imperative:"קויף אָפּ! קויפֿט אָפּ!",
+      negative:"דו קויפֿסט נישט אָפּ די מאַשין",
+      positiveQuestion:"צי קויפֿסטו אָפּ די מאַשין?",
+      negativeQuestion:"קויפֿסטו אָפּ די מאַשין?",
+      tags:["prefix_split","hobn"], explanation:"מתפרק. קויפֿן לא צריך כל הגוף → האָבן, עבר אָפּגעקויפֿט.", needsReview:false, reviewNote:"" },
+    { id:23, sourcePage:84, infinitive:"פֿאַרקויפֿן", presentSentence:"ער פֿאַרקויפֿט זײַן שטוב",
+      translation:"הוא מוכר את ביתו", past:"ער האָט פֿאַרקויפֿט זײַן שטוב",
+      future:"ער וועט פֿאַרקויפֿן זײַן שטוב", imperative:"פֿאַרקויף! פֿאַרקויפֿט!",
+      negative:"ער פֿאַרקויפֿט נישט זײַן שטוב",
+      positiveQuestion:"צי פֿאַרקויפֿט ער זײַן שטוב? וואָס פֿאַרקויפֿט ער?",
+      negativeQuestion:"פֿאַרקויפֿט ער זײַן שטוב?",
+      tags:["prefix_fixed","hobn"], explanation:"בלתי מתפרק (פֿאַר) → בלי גע: פֿאַרקויפֿט. 'זײַן שטוב' מיודע → בלי קיין.", needsReview:false, reviewNote:"" },
+    { id:24, sourcePage:84, infinitive:"באַלערנען", presentSentence:"זי באַלערנט אירע קינדער",
+      translation:"היא מחנכת את ילדיה", past:"זי האָט באַלערנט אירע קינדער",
+      future:"זי וועט באַלערנען אירע קינדער", imperative:"באַלערן! באַלערנט!",
+      negative:"זי באַלערנט נישט אירע קינדער",
+      positiveQuestion:"צי באַלערנט זי אירע קינדער? וועמען באַלערנט זי?",
+      negativeQuestion:"באַלערנט זי אירע קינדער?",
+      tags:["prefix_fixed","hobn"], explanation:"בלתי מתפרק (באַ) → בלי גע: באַלערנט. עזר האָבן.", needsReview:false, reviewNote:"" },
+    { id:25, sourcePage:84, infinitive:"אַרויסלויפֿן", presentSentence:"מיר לויפֿן אַרויס פֿון צימער",
+      translation:"אנחנו רצים החוצה מהחדר", past:"מיר זײַנען אַרויסגעלאָפֿן פֿון צימער",
+      future:"מיר וועלן אַרויסלויפֿן פֿון צימער", imperative:"לויף אַרויס! לויפֿט אַרויס!",
+      negative:"מיר לויפֿן נישט אַרויס פֿון קיין צימער",
+      positiveQuestion:"צי לויפֿן מיר אַרויס פֿון צימער? פֿון וואַנען לויפֿן מיר אַרויס?",
+      negativeQuestion:"לויפֿן מיר אַרויס פֿון צימער?",
+      tags:["prefix_split","motion","zayn","irregular_past"], explanation:"מתפרק (אַרויס) + לויפֿן תנועה → זײַן. עבר אַרויסגעלאָפֿן.", needsReview:false, reviewNote:"" },
+    { id:26, sourcePage:84, infinitive:"פֿאַרמאַכן", presentSentence:"איר פֿאָרמאָכט די טיר מיט אַ גרויסן רעש",
+      translation:"אתם סוגרים את הדלת ברעש גדול", past:"איר האָט פֿאַרמאַכט די טיר מיט אַ גרויסן רעש",
+      future:"איר וועט פֿאָרמאָכן די טיר מיט אַ גרויסן רעש", imperative:"פֿאָרמאָך! פֿאָרמאָכט!",
+      negative:"איר פֿאָרמאָכט נישט די טיר מיט קיין גרויסן רעש",
+      positiveQuestion:"צי פֿאָרמאָכט איר די טיר מיט אַ גרויסן רעש?",
+      negativeQuestion:"פֿאָרמאָכט איר די טיר מיט אַ גרויסן רעש?",
+      tags:["prefix_fixed","hobn"], explanation:"בלתי מתפרק → בלי גע. עבר פֿאַרמאַכט.", needsReview:true, reviewNote:"אי-התאמת כתיב במקור: הווה/עתיד/ציווי כתובים פֿאָרמאָכן/פֿאָרמאָכט, אך עבר כתוב פֿאַרמאַכט. לוודא כתיב אחיד מול המרצה (כנראה פֿאַרמאַכן)." },
+    { id:27, sourcePage:84, infinitive:"מיטגיין", presentSentence:"זיי גייען מיט מיט די קינדער",
+      translation:"הם מצטרפים אל הילדים", past:"זיי זײַנען מיטגעגאַנגען מיט די קינדער",
+      future:"זיי וועלן מיטגיין מיט די קינדער", imperative:"גיי מיט! גייט מיט!",
+      negative:"זיי גייען נישט מיט מיט די קינדער",
+      positiveQuestion:"צי גייען זיי מיט מיט די קינדער?",
+      negativeQuestion:"גייען זיי מיט מיט די קינדער?",
+      tags:["prefix_split","motion","zayn","irregular_past"], explanation:"מתפרק (מיט) — לכן 'מיט מיט' פעמיים תקין. עבר מיטגעגאַנגען.", needsReview:false, reviewNote:"" },
+    { id:28, sourcePage:84, infinitive:"נאָכלויפֿן", presentSentence:"איך לויף נאָך נאָך אַ טעקסי",
+      translation:"אני רודף אחרי מונית", past:"איך בין נאָכגעלאָפֿן נאָך אַ טעקסי",
+      future:"איך וועל נאָכלויפֿן נאָך אַ טעקסי", imperative:"לויף נאָך! לויפֿט נאָך!",
+      negative:"איך לויף נישט נאָך נאָך קיין טעקסי",
+      positiveQuestion:"צי לויף איך נאָך נאָך אַ טעקסי?",
+      negativeQuestion:"לויף איך נאָך נאָך אַ טעקסי?",
+      tags:["prefix_split","motion","zayn","irregular_past"], explanation:"מתפרק (נאָך) — 'נאָך נאָך' תקין. עבר נאָכגעלאָפֿן, עזר זײַן.", needsReview:false, reviewNote:"" },
+    { id:29, sourcePage:84, infinitive:"צוקומען", presentSentence:"דו קומסט צו צו די שכנים",
+      translation:"אתה ניגש אל השכנים", past:"דו ביסט צוגעקומען צו די שכנים",
+      future:"דו וועסט צוקומען צו די שכנים", imperative:"קום צו! קומט צו!",
+      negative:"דו קומסט נישט צו צו די שכנים",
+      positiveQuestion:"צי קומסטו צו צו די שכנים?",
+      negativeQuestion:"קומסטו צו צו די שכנים?",
+      tags:["prefix_split","motion","zayn","irregular_past"], explanation:"מתפרק (צו) — 'צו צו' תקין. עבר צוגעקומען.", needsReview:false, reviewNote:"" },
+    { id:30, sourcePage:84, infinitive:"בײַפֿליען", presentSentence:"דאָס פֿייגעלע פֿליט בײַ בײַ מײַן פֿענצטער",
+      translation:"הציפור מתעופפת על־יד חלוני", past:"דאָס פֿייגעלע איז בײַגעפֿלויגן בײַ מײַן פֿענצטער",
+      future:"דאָס פֿייגעלע וועט בײַפֿליען בײַ מײַן פֿענצטער", imperative:"פֿלי בײַ! פֿליט בײַ!",
+      negative:"דאָס פֿייגעלע פֿליט נישט בײַ בײַ מײַן פֿענצטער",
+      positiveQuestion:"צי פֿליט דאָס פֿייגעלע בײַ בײַ מײַן פֿענצטער?",
+      negativeQuestion:"פֿליט דאָס פֿייגעלע בײַ בײַ מײַן פֿענצטער?",
+      tags:["prefix_split","motion","zayn","irregular_past"], explanation:"מתפרק (בײַ) — 'בײַ בײַ' תקין. עבר בײַגעפֿלויגן.", needsReview:false, reviewNote:"" },
+    { id:31, sourcePage:84, infinitive:"האָבן מורא", presentSentence:"ער האָט מורא פֿון אַ קאַץ",
+      translation:"הוא פוחד מחתולה", past:"ער האָט געהאַט מורא פֿון אַ קאַץ",
+      future:"ער וועט האָבן מורא פֿון אַ קאַץ", imperative:"האָב מורא! האָט מורא!",
+      negative:"ער האָט נישט מורא פֿון קיין קאַץ",
+      positiveQuestion:"צי האָט ער מורא פֿון אַ קאַץ?",
+      negativeQuestion:"האָט ער מורא פֿון אַ קאַץ?",
+      tags:["helper_expr","hobn","nisht_keyn"], explanation:"ביטוי עזר — רק האָבן מוטה (מורא לא). עבר געהאַט מורא. קיין אחרי פֿון.", needsReview:false, reviewNote:"" },
+    { id:32, sourcePage:84, infinitive:"זײַן שולדיק", presentSentence:"זי איז שולדיק אין דער מעשה",
+      translation:"היא אשמה במעשה", past:"זי איז געווען שולדיק אין דער מעשה",
+      future:"זי וועט זײַן שולדיק אין דער מעשה", imperative:"זײַ שולדיק! זײַט שולדיק!",
+      negative:"זי איז נישט שולדיק אין דער מעשה",
+      positiveQuestion:"צי איז זי שולדיק אין דער מעשה?",
+      negativeQuestion:"איז זי שולדיק אין דער מעשה?",
+      tags:["helper_expr","zayn"], explanation:"ביטוי עזר — רק זײַן מוטה. עבר איז געווען שולדיק.", needsReview:false, reviewNote:"" },
+    { id:33, sourcePage:84, infinitive:"אויסטראַכטן", presentSentence:"מיר טראַכטן אויס אַ פּאַטענט",
+      translation:"אנחנו ממציאים פטנט", past:"מיר האָבן אויסגעטראַכט אַ פּאַטענט",
+      future:"מיר וועלן אויסטראַכטן אַ פּאַטענט", imperative:"טראַכט אויס! טראַכט אויס!",
+      negative:"מיר טראַכטן נישט אויס קיין פּאַטענט",
+      positiveQuestion:"צי טראַכטן מיר אויס אַ פּאַטענט?",
+      negativeQuestion:"טראַכטן מיר אויס אַ פּאַטענט?",
+      tags:["prefix_split","hobn","no_double_t","nisht_keyn"], explanation:"מתפרק (אויס). מסתיים ב-ט → בלי טט: אויסגעטראַכט.", needsReview:false, reviewNote:"" },
+    { id:34, sourcePage:84, infinitive:"ווערן פֿאַרחלשט", presentSentence:"איר ווערט פֿאַרחלשט פֿון דער היץ",
+      translation:"אתם נחלשים מהחום", past:"איר זײַט געוואָרן פֿאַרחלשט פֿון דער היץ",
+      future:"איר וועט ווערן פֿאַרחלשט פֿון דער היץ", imperative:"ווער פֿאַרחלשט! ווערט פֿאַרחלשט!",
+      negative:"איר ווערט נישט פֿאַרחלשט פֿון דער היץ",
+      positiveQuestion:"צי ווערט איר פֿאַרחלשט פֿון דער היץ?",
+      negativeQuestion:"ווערט איר פֿאַרחלשט פֿון דער היץ?",
+      tags:["helper_expr","zayn"], explanation:"ביטוי עזר עם ווערן — רק ווערן מוטה. עבר ווערן→געוואָרן, עזר זײַן.", needsReview:false, reviewNote:"" },
+    { id:35, sourcePage:84, infinitive:"אַנטלויפֿן", presentSentence:"זיי אַנטלויפֿן פֿון אַ הונט",
+      translation:"הם בורחים מכלב", past:"זיי זײַנען אַנטלאָפֿן פֿון אַ הונט",
+      future:"זיי וועלן אַנטלויפֿן פֿון אַ הונט", imperative:"אַנטלויף! אַנטלויפֿט!",
+      negative:"זיי אַנטלויפֿן נישט פֿון קיין הונט",
+      positiveQuestion:"צי אַנטלויפֿן זיי פֿון אַ הונט?",
+      negativeQuestion:"אַנטלויפֿן זיי פֿון אַ הונט?",
+      tags:["prefix_fixed","motion","zayn","irregular_past"], explanation:"בלתי מתפרק (אַנט) → בלי גע: אַנטלאָפֿן. תנועה → זײַן.", needsReview:false, reviewNote:"" },
+    { id:36, sourcePage:84, infinitive:"דערציילן", presentSentence:"איך דערצייל אַ סך מעשיות",
+      translation:"אני מספר הרבה מעשיות", past:"איך האָב דערציילט אַ סך מעשיות",
+      future:"איך וועל דערציילן אַ סך מעשיות", imperative:"דערצייל! דערציילט!",
+      negative:"איך דערצייל נישט קיין סך מעשיות",
+      positiveQuestion:"צי דערצייל איך אַ סך מעשיות?",
+      negativeQuestion:"דערצייל איך אַ סך מעשיות?",
+      tags:["prefix_fixed","hobn","nisht_keyn"], explanation:"בלתי מתפרק (דער) → בלי גע: דערציילט.", needsReview:false, reviewNote:"" },
+    { id:37, sourcePage:84, infinitive:"חלומען", presentSentence:"דו חלומסט פֿאָרן שפּאַצירן אין אמריקה",
+      translation:"אתה חולם לנסוע לטייל באמריקה", past:"דו האָסט געחלומט פֿאָרן שפּאַצירן אין אמריקה",
+      future:"דו וועסט חלומען פֿאָרן שפּאַצירן אין אמריקה", imperative:"חלום! חלומט!",
+      negative:"דו חלומסט נישט פֿאָרן שפּאַצירן אין אמריקה",
+      positiveQuestion:"צי חלומסטו פֿאָרן שפּאַצירן אין אמריקה?",
+      negativeQuestion:"חלומסטו פֿאָרן שפּאַצירן אין אמריקה?",
+      tags:["regular","hobn"], explanation:"רק הפועל הראשון (חלומסט) מוטה — פֿאָרן ושפּאַצירן שמות פועל. עבר געחלומט.", needsReview:false, reviewNote:"" },
+    { id:38, sourcePage:84, infinitive:"האָבן ליב", presentSentence:"ער האָט ליב שפּאַצירן בײַם ים אין אָוונט",
+      translation:"הוא אוהב לטייל על־יד הים בערב", past:"ער האָט געהאַט ליב שפּאַצירן בײַם ים אין אָוונט",
+      future:"ער וועט האָבן ליב שפּאַצירן בײַם ים אין אָוונט", imperative:"האָב ליב! האָט ליב!",
+      negative:"ער האָט נישט ליב שפּאַצירן בײַם ים אין אָוונט",
+      positiveQuestion:"צי האָט ער ליב שפּאַצירן בײַם ים אין אָוונט?",
+      negativeQuestion:"האָט ער ליב שפּאַצירן בײַם ים אין אָוונט?",
+      tags:["helper_expr","hobn"], explanation:"ביטוי עזר — רק האָבן מוטה. עבר געהאַט ליב (בדיוק כמו בסיפור 'העץ': ליב געהאַט).", needsReview:false, reviewNote:"" },
+    { id:39, sourcePage:84, infinitive:"פסקענען", presentSentence:"זי פסקנט אַ נײַעם געזעץ",
+      translation:"היא פוסקת חוק חדש", past:"זי האָט געפסקנט אַ נײַעם געזעץ",
+      future:"זי וועט פסקענען אַ נײַעם געזעץ", imperative:"פסקן! פסקנט!",
+      negative:"זי פסקנט נישט קיין נײַעם געזעץ",
+      positiveQuestion:"וואָס פסקנט זי? צי פסקנט זי אַ נײַעם געזעץ?",
+      negativeQuestion:"פסקנט זי אַ נײַעם געזעץ?",
+      tags:["regular","hobn","nisht_keyn"], explanation:"רגיל, עבר געפסקנט. אַ נײַעם געזעץ לא מיודע → נישט קיין.", needsReview:false, reviewNote:"" },
+    { id:40, sourcePage:84, infinitive:"ווערן דורשטיק", presentSentence:"מיר ווערן דורשטיק נאָך מיטאָג",
+      translation:"אנחנו נעשים צמאים אחר הצהריים", past:"מיר זײַנען געוואָרן דורשטיק נאָך מיטאָג",
+      future:"מיר וועלן ווערן דורשטיק נאָך מיטאָג", imperative:"ווער דורשטיק! ווערט דורשטיק!",
+      negative:"מיר ווערן נישט דורשטיק נאָך מיטאָג",
+      positiveQuestion:"צי ווערן מיר דורשטיק נאָך מיטאָג?",
+      negativeQuestion:"ווערן מיר דורשטיק נאָך מיטאָג?",
+      tags:["helper_expr","zayn"], explanation:"ביטוי עזר עם ווערן. עבר געוואָרן, עזר זײַן.", needsReview:false, reviewNote:"" },
+    { id:41, sourcePage:100, infinitive:"ווערן גרויס", presentSentence:"איר ווערט גרויס פֿון טאָג צו טאָג",
+      translation:"אתם גדלים מיום ליום", past:"איר זײַט געוואָרן גרויס פֿון טאָג צו טאָג",
+      future:"איר וועט ווערן גרויס פֿון טאָג צו טאָג", imperative:"ווער גרויס! ווערט גרויס!",
+      negative:"איר ווערט נישט גרויס פֿון טאָג צו טאָג",
+      positiveQuestion:"צי ווערט איר גרויס פֿון טאָג צו טאָג?",
+      negativeQuestion:"ווערט איר גרויס פֿון טאָג צו טאָג?",
+      tags:["helper_expr","zayn"], explanation:"ביטוי עזר עם ווערן+תואר. עבר געוואָרן.", needsReview:false, reviewNote:"" },
+    { id:42, sourcePage:100, infinitive:"זײַן מצליח", presentSentence:"די תלמידים זײַנען מצליח אין דעם עקזאַמען",
+      translation:"התלמידים מצליחים במבחן", past:"די תלמידים זײַנען געווען מצליח אין דעם עקזאַמען",
+      future:"די תלמידים וועלן זײַן מצליח אין דעם עקזאַמען", imperative:"זײַ מצליח! זײַט מצליח!",
+      negative:"די תלמידים זײַנען נישט מצליח אין דעם עקזאַמען",
+      positiveQuestion:"צי זײַנען די תלמידים מצליח אין דעם עקזאַמען?",
+      negativeQuestion:"זײַנען די תלמידים מצליח אין דעם עקזאַמען?",
+      tags:["helper_expr","zayn"], explanation:"ביטוי עזר עם זײַן. מיר/זיי זײַנען (ע נכנסת). עבר געווען.", needsReview:false, reviewNote:"" },
+    { id:43, sourcePage:100, infinitive:"צעברעכן", presentSentence:"איך צעברעך אַ טעלער צו די תנאים",
+      translation:"אני שוברת צלחת לאירוסין", past:"איך האָב צעבראָכן אַ טעלער צו די תנאים",
+      future:"איך וועל צעברעכן אַ טעלער צו די תנאים", imperative:"צעברעך! צעברעכט!",
+      negative:"איך צעברעך נישט קיין טעלער צו די תנאים",
+      positiveQuestion:"צי צעברעך איך אַ טעלער צו די תנאים?",
+      negativeQuestion:"צעברעך איך אַ טעלער צו די תנאים?",
+      tags:["prefix_fixed","hobn","irregular_past","nisht_keyn"], explanation:"בלתי מתפרק (צע) → בלי גע. עבר חריג: צעבראָכן.", needsReview:false, reviewNote:"" },
+    { id:44, sourcePage:100, infinitive:"פֿאַרשרײַבן", presentSentence:"דו פֿאַרשרײַבסט דײַן קינד אין שול",
+      translation:"אתה רושם את ילדך לבית הספר", past:"דו האָסט פֿאַרשריבן דײַן קינד אין שול",
+      future:"דו וועסט פֿאַרשרײַבן דײַן קינד אין שול", imperative:"פֿאַרשרײַב! פֿאַרשרײַבט!",
+      negative:"דו פֿאַרשרײַבסט נישט דײַן קינד אין שול",
+      positiveQuestion:"צי פֿאַרשרײַבסטו דײַן קינד אין שול?",
+      negativeQuestion:"פֿאַרשרײַבסטו דײַן קינד אין שול?",
+      tags:["prefix_fixed","hobn","irregular_past"], explanation:"בלתי מתפרק (פֿאַר) → בלי גע. שורש שרײַבן חריג → פֿאַרשריבן.", needsReview:false, reviewNote:"" },
+    { id:45, sourcePage:100, infinitive:"באַקענען", presentSentence:"ער באַקענט נײַע חברים",
+      translation:"הוא מכיר חברים חדשים", past:"ער האָט באַקענט נײַע חברים",
+      future:"ער וועט באַקענען נײַע חברים", imperative:"באַקען! באַקענט!",
+      negative:"ער באַקענט נישט קיין נײַע חברים",
+      positiveQuestion:"צי באַקענט ער נײַע חברים?",
+      negativeQuestion:"באַקענט ער נײַע חברים?",
+      tags:["prefix_fixed","hobn","nisht_keyn"], explanation:"בלתי מתפרק (באַ) → בלי גע: באַקענט.", needsReview:false, reviewNote:"" },
+    { id:46, sourcePage:100, infinitive:"שלאָפֿן", presentSentence:"זי שלאָפֿט אין דעם גרויסן צימער",
+      translation:"היא ישנה בחדר הגדול", past:"זי איז געשלאָפֿן אין דעם גרויסן צימער",
+      future:"זי וועט שלאָפֿן אין דעם גרויסן צימער", imperative:"שלאָף! שלאָפֿט!",
+      negative:"זי שלאָפֿט נישט אין דעם גרויסן צימער",
+      positiveQuestion:"צי שלאָפֿט זי אין דעם גרויסן צימער?",
+      negativeQuestion:"שלאָפֿט זי אין דעם גרויסן צימער?",
+      tags:["zayn"], explanation:"פועל פשוט. במקור העבר עם זײַן: זי איז געשלאָפֿן.", needsReview:true, reviewNote:"ERRORS_AND_FIXES מסמן שלאָפֿן עם זײַן כלא-תקני (בד\"כ האָבן: זי האָט געשלאָפֿן). לוודא מול המרצה מה נדרש במבחן." },
+    { id:47, sourcePage:100, infinitive:"טאַנצן", presentSentence:"מיר טאַנצן פֿון פֿרייד",
+      translation:"אנחנו רוקדים משמחה", past:"מיר האָבן געטאַנצט פֿון פֿרייד",
+      future:"מיר וועלן טאַנצן פֿון פֿרייד", imperative:"טאַנץ! טאַנצט!",
+      negative:"מיר טאַנצן נישט פֿון פֿרייד",
+      positiveQuestion:"צי טאַנצן מיר פֿון פֿרייד?",
+      negativeQuestion:"טאַנצן מיר פֿון פֿרייד?",
+      tags:["regular","hobn"], explanation:"חריג הפוך: למרות שרוקדים 'עם כל הגוף' — עזר האָבן (עמ' 40). עבר געטאַנצט.", needsReview:false, reviewNote:"" },
+    { id:48, sourcePage:100, infinitive:"אַרבעטן", presentSentence:"איר אַרבעט אויף אַ גרויסן פּראָיעקט",
+      translation:"אתם עובדים על פרויקט גדול", past:"איר האָט געאַרבעט אויף אַ גרויסן פּראָיעקט",
+      future:"איר וועט אַרבעטן אויף אַ גרויסן פּראָיעקט", imperative:"אַרבעט! אַרבעט!",
+      negative:"איר אַרבעט נישט אויף קיין גרויסן פּראָיעקט",
+      positiveQuestion:"צי אַרבעט איר אויף אַ גרויסן פּראָיעקט?",
+      negativeQuestion:"אַרבעט איר אויף אַ גרויסן פּראָיעקט?",
+      tags:["regular","hobn","no_double_t","nisht_keyn"], explanation:"מסתיים ב-ט → בלי טט: געאַרבעט. ציווי יחיד=רבים.", needsReview:false, reviewNote:"" },
+    { id:49, sourcePage:100, infinitive:"באַאַרבעטן", presentSentence:"זיי באַאַרבעטן דעם גאָרטן",
+      translation:"הם מעבדים את הגינה", past:"זיי האָבן באַאַרבעט דעם גאָרטן",
+      future:"זיי וועלן באַאַרבעטן דעם גאָרטן", imperative:"באַאַרבעט! באַאַרבעט!",
+      negative:"זיי באַאַרבעטן נישט דעם גאָרטן",
+      positiveQuestion:"צי באַאַרבעטן זיי דעם גאָרטן?",
+      negativeQuestion:"באַאַרבעטן זיי דעם גאָרטן?",
+      tags:["prefix_fixed","hobn","no_double_t"], explanation:"בלתי מתפרק (באַ) → בלי גע, ומסתיים ב-ט → בלי טט: באַאַרבעט.", needsReview:false, reviewNote:"" },
+    { id:50, sourcePage:100, infinitive:"אַרײַנאַרבעטן", presentSentence:"איך אַרבעט אַרײַן אין דער טעמע",
+      translation:"אני משקיע עבודה בנושא הזה", past:"איך האָב אַרײַנגעאַרבעט אין דער טעמע",
+      future:"איך וועל אַרײַנאַרבעטן אין דער טעמע", imperative:"אַרבעט אַרײַן! אַרבעט אַרײַן!",
+      negative:"איך אַרבעט נישט אַרײַן אין דער טעמע",
+      positiveQuestion:"צי אַרבעט איך אַרײַן אין דער טעמע?",
+      negativeQuestion:"אַרבעט איך אַרײַן אין דער טעמע?",
+      tags:["prefix_split","hobn","no_double_t"], explanation:"מתפרק (אַרײַן). עבר אַרײַנגעאַרבעט (גע באמצע, בלי טט).", needsReview:false, reviewNote:"" },
+    { id:51, sourcePage:100, infinitive:"שווימען", presentSentence:"דו שווימסט אין אַ באַסיין",
+      translation:"אתה שוחה בבריכה", past:"דו ביסט געשווומען אין אַ באַסיין",
+      future:"דו וועסט שווימען אין אַ באַסיין", imperative:"שווים! שווימט!",
+      negative:"דו שווימסט נישט אין קיין באַסיין",
+      positiveQuestion:"צי שווימסטו אין אַ באַסיין?",
+      negativeQuestion:"שווימסטו אין אַ באַסיין?",
+      tags:["motion","zayn","irregular_past","nisht_keyn"], explanation:"תנועה → זײַן. עבר עם חילוף פנימי: שווימען → געשווומען.", needsReview:false, reviewNote:"" },
+    { id:52, sourcePage:100, infinitive:"קריכן", presentSentence:"ער קריכט אויף גלײַכע ווענט",
+      translation:"הוא מטפס על קירות חלקים", past:"ער איז געקראָכן אויף גלײַכע ווענט",
+      future:"ער וועט קריכן אויף גלײַכע ווענט", imperative:"קריך! קריכט!",
+      negative:"ער קריכט נישט אויף קיין גלײַכע ווענט",
+      positiveQuestion:"צי קריכט ער אויף גלײַכע ווענט?",
+      negativeQuestion:"קריכט ער אויף גלײַכע ווענט?",
+      tags:["motion","zayn","irregular_past","nisht_keyn"], explanation:"תנועה (עם כל הגוף) → זײַן. עבר חריג: געקראָכן.", needsReview:false, reviewNote:"" },
+    { id:53, sourcePage:100, infinitive:"אָפּלערנען", presentSentence:"זי לערנט אָפּ די לעקציע אויסנווייניק",
+      translation:"היא לומדת את השיעור בעל־פה", past:"זי האָט אָפּגעלערנט די לעקציע אויסנווייניק",
+      future:"זי וועט אָפּלערנען די לעקציע אויסנווייניק", imperative:"לערן אָפּ! לערנט אָפּ!",
+      negative:"זי לערנט נישט אָפּ די לעקציע אויסנווייניק",
+      positiveQuestion:"צי לערנט זי אָפּ די לעקציע אויסנווייניק?",
+      negativeQuestion:"לערנט זי אָפּ די לעקציע אויסנווייניק?",
+      tags:["prefix_split","hobn"], explanation:"מתפרק (אָפּ). עבר אָפּגעלערנט. 'די לעקציע' מיודע → בלי קיין.", needsReview:false, reviewNote:"" },
+    { id:54, sourcePage:100, infinitive:"אויסלייענען", presentSentence:"מיר לייענען אויס די שבתדיקע צײַטונג",
+      translation:"אנחנו משלימים את קריאת עיתון השבת", past:"מיר האָבן אויסגעלייענט די שבתדיקע צײַטונג",
+      future:"מיר וועלן אויסלייענען די שבתדיקע צײַטונג", imperative:"לייען אויס! לייענט אויס!",
+      negative:"מיר לייענען נישט אויס די שבתדיקע צײַטונג",
+      positiveQuestion:"צי לייענען מיר אויס די שבתדיקע צײַטונג?",
+      negativeQuestion:"לייענען מיר אויס די שבתדיקע צײַטונג?",
+      tags:["prefix_split","hobn"], explanation:"מתפרק (אויס). עבר אויסגעלייענט. 'די צײַטונג' מיודע → בלי קיין.", needsReview:false, reviewNote:"" },
+    { id:55, sourcePage:100, infinitive:"פֿאַרקוקן זיך", presentSentence:"איר פֿאַרקוקט זיך ווי אין אַ חלום",
+      translation:"אתם בוהים כמו בחלום", past:"איר האָט פֿאַרקוקט זיך ווי אין אַ חלום",
+      future:"איר וועט פֿאַרקוקן זיך ווי אין אַ חלום", imperative:"פֿאַרקוק זיך! פֿאַרקוקט זיך!",
+      negative:"איר פֿאַרקוקט זיך נישט ווי אין קיין חלום",
+      positiveQuestion:"צי פֿאַרקוקט איר זיך ווי אין אַ חלום?",
+      negativeQuestion:"פֿאַרקוקט איר זיך ווי אין אַ חלום?",
+      tags:["prefix_fixed","zikh","hobn"], explanation:"בלתי מתפרק (פֿאַר) + זיך → בלי גע: פֿאַרקוקט. עזר האָבן.", needsReview:false, reviewNote:"" },
+    { id:56, sourcePage:100, infinitive:"וואַשן זיך", presentSentence:"זיי וואַשן זיך יעדן טאָג אינדערפֿרי",
+      translation:"הם מתרחצים כל יום בבוקר", past:"זיי האָבן געוואַשן זיך יעדן טאָג אינדערפֿרי",
+      future:"זיי וועלן וואַשן זיך יעדן טאָג אינדערפֿרי", imperative:"וואַש זיך! וואַשט זיך!",
+      negative:"זיי וואַשן זיך נישט יעדן טאָג אינדערפֿרי",
+      positiveQuestion:"צי וואַשן זיי זיך יעדן טאָג אינדערפֿרי?",
+      negativeQuestion:"וואַשן זיי זיך יעדן טאָג אינדערפֿרי?",
+      tags:["zikh","hobn"], explanation:"פועל חוזר (זיך). עזר האָבן, עבר געוואַשן.", needsReview:true, reviewNote:"סדר ה-זיך בעבר: המקור כותב 'האָבן געוואַשן זיך' (זיך אחרי הבינוני), אך ERRORS מציין גם 'האָבן זיך געוואַשן'. לוודא מול המרצה איזה סדר נדרש." },
+    { id:57, sourcePage:100, infinitive:"באַקענען זיך", presentSentence:"איך באַקען זיך מיט נײַע חברים",
+      translation:"אני עורך היכרות עם חברים חדשים", past:"איך האָב באַקענט זיך מיט נײַע חברים",
+      future:"איך וועל באַקענען זיך מיט נײַע חברים", imperative:"באַקען זיך! באַקענט זיך!",
+      negative:"איך באַקען זיך נישט מיט קיין נײַע חברים",
+      positiveQuestion:"צי באַקען איך זיך מיט נײַע חברים?",
+      negativeQuestion:"באַקען איך זיך מיט נײַע חברים?",
+      tags:["prefix_fixed","zikh","hobn","nisht_keyn"], explanation:"בלתי מתפרק (באַ) + זיך → בלי גע: באַקענט.", needsReview:true, reviewNote:"סדר ה-זיך בעבר כמו במשפט 56 ('באַקענט זיך'). לוודא מול המרצה." },
+    { id:58, sourcePage:100, infinitive:"פֿאַרשרײַבן זיך", presentSentence:"דו פֿאַרשרײַבסט זיך אין אַ ספּאָרט קלוב",
+      translation:"אתה נרשם למועדון ספורט", past:"דו האָסט פֿאַרשריבן זיך אין אַ ספּאָרט קלוב",
+      future:"דו וועסט פֿאַרשרײַבן זיך אין אַ ספּאָרט קלוב", imperative:"פֿאַרשרײַב זיך! פֿאַרשרײַבט זיך!",
+      negative:"דו פֿאַרשרײַבסט זיך נישט אין קיין ספּאָרט קלוב",
+      positiveQuestion:"צי פֿאַרשרײַבסטו זיך אין אַ ספּאָרט קלוב?",
+      negativeQuestion:"פֿאַרשרײַבסטו זיך אין אַ ספּאָרט קלוב?",
+      tags:["prefix_fixed","zikh","hobn","irregular_past","nisht_keyn"], explanation:"בלתי מתפרק (פֿאַר) + זיך → בלי גע. שורש שרײַבן חריג → פֿאַרשריבן.", needsReview:true, reviewNote:"סדר ה-זיך בעבר ('פֿאַרשריבן זיך'). לוודא מול המרצה." },
+    { id:59, sourcePage:100, infinitive:"ברענגען", presentSentence:"זיי ברענגען בלומען אויף שבת",
+      translation:"הם מביאים פרחים לשבת", past:"זיי האָבן געברענגט בלומען אויף שבת",
+      future:"זיי וועלן ברענגען בלומען אויף שבת", imperative:"ברענג! ברענגט!",
+      negative:"זיי ברענגען נישט קיין בלומען אויף שבת",
+      positiveQuestion:"צי ברענגען זיי בלומען אויף שבת?",
+      negativeQuestion:"ברענגען זיי בלומען אויף שבת?",
+      tags:["hobn","irregular_past","nisht_keyn"], explanation:"עבר עם האָבן. בלומען לא מיודע → נישט קיין.", needsReview:true, reviewNote:"שתי צורות עבר תקינות לפי המקור: געברענגט = געבראַכט. שתיהן מתקבלות." },
+    { id:60, sourcePage:100, infinitive:"וווינען", presentSentence:"די קינדער וווינען אין שטאָט",
+      translation:"הילדים גרים בעיר", past:"די קינדער האָבן געוווינט אין שטאָט",
+      future:"די קינדער וועלן וווינען אין שטאָט", imperative:"וווין! וווינט!",
+      negative:"די קינדער וווינען נישט אין שטאָט",
+      positiveQuestion:"צי וווינען די קינדער אין שטאָט?",
+      negativeQuestion:"וווינען די קינדער אין שטאָט?",
+      tags:["regular","hobn"], explanation:"חריג הפוך: לגור נשאר עם האָבן (עמ' 40). עבר געוווינט.", needsReview:false, reviewNote:"" }
+  ],
+
+  STORIES: [
+    { id:"pekele_puter", titleYiddish:"דאָס פּעקעלע פּוטער", titleHebrew:"חבילת החמאה (וואָלאַדקע)",
+      subtitle:"יום הזיכרון לשואה ולגבורה — עמ' 150–151",
+      summaryHebrew:"הגרמנים כבשו את ורשה, גירשו את היהודים לגטו מוקף חומה ושמרו עליו עם רובים. בגטו שררו רעב ומחלות, והנאצים שילחו יהודים למחנות והרגו בגז. הצעירים הגיבורים החליטו למרוד ונזקקו לנשק מבחוץ. וולאדקה, שלא נראתה יהודייה, נשארה מחוץ לחומה כדי לעזור. היא הבריחה לגטו דינמיט ארוז כמו חבילת חמאה: ישבה על החומה, נשמעו יריות, חבר קרא לה 'וואָלאַדקע, שנעלער!', היא החליקה פנימה, ברחה איתו, ומסרה את הדינמיט לחברים.",
+      vocabulary:[
+        {yi:"די נאַציס",he:"הנאצים"},{yi:"דאָס געטאָ",he:"הגטו"},{yi:"די מויער",he:"החומה"},
+        {yi:"ביקסן",he:"רובים"},{yi:"דינאַמיט",he:"דינמיט"},{yi:"דאָס פּעקעלע פּוטער",he:"חבילת החמאה"},
+        {yi:"אויפֿשטאַנד",he:"מרד"},{yi:"סכּנה",he:"סכנה"},{yi:"העלדיש",he:"גיבור"},{yi:"דערלויבעניש",he:"רשות"}
+      ],
+      questions:[
+        {id:1, questionYiddish:"ווער זײַנען געווען די נאַציס?", modelAnswerYiddish:"די נאַציס זײַנען געווען דײַטשן מיט ביקסן.", note:"הנאצים היו גרמנים עם רובים."},
+        {id:2, questionYiddish:"וואָס איז אַ געטאָ?", modelAnswerYiddish:"אַ געטאָ איז אַ קליינער צאָל גאַסן מיט אַ מויער.", note:"גטו = מספר קטן של רחובות עם חומה."},
+        {id:3, questionYiddish:"וואָס האָבן די נאַציס געטאָן די ייִדן פֿון געטאָ?", modelAnswerYiddish:"די נאַציס האָבן די ייִדן פֿון געטאָ פֿאַרגאַזט און פֿאַרברענט.", note:"הרגו בגז ושרפו את יהודי הגטו."},
+        {id:4, questionYiddish:"צוליב וואָס איז וואָלאַדקע געבליבן אויף יענער זײַט מויער?", modelAnswerYiddish:"וואָלאַדקע איז געבליבן אויף יענער זײַט מויער כּדי צו העלפֿן.", note:"נשארה בצד השני כדי לעזור — לא נראתה יהודייה."},
+        {id:5, questionYiddish:"ווען האָבן די יונגע העלדישע באַשלאָסן צו מאַכן אַן אויפֿשטאַנד?", modelAnswerYiddish:"די יונגע העלדישע ייִדן האָבן באַשלאָסן צו מאַכן אַן אויפֿשטאַנד ווען עס זײַנען שוין געבליבן ווייניק ייִדן אין געטאָ.", note:"כשנשארו מעט יהודים בגטו."},
+        {id:6, questionYiddish:"ווי אַזוי האָט וואָלאַדקע געטראָגן דינאַמיט אין געטאָ?", modelAnswerYiddish:"וואָלאַדקע האָט געטראָגן דינאַמיט אין געטאָ אין אַ פּעקעלע פּוטער.", note:"בתוך חבילה שנראתה כמו חבילת חמאה."},
+        {id:7, questionYiddish:"וואָס איז געשען ווען וואָלאַדקע איז געווען אויף דער מויער פֿון געטאָ?", modelAnswerYiddish:"ווען וואָלאַדקע איז געווען אויף דער מויער פֿון געטאָ, האָבן זיך דערהערט שאָסן.", note:"נשמעו יריות; החברים ברחו והיא נשארה לבד."},
+        {id:8, questionYiddish:"וואָס איז געווען די סכּנה בײַם אַראָפּשפּרינגען פֿון געטאָ מויער?", modelAnswerYiddish:"די סכּנה איז געווען אַז זי קען נאָך פֿאַלן און דאָס פּעקעלע פּוטער קען אויפֿרײַסן.", note:"שתיפול והחבילה תתפוצץ, או שהנאצים יראו אותה ויירו. שתי גרסאות מהמורה — שתיהן טובות."}
+      ]
+    },
+    { id:"shisele_boiml", titleYiddish:"דאָס שיסעלע מיט בוימל", titleHebrew:"הקערית עם השמן",
+      subtitle:"חנוכה — עמ' 131–134",
+      summaryHebrew:"בכל לילה של חורף דולקת קערית שמן על חלון ביתו של אברהם, בקצה הכפר. כשילדיו שאלו למה, סיפר: לפני כ-20 שנה, בגיל 19, הוריו מתו והוא נשאר לבד בלי מקצוע. ביום חורף פרצה סופת שלגים; הוא נפל בשלג. מחשבה אחת דחקה בו לקום, השנייה פיתתה לישון. ואז ראה מרחוק אור קטן שיצא מבית, נגרר אליו והתעלף בפתח. זקן, זקנה ונערה טיפלו בו שבועיים. הזקן סיפר שאותו לילה היה ליל חנוכה הראשון, והאור היה נר החנוכה. הזקן הציע לו להישאר, הוא התחתן עם בתם. מאז כל חורף הוא מדליק את קערית השמן על החלון — כדי שמאחרים בדרכים לא יאבדו בשלג.",
+      vocabulary:[
+        {yi:"דאָס שיסעלע",he:"הקערית"},{yi:"בוימל",he:"שמן"},{yi:"דאָס פֿענצטערל",he:"החלון הקטן"},
+        {yi:"דער באַלעבאָס",he:"בעל הבית"},{yi:"שנייסטורעם",he:"סופת שלגים"},{yi:"דער געדאַנק",he:"המחשבה/הרעיון"},
+        {yi:"אַ פֿײַערל",he:"אור/אש קטנה"},{yi:"חנוכּה-ליכטל",he:"נר חנוכה"},{yi:"פֿאַרחלשט",he:"מעולף"},{yi:"עק דאָרף",he:"קצה הכפר"}
+      ],
+      questions:[
+        {id:1, questionYiddish:"ווו שטייט דאָס הייזל?", modelAnswerYiddish:"דאָס הייזל שטייט בײַם עק דאָרף.", note:"הבית עומד בקצה הכפר."},
+        {id:2, questionYiddish:"פֿאַרוואָס ווונדערן זיך די מענטשן?", modelAnswerYiddish:"די מענטשן ווונדערן זיך וואָס, ווי נאָר עס קומט דער ווינטער, אַזוי שטעלט אַוועק דער באַלעבאָס יעדן אויף דער נאַכט דאָס שיסעלע מיט בוימל אויפֿן פֿענצטער.", note:"מתפלאים שברגע שמגיע החורף בעל הבית מעמיד כל לילה את קערית השמן על החלון."},
+        {id:3, questionYiddish:"ווי אַזוי האָט געהייסן דער בעל-הבית?", modelAnswerYiddish:"דער באַלעבאָס האָט געהייסן אברהם.", note:"קראו לו אברהם."},
+        {id:4, questionYiddish:"ווען איז די מעשׂה געווען?", modelAnswerYiddish:"די מעשׂה איז געווען מיט אַ צוואַנציק יאָר צוריק.", note:"לפני כעשרים שנה — כשאברהם היה בן 19."},
+        {id:5, questionYiddish:"וואָס האָט געזאָגט דער ערשטער געדאַנק?", modelAnswerYiddish:"דער ערשטער געדאַנק האָט געזאָגט: וואָס טוסטו? דרעמל ניט אײַן!", note:"המחשבה הראשונה: מה אתה עושה? אל תירדם!"},
+        {id:6, questionYiddish:"וואָס האָט ער דערזען אין חלום?", modelAnswerYiddish:"ער האָט דערזען אין חלום אַ פֿײַערל.", note:"ראה אור/אש קטנה."},
+        {id:7, questionYiddish:"וואָס האָט דער אַלטער געזאָגט?", modelAnswerYiddish:"דער אַלטער האָט געזאָגט: אויב דו, בחור, האָסט ליב אַרבעט, קענסטו בײַ מיר דאָ פֿאַרבלײַבן.", note:"אם אתה אוהב עבודה, תוכל להישאר כאן אצלי."},
+        {id:8, questionYiddish:"וואָס טוט ער יעדן ווינטער?", modelAnswerYiddish:"יעדן ווינטער צינדט ער אָן אַ שיסעלע מיט בוימל.", note:"כל חורף מדליק קערית שמן — כדי להציל מאחרים בדרכים."}
+      ]
+    },
+    { id:"boim_yingl", titleYiddish:"דער בוים און דאָס יינגל", titleHebrew:"העץ והילד (העץ הנדיב)",
+      subtitle:"עמ' 138–140",
+      summaryHebrew:"היה עץ שאהב ילד קטן. הילד בא כל יום: אסף עלים ועשה מהם כתרים, טיפס על הגזע, אכל תפוחים, שיחקו במחבואים וישן בצל. שניהם היו מאושרים. הילד גדל: ביקש כסף — העץ נתן תפוחים למכור בשוק; ביקש בית לאישה וילדים — נתן את ענפיו; ביקש ספינה להפליג — נתן את גזעו. הילד נעלם זמן רב והעץ היה עצוב. בסוף חזר זקן ועייף וביקש רק מקום לשבת — העץ הציע את הגדם, והילד נח. העץ היה מאושר: נתן הכול.",
+      vocabulary:[
+        {yi:"דער בוים",he:"העץ"},{yi:"דאָס יינגל",he:"הילד"},{yi:"די בלעטער",he:"העלים"},
+        {yi:"די עפּל",he:"התפוחים"},{yi:"די צווײַגן",he:"הענפים"},{yi:"דער שטאַם",he:"הגזע"},
+        {yi:"אַ שיף",he:"ספינה"},{yi:"אַ הויז",he:"בית"},{yi:"באַהעלטעניש",he:"מחבואים"},
+        {yi:"טרויעריק",he:"עצוב"},{yi:"גליקלעך",he:"מאושר"},{yi:"דער שאָטן",he:"הצל"}
+      ],
+      questions:[
+        {id:1, questionYiddish:"וועמען האָט דער בוים ליב געהאַט?", modelAnswerYiddish:"דער בוים האָט ליב געהאַט דאָס יינגל.", note:"העץ אהב את הילד. (ליב געהאַט = עבר של האָבן ליב.)"},
+        {id:2, questionYiddish:"וואָס האָט דאָס יינגל געזאַמלט?", modelAnswerYiddish:"דאָס יינגל האָט געזאַמלט די בלעטער.", note:"הילד אסף את העלים ועשה מהם כתרים."},
+        {id:3, questionYiddish:"אין וואָס האָבן זיי זיך געשפּילט?", modelAnswerYiddish:"זיי האָבן זיך געשפּילט אין באַהעלטעניש.", note:"שיחקו במחבואים. (זיך געשפּילט = פועל עם זיך בעבר.)"},
+        {id:4, questionYiddish:"וואָס האָט דער בוים געגעבן?", modelAnswerYiddish:"דער בוים האָט געגעבן זײַן פֿרוכט / אַלץ וואָס ער קען.", note:"נתן פירותיו / כל מה שיכול: תפוחים, ענפים, גזע, ובסוף גדם."},
+        {id:5, questionYiddish:"פֿאַרוואָס האָט דאָס יינגל געוואָלט אַ שיף?", modelAnswerYiddish:"דאָס יינגל האָט געוואָלט אַ שיף כּדי אַוועקצופֿאָרן.", note:"רצה ספינה כדי להפליג רחוק."},
+        {id:6, questionYiddish:"וואָס האָט דאָס יינגל געטאָן מיט די עפּל?", modelAnswerYiddish:"דאָס יינגל האָט גענומען די עפּל אין מאַרק פֿאַרקויפֿן.", note:"לקח את התפוחים למכור בשוק."},
+        {id:7, questionYiddish:"פֿאַרוואָס איז דער בוים געווען טרויעריק?", modelAnswerYiddish:"דער בוים איז געווען טרויעריק ווײַל דאָס יינגל איז ניט צוריקגעקומען אַ לאַנגע צײַט.", note:"העץ היה עצוב כי הילד לא חזר זמן רב."},
+        {id:8, questionYiddish:"פֿאַרוואָס האָט דאָס יינגל געוואָלט אַ הויז?", modelAnswerYiddish:"דאָס יינגל האָט געוואָלט אַ הויז: איך וויל אַ ווײַב און קינדער.", note:"רצה בית כי רצה אישה וילדים."}
+      ]
+    }
+  ],
+
+  FILL_IN_BANK: [
+    // A. התאמת כינוי גוף לצורת הפועל (לערנען)
+    { id:1, type:"pronoun_verb", prompt:"איך ______", options:["לערן","לערנסט","לערנט","לערנען"], correctAnswer:"לערן", explanation:"איך → סיומת ø: לערן.", tags:["pronoun","present_conjugation"] },
+    { id:2, type:"pronoun_verb", prompt:"דו ______", options:["לערן","לערנסט","לערנט","לערנען"], correctAnswer:"לערנסט", explanation:"דו → סיומת סט: לערנסט.", tags:["pronoun","present_conjugation"] },
+    { id:3, type:"pronoun_verb", prompt:"ער ______", options:["לערן","לערנסט","לערנט","לערנען"], correctAnswer:"לערנט", explanation:"ער/זי/עס → סיומת ט: לערנט.", tags:["pronoun","present_conjugation"] },
+    { id:4, type:"pronoun_verb", prompt:"מיר ______", options:["לערן","לערנסט","לערנט","לערנען"], correctAnswer:"לערנען", explanation:"מיר → צורת המקור: לערנען.", tags:["pronoun","present_conjugation"] },
+    { id:5, type:"pronoun_verb", prompt:"זיי ______", options:["לערן","לערנסט","לערנט","לערנען"], correctAnswer:"לערנען", explanation:"זיי → צורת המקור: לערנען.", tags:["pronoun","present_conjugation"] },
+    // B. שיבוץ צורת הפועל הנכונה (גיין)
+    { id:6, type:"verb_form", prompt:"איך ______ אַהיים.", options:["גיי","גייסט","גייט","גייען"], correctAnswer:"גיי", explanation:"איך → גיי.", tags:["present_conjugation"] },
+    { id:7, type:"verb_form", prompt:"דו ______ אין שול.", options:["גיי","גייסט","גייט","גייען"], correctAnswer:"גייסט", explanation:"דו → גייסט.", tags:["present_conjugation"] },
+    { id:8, type:"verb_form", prompt:"ער ______ מיט די קינדער.", options:["גיי","גייסט","גייט","גייען"], correctAnswer:"גייט", explanation:"ער → גייט.", tags:["present_conjugation"] },
+    { id:9, type:"verb_form", prompt:"מיר ______ אין פּאַרק.", options:["גיי","גייסט","גייט","גייען"], correctAnswer:"גייען", explanation:"מיר → גייען (גיין חריג: מיר/זיי גייען).", tags:["present_conjugation"] },
+    { id:10, type:"verb_form", prompt:"זיי ______ צו דער חתונה.", options:["גיי","גייסט","גייט","גייען"], correctAnswer:"גייען", explanation:"זיי → גייען.", tags:["present_conjugation"] },
+    // C. מילות יחס
+    { id:11, type:"preposition", prompt:"איך רעד ______ חברים אין פּאַרק.", options:["מיט","פֿון","צו","אויף","אין","בײַ"], correctAnswer:"מיט", explanation:"לדבר עם → מיט.", tags:["preposition"] },
+    { id:12, type:"preposition", prompt:"דאָס בוך ליגט ______ דעם טיש.", options:["מיט","פֿון","צו","אויף","אין","בײַ"], correctAnswer:"אויף", explanation:"מונח על → אויף.", tags:["preposition"] },
+    { id:13, type:"preposition", prompt:"זי וווינט ______ שטאָט.", options:["מיט","פֿון","צו","אויף","אין","בײַ"], correctAnswer:"אין", explanation:"גרה ב־ → אין.", tags:["preposition"] },
+    { id:14, type:"preposition", prompt:"ער קומט ______ די שכנים.", options:["מיט","פֿון","צו","אויף","אין","בײַ"], correctAnswer:"צו", explanation:"בא אל → צו.", tags:["preposition"] },
+    { id:15, type:"preposition", prompt:"דאָס פֿייגעלע פֿליט ______ מײַן פֿענצטער.", options:["מיט","פֿון","צו","אויף","אין","בײַ"], correctAnswer:"בײַ", explanation:"על־יד → בײַ.", tags:["preposition"] },
+    // D. מילות שאלה
+    { id:16, type:"question_word", prompt:"______ לערנסטו? — איך לערן אין אוניווערסיטעט.", options:["וואָס","ווער","ווו","ווען","פֿאַרוואָס","וויפֿל"], correctAnswer:"ווו", explanation:"התשובה מקום (אוניברסיטה) → ווו (איפה).", tags:["question_word"] },
+    { id:17, type:"question_word", prompt:"______ קינדער האָסטו? — איך האָב דרײַ קינדער.", options:["וואָס","ווער","ווו","ווען","פֿאַרוואָס","וויפֿל"], correctAnswer:"וויפֿל", explanation:"התשובה כמות (שלושה) → וויפֿל (כמה).", tags:["question_word"] },
+    { id:18, type:"question_word", prompt:"______ איז דאָס? — דאָס איז מײַן חבר.", options:["וואָס","ווער","ווו","ווען","פֿאַרוואָס","וויפֿל"], correctAnswer:"ווער", explanation:"התשובה אדם (חבר) → ווער (מי).", tags:["question_word"] },
+    { id:19, type:"question_word", prompt:"______ קומסטו אַהיים? — איך קום אין אָוונט.", options:["וואָס","ווער","ווו","ווען","פֿאַרוואָס","וויפֿל"], correctAnswer:"ווען", explanation:"התשובה זמן (בערב) → ווען (מתי).", tags:["question_word"] },
+    { id:20, type:"question_word", prompt:"______ ביסטו טרויעריק? — ווײַל מײַן חבר איז אַוועק.", options:["וואָס","ווער","ווו","ווען","פֿאַרוואָס","וויפֿל"], correctAnswer:"פֿאַרוואָס", explanation:"התשובה סיבה (כי) → פֿאַרוואָס (למה).", tags:["question_word"] },
+    // E. נישט / נישט קיין
+    { id:21, type:"nisht_keyn", prompt:"ער שרײַבט ______ בריוו. (במקור: אַ בריוו)", options:["נישט","נישט קיין"], correctAnswer:"נישט קיין", explanation:"אַ בריוו לא מיודע → נישט קיין.", tags:["negation"] },
+    { id:22, type:"nisht_keyn", prompt:"איך רעד ______ מיט דעם חבר. (במקור: מיט דעם חבר)", options:["נישט","נישט קיין"], correctAnswer:"נישט", explanation:"'דעם חבר' מיודע → רק נישט.", tags:["negation"] },
+    { id:23, type:"nisht_keyn", prompt:"מיר האָבן ______ דרײַ קינדער. (במקור: דרײַ קינדער)", options:["נישט","נישט קיין"], correctAnswer:"נישט קיין", explanation:"מספר (דרײַ) → נישט קיין.", tags:["negation"] },
+    { id:24, type:"nisht_keyn", prompt:"זי איז ______ די שענסטע אין קלאַס. (במקור: די שענסטע)", options:["נישט","נישט קיין"], correctAnswer:"נישט", explanation:"'די שענסטע' מיודע → רק נישט.", tags:["negation"] },
+    { id:25, type:"nisht_keyn", prompt:"דער חבר לייענט ______ אַרטיקל. (במקור: אַן אַרטיקל)", options:["נישט","נישט קיין"], correctAnswer:"נישט קיין", explanation:"אַן אַרטיקל לא מיודע → נישט קיין.", tags:["negation"] }
+  ]
+};
+
+</script>
+<!-- ====================================================== -->
+
+<script>
+/* ---------- fallback so page never white-screens ---------- */
+window.YID = window.YID || {CONJUGATION_BANK:[],STORIES:[],FILL_IN_BANK:[]};
+const CB = YID.CONJUGATION_BANK||[], ST = YID.STORIES||[], FB = YID.FILL_IN_BANK||[];
+
+/* ---------- persistent state ---------- */
+const LSK='yidquest_v1';
+const DEF={xp:0,theme:'light',conjDone:{},storyDone:{},fillDone:{},cardsKnown:{},mistakes:[],exams:[]};
+let S=load();
+function load(){try{return Object.assign({},DEF,JSON.parse(localStorage.getItem(LSK)||'{}'))}catch(e){return Object.assign({},DEF)}}
+function save(){localStorage.setItem(LSK,JSON.stringify(S))}
+function addXP(n){S.xp+=n;save();if(typeof updHeader==='function')updHeader()}
+
+/* ---------- theme ---------- */
+function applyTheme(){document.documentElement.setAttribute('data-theme',S.theme);document.getElementById('themeBtn').textContent=S.theme==='dark'?'☀️':'🌙'}
+function toggleTheme(){S.theme=S.theme==='dark'?'light':'dark';save();applyTheme()}
+
+/* ---------- Yiddish-tolerant comparison ---------- */
+function norm(s){return (s||'').toString()
+  .normalize('NFD').replace(/[֑-ׇ]/g,'')      /* strip niqqud/pesakh/komets/dagesh */
+  .replace(/[.,!?;:'"״׳`\-–—()]/g,'')                    /* punctuation */
+  .replace(/ֿ|ׁ|ׂ/g,'')
+  .replace(/\s+/g,' ').trim().toLowerCase()}
+function eqYi(a,b){return norm(a)===norm(b)}
+
+/* ---------- tag labels ---------- */
+const TAGLBL={pronoun:'כינוי גוף',hobn_zayn:'האָבן / זײַן',hobn:'עזר האָבן',zayn:'עזר זײַן',
+  past_form:'עבר',future:'עתיד',imperative:'ציווי',zikh:'זיך',nisht_keyn:'נישט / קיין',
+  prefix_split:'פועל מתפרק',prefix_fixed:'בלתי מתפרק',word_order:'סדר מילים',story:'סיפור',
+  translation:'תרגום',regular:'רגיל',motion:'תנועה',irregular_past:'עבר חריג',
+  no_double_t:'בלי טט',helper_expr:'ביטוי עזר',verb_form:'צורת פועל',preposition:'מילת יחס',question_word:'מילת שאלה',pronoun_verb:'כינוי↔פועל'};
+function tagName(t){return TAGLBL[t]||t}
+
+/* ---------- mistakes ---------- */
+function logMistake(m){
+  m.id='m'+Date.now()+Math.floor(performance.now()%1000);
+  m.date=new Date().toISOString().slice(0,10); m.solved=false;
+  S.mistakes.unshift(m); if(S.mistakes.length>400)S.mistakes.pop(); save();
+}
+function openMistakes(){return S.mistakes.filter(m=>!m.solved)}
+
+/* ---------- toast ---------- */
+let tT;
+function toast(t){const el=document.getElementById('toast');el.textContent=t;el.classList.add('show');clearTimeout(tT);tT=setTimeout(()=>el.classList.remove('show'),1600)}
+
+/* ---------- router ---------- */
+const TABS=[['home','🗺️ בית'],['conj','⚔️ הטיה'],['stories','📖 סיפורים'],['fill','🧩 שיבוצים'],['cards','📇 כרטיסיות'],['exam','📝 מבחן'],['mistakes','🧠 טעויות']];
+let view='home', ctx={};
+function go(v,c){view=v;ctx=c||{};location.hash=v;render()}
+window.addEventListener('hashchange',()=>{const h=location.hash.slice(1);if(h&&h!==view){view=h;render()}});
+function renderTabs(){document.getElementById('tabs').innerHTML=TABS.map(([k,l])=>`<button class="${k===view?'active':''}" onclick="go('${k}')">${l}</button>`).join('')}
+
+function render(){
+  renderTabs();
+  const el=document.getElementById('app');
+  const R={home:renderHome,conj:renderConj,conjOne:renderConjOne,stories:renderStories,
+    story:renderStory,storyQuiz:renderStoryQuiz,fill:renderFill,cards:renderCards,
+    exam:renderExam,examRun:renderExamRun,mistakes:renderMistakes,tenmin:renderTenmin};
+  el.innerHTML='<div class="view">'+(R[view]||renderHome)()+'</div>';
+  if(afterRender[view])afterRender[view]();
+  updHeader();
+  window.scrollTo(0,0);
+}
+const afterRender={};
+function updHeader(){
+  const c=Object.keys(S.conjDone).length, sq=Object.keys(S.storyDone).length, fi=Object.keys(S.fillDone).length;
+  const totQ=CB.length + ST.reduce((a,s)=>a+(s.questions||[]).length,0) + FB.length;
+  const p=totQ?Math.round((c+sq+fi)/totQ*100):0;
+  const bar=document.getElementById('gpbar'); if(bar)bar.style.width=p+'%';
+  const xp=document.getElementById('gXP'); if(xp)xp.textContent=S.xp;
+  const mist=document.getElementById('gMist'); if(mist)mist.textContent=openMistakes().length;
+}
+
+/* ========================================================= HOME */
+function pct(done,total){return total?Math.round(Object.keys(done).length/total*100):0}
+function renderHome(){
+  const c=Object.keys(S.conjDone).length, sq=Object.keys(S.storyDone).length, fi=Object.keys(S.fillDone).length;
+  const totQ=CB.length + ST.reduce((a,s)=>a+(s.questions||[]).length,0) + FB.length;
+  const doneQ=c+sq+fi;
+  const p=totQ?Math.round(doneQ/totQ*100):0;
+  const open=openMistakes().length;
+  const cards=[['conj','⚔️','מנוע ההטיה','80% מהמבחן — 7 שורות לכל פועל'],
+    ['stories','📖','סיפורים','3 סיפורים + שאלות הבנה'],
+    ['fill','🧩','שיבוצים','נישט/קיין · מילות שאלה · יחס · פעלים'],
+    ['cards','📇','כרטיסיות','חזרה מהירה'],
+    ['exam','📝','מצב מבחן','סימולציה מלאה בטיימר'],
+    ['mistakes','🧠','הטעויות שלי','תרגול לפי חולשות']];
+  const totS=ST.reduce((a,s)=>a+(s.questions||[]).length,0);
+  return `
+  <div class="hero">
+    <span class="logo">🎮</span>
+    <h1>יידיש-קוועסט</h1>
+    <div class="sub">מאמן למבחן ביידיש — לפי החומר האמיתי בלבד. אפס המצאה.</div>
+    <div class="hero-cta">
+      <button class="btn" onclick="go('conj')">▶ ${c?'המשך לתרגל':'התחל בהטיה'}</button>
+      <button class="btn ghost" onclick="go('tenmin')">⚡ 10 דקות לפני מבחן</button>
+    </div>
+  </div>
+  <div class="ringrow">
+    <div class="ring" style="--p:${p}"><i>${p}%</i></div>
+    <div class="stat" style="flex:1;justify-content:center">
+      <div class="kpi"><b>${S.xp}</b><span>XP</span></div>
+      <div class="kpi"><b>${c}/${CB.length}</b><span>משפטי הטיה</span></div>
+      <div class="kpi"><b>${sq}/${totS}</b><span>שאלות סיפור</span></div>
+      <div class="kpi"><b>${fi}/${FB.length}</b><span>שיבוצים</span></div>
+      <div class="kpi"><b style="color:var(--coral)">${open}</b><span>טעויות פתוחות</span></div>
+    </div>
+  </div>
+  <div class="banner">מפת הלמידה</div>
+  <div class="grid">
+    ${cards.map(([k,e,t,d])=>`<div class="tile" onclick="go('${k}')"><div class="emo">${e}</div><h3>${t}</h3><div class="sub">${d}</div></div>`).join('')}
+  </div>
+  <div class="card small muted" style="margin-top:18px">
+    כל התוכן נשלף מ-${CB.length} משפטי ההטיה, ${ST.length} הסיפורים ובנק השיבוצים. עובד לגמרי offline; ההתקדמות נשמרת במכשיר שלך בלבד.
+    <div style="margin-top:10px"><button class="btn ghost sm" onclick="resetAll()">איפוס התקדמות</button></div>
+  </div>`;
+}
+function resetAll(){if(confirm('לאפס את כל ההתקדמות, ה-XP והטעויות? פעולה בלתי הפיכה.')){S=Object.assign({},DEF,{theme:S.theme});save();toast('אופס');go('home')}}
+
+/* ========================================================= CONJUGATION LIST */
+function renderConj(){
+  return `<div class="card">
+    <h2>⚔️ מנוע ההטיה</h2>
+    <div class="sub">בחר משפט מתוך ${CB.length}. בכל משפט תמלא 7 שורות: תרגום · עבר · עתיד · ציווי · שלילה · שאלה + · שאלה –</div>
+  </div>
+  <div class="grid">
+    ${CB.map(v=>{const done=S.conjDone[v.id];
+      return `<div class="tile" onclick="go('conjOne',{id:${v.id}})">
+        <div class="row" style="justify-content:space-between">
+          <span class="pill">#${v.id} · עמ׳ ${v.sourcePage}</span>
+          ${done?'<span class="pill green">✓</span>':''}
+          ${v.needsReview?'<span class="pill red">דורש בדיקה</span>':''}
+        </div>
+        <div class="yi" style="font-size:19px;margin:8px 0 2px">${v.presentSentence}</div>
+        <div class="sub">${v.infinitive} · ${v.translation||''}</div>
+        <div>${(v.tags||[]).slice(0,3).map(t=>`<span class="tag">${tagName(t)}</span>`).join('')}</div>
+      </div>`}).join('')}
+  </div>`;
+}
+
+/* ========================================================= CONJUGATION ONE */
+const ROWS=[['translation','תרגום','translation'],['past','עבר','past_form'],['future','עתיד','future'],
+  ['imperative','ציווי','imperative'],['negative','שלילה','nisht_keyn'],
+  ['positiveQuestion','שאלה +','word_order'],['negativeQuestion','שאלה –','word_order']];
+let curLevel=3;
+function renderConjOne(){
+  const v=CB.find(x=>x.id===ctx.id); if(!v)return renderConj();
+  const lv=ctx.level||curLevel; curLevel=lv;
+  const hints=(v.tags||[]).map(tagName).join(' · ');
+  let body='';
+  if(lv===1) body=lvl1(v);
+  else if(lv===2) body=lvl2(v);
+  else body=lvl3(v);
+  return `<div class="card">
+    <div class="row" style="justify-content:space-between">
+      <span class="pill">#${v.id} · עמ׳ ${v.sourcePage}</span>
+      <button class="btn ghost sm" onclick="go('conj')">→ חזרה לרשימה</button>
+    </div>
+    <h2 class="yi" style="font-size:24px">${v.presentSentence}</h2>
+    <div class="sub">שם הפועל: <b>${v.infinitive}</b> · רמזים: ${hints}</div>
+    ${v.needsReview?`<div class="review">⚠️ דורש בדיקה מול המרצה: ${v.reviewNote||''}</div>`:''}
+    <div class="levels">
+      <button class="${lv===1?'on':''}" onclick="go('conjOne',{id:${v.id},level:1})">רמה 1 · בחירה</button>
+      <button class="${lv===2?'on':''}" onclick="go('conjOne',{id:${v.id},level:2})">רמה 2 · השלמה</button>
+      <button class="${lv===3?'on':''}" onclick="go('conjOne',{id:${v.id},level:3})">רמה 3 · מבחן</button>
+    </div>
+    ${body}
+  </div>`;
+}
+/* ---- level 3: type all 7 rows ---- */
+function lvl3(v){
+  return `<table class="conj"><tbody>
+    ${ROWS.map(([f,l])=>`<tr><td class="lbl">${l}</td><td><input id="i_${f}" placeholder="הקלד/י..." autocomplete="off" spellcheck="false" class="yi"></td></tr>`).join('')}
+  </tbody></table>
+  <div class="row" style="margin-top:12px"><button class="btn" onclick="checkL3(${v.id})">בדוק</button>
+  <button class="btn ghost sm" onclick="revealL3(${v.id})">גלה תשובות</button></div>
+  <div id="res3"></div>`;
+}
+function checkL3(id){
+  const v=CB.find(x=>x.id===id); let good=0,out='';
+  ROWS.forEach(([f,l,tag])=>{
+    const ua=(document.getElementById('i_'+f).value||'').trim();
+    const ok=eqYi(ua,v[f]);
+    if(ok){good++; out+=`<div class="rowres ok">✓ ${l}: <span class="yi">${v[f]}</span></div>`;}
+    else{
+      out+=`<div class="rowres bad">✗ ${l} — שלך: <span class="yi">${ua||'—'}</span><br>נכון: <span class="yi correct-line">${v[f]||'—'}</span>
+        <button class="btn sm ghost" style="margin-top:4px" onclick="this.parentNode.classList.remove('bad');this.parentNode.classList.add('ok');bumpGood(${id})">בעצם צדקתי</button></div>`;
+      if(ua) logMistake({sourceType:'conjugation',sourceId:id,userAnswer:ua,correctAnswer:v[f],explanation:explainRow(v,tag),tags:mergeTags(v,tag)});
+    }
+  });
+  document.getElementById('res3').innerHTML=out+`<div class="expl">${v.explanation||'בדוק שוב את הגוף, פועל העזר בעבר (האָבן/זײַן) והשלילה (נישט/קיין).'}</div>`;
+  markConjDone(id); addXP(good*4);
+}
+function bumpGood(id){addXP(4)}
+function revealL3(id){const v=CB.find(x=>x.id===id);ROWS.forEach(([f])=>{const i=document.getElementById('i_'+f);if(i)i.value=v[f]||''});}
+/* ---- level 1: choose correct row answer among real distractors ---- */
+function lvl1(v){
+  return ROWS.map(([f,l,tag],ri)=>{
+    const others=CB.filter(x=>x.id!==v.id && x[f]).map(x=>x[f]);
+    const opts=shuffle([v[f], ...pick(others,3)].filter(Boolean));
+    return `<div class="card" style="box-shadow:none;margin:8px 0"><b>${l}</b>
+      <div id="q1_${ri}">${opts.map(o=>`<button class="opt yi" onclick="ansL1(this,${v.id},${ri},'${b64(o)}')">${o}</button>`).join('')}</div></div>`;
+  }).join('')+`<div id="res1"></div>`;
+}
+function ansL1(btn,id,ri,enc){
+  const v=CB.find(x=>x.id===id); const [f,l,tag]=ROWS[ri];
+  const val=ub64(enc); const box=document.getElementById('q1_'+ri);
+  [...box.children].forEach(b=>b.disabled=true);
+  if(eqYi(val,v[f])){btn.classList.add('right');addXP(3);}
+  else{btn.classList.add('wrong');[...box.children].forEach(b=>{if(eqYi(b.textContent,v[f]))b.classList.add('right')});
+    logMistake({sourceType:'conjugation',sourceId:id,userAnswer:val,correctAnswer:v[f],explanation:explainRow(v,tag),tags:mergeTags(v,tag)});}
+  markConjDone(id);
+}
+/* ---- level 2: fill blank (auxiliary/negation token) ---- */
+function lvl2(v){
+  const rows=[['past','עבר'],['negative','שלילה'],['future','עתיד']].filter(([f])=>v[f]);
+  return rows.map(([f,l],ri)=>{
+    const toks=(v[f]||'').split(' ');
+    let bi=toks.findIndex(t=>/^(האָב|האָבן|האָט|האָסט|בין|ביסט|איז|זײַנען|זיינען|זײַט|נישט|קיין|וועל|וועסט|וועט|וועלן)$/.test(norm(t)||t));
+    if(bi<0)bi=1;
+    const answer=toks[bi]; const shown=toks.map((t,i)=>i===bi?'<b style="color:var(--teal)">____</b>':t).join(' ');
+    const pool=['האָב','בין','האָט','איז','נישט','קיין','וועל','וועט','זײַנען'].filter(x=>norm(x)!==norm(answer));
+    const opts=shuffle([answer,...pick(pool,2)]);
+    return `<div class="card" style="box-shadow:none;margin:8px 0"><b>${l}:</b> <span class="yi" style="font-size:18px">${shown}</span>
+      <div id="q2_${ri}">${opts.map(o=>`<button class="opt yi" onclick="ansL2(this,${v.id},'${b64(answer)}','${b64((ROWS.find(r=>r[0]===f)||[])[2]||'past_form')}')">${o}</button>`).join('')}</div></div>`;
+  }).join('')+`<div class="sub">מלא/י את המילה החסרה (פועל עזר או שלילה).</div>`;
+}
+function ansL2(btn,id,encA,encT){
+  const v=CB.find(x=>x.id===id); const ans=ub64(encA),tag=ub64(encT);
+  const box=btn.parentNode; [...box.children].forEach(b=>b.disabled=true);
+  if(eqYi(btn.textContent,ans)){btn.classList.add('right');addXP(3);}
+  else{btn.classList.add('wrong');[...box.children].forEach(b=>{if(eqYi(b.textContent,ans))b.classList.add('right')});
+    logMistake({sourceType:'conjugation',sourceId:id,userAnswer:btn.textContent.trim(),correctAnswer:ans,explanation:explainRow(v,tag),tags:mergeTags(v,tag)});}
+  markConjDone(id);
+}
+function markConjDone(id){S.conjDone[id]=1;save()}
+function mergeTags(v,tag){const s=new Set([tag]);(v.tags||[]).forEach(t=>{if(['hobn_zayn','zayn','hobn','zikh','prefix_split','prefix_fixed','nisht_keyn','irregular_past'].includes(t))s.add(t==='hobn'||t==='zayn'?'hobn_zayn':t)});return [...s]}
+function explainRow(v,tag){
+  const E={
+    hobn_zayn:'ביידיש חלק מפעלי התנועה/שינוי-מצב לוקחים בעבר את פועל העזר זײַן ולא האָבן. לכן "איך בין געגאַנגען", לא "איך האָב געגאַנגען".',
+    zayn:'פועל תנועה — בעבר עם זײַן (איך בין / דו ביסט / ער איז / מיר-זיי זײַנען).',
+    hobn:'פועל רגיל — בעבר עם האָבן (איך האָב / דו האָסט / ער האָט / מיר-זיי האָבן).',
+    nisht_keyn:'קיין בא לפני שם עצם לא מיודע. נישט שולל פועל / תואר / משפט כללי, ואחרי מילת יחס אומרים "פֿון קיין / אין קיין".',
+    prefix_split:'פועל מתפרק: בהווה ובציווי התחילית נפרדת; בעבר גע־ נכנס בין התחילית לפועל (אָפּקויפֿן → אָפּגעקויפֿט).',
+    prefix_fixed:'פועל בלתי-מתפרק (באַ/פֿאַר/דער/צע/אַנט) — לא מקבל גע בעבר (פֿאַרקויפֿן → פֿאַרקויפֿט).',
+    zikh:'זיך לא נעלם — הוא רק זז לפי הזמן והמבנה. בדוק היכן הוא צריך לעמוד ליד הפועל / פועל העזר.',
+    word_order:'חוק V2 — הפועל המוטה תמיד במקום השני. בשאלת כן/לא הפועל עולה לראש; דו+פועל מתחברים ("גייסטו").',
+    imperative:'ציווי: יחיד = השורש, רבים = +ט, בלי כינוי גוף.',
+    future:'עתיד = וועלן + שם הפועל המלא (איך וועל לערנען).',
+    translation:'בדוק את התרגום מול המשפט בהווה.',
+    irregular_past:'צורת עבר חריגה — יש לזכור בעל-פה (למשל געגאַנגען, געקומען, געשריבן, גענומען).'
+  };
+  return E[tag]||v.explanation||'שים לב לגוף, פועל העזר בעבר, והשלילה.';
+}
+
+/* ========================================================= STORIES */
+function renderStories(){
+  return `<div class="card"><h2>📖 סיפורים</h2><div class="sub">במבחן יופיע סיפור אחד מתוך השלושה + שאלות הבנה. עונים ביידיש קצר.</div></div>
+  <div class="grid">${ST.map(s=>{const done=(s.questions||[]).filter(q=>S.storyDone[s.id+'_'+q.id]).length;
+    return `<div class="tile" onclick="go('story',{id:'${s.id}'})">
+      <div class="emo">📖</div>
+      <h3 class="yi">${s.titleYiddish}</h3>
+      <div class="sub">${s.titleHebrew||''}</div>
+      <span class="pill">${done}/${(s.questions||[]).length} שאלות</span>
+    </div>`}).join('')}</div>`;
+}
+let showTrans=true;
+function renderStory(){
+  const s=ST.find(x=>x.id===ctx.id); if(!s)return renderStories();
+  const lbl=s.lineByLineTranslation||[];
+  return `<div class="card">
+    <div class="row" style="justify-content:space-between">
+      <button class="btn ghost sm" onclick="go('stories')">→ חזרה</button>
+      <div><button class="btn sm" onclick="go('storyQuiz',{id:'${s.id}'})">בחן אותי על הסיפור</button></div>
+    </div>
+    <h2 class="yi" style="font-size:26px">${s.titleYiddish}</h2>
+    <div class="sub">${s.titleHebrew||''}</div>
+    ${s.summaryHebrew?`<div class="expl">${s.summaryHebrew}</div>`:''}
+    ${s.fullTextYiddish?`<div class="banner">הסיפור</div><div class="storytext yi">${(s.fullTextYiddish||'').replace(/\n/g,'<br>')}</div>`:''}
+    ${lbl.length?`<div class="banner">תרגום שורה-שורה <button class="btn ghost sm" onclick="showTrans=!showTrans;render()">${showTrans?'הסתר':'הצג'} תרגום</button></div>
+      <div class="linebyline">${lbl.map(p=>`<div class="l-yi yi">${p.yi}</div><div>${showTrans?(p.he||''):'· · ·'}</div>`).join('')}</div>`:''}
+    ${(s.vocabulary&&s.vocabulary.length)?`<div class="banner">מילים חשובות</div>
+      <div class="grid" style="grid-template-columns:repeat(auto-fill,minmax(150px,1fr))">${s.vocabulary.map(w=>`<div class="kpi"><b class="yi">${w.yi}</b><span>${w.he}</span></div>`).join('')}</div>`:''}
+    <div class="banner">שאלות הבנה (${(s.questions||[]).length})</div>
+    ${(s.questions||[]).map((q,i)=>`<div class="card" style="box-shadow:none;margin:8px 0">
+      <b>${i+1}.</b> <span class="yi" style="font-size:18px">${q.questionYiddish}</span>
+      <div><button class="btn ghost sm" onclick="var e=document.getElementById('a_${s.id}_${q.id}');e.classList.toggle('hidden')">הצג תשובת מודל</button></div>
+      <div id="a_${s.id}_${q.id}" class="hidden expl">✓ <span class="yi">${q.modelAnswerYiddish}</span>${q.note?'<br><span class="small muted">'+q.note+'</span>':''}</div>
+    </div>`).join('')}
+  </div>`;
+}
+function renderStoryQuiz(){
+  const s=ST.find(x=>x.id===ctx.id); if(!s)return renderStories();
+  const qs=s.questions||[];
+  return `<div class="card">
+    <button class="btn ghost sm" onclick="go('story',{id:'${s.id}'})">→ חזרה לסיפור</button>
+    <h2 class="yi">${s.titleYiddish}</h2>
+    <div class="sub">קרא/י כל שאלה, נסח/י תשובה בראש, ואז חשוף/י את תשובת המודל וסמן/י אם ידעת.</div>
+    ${qs.map((q,i)=>`<div class="card" style="box-shadow:none;margin:10px 0">
+      <b>שאלה ${i+1}/${qs.length}</b>
+      <div class="yi" style="font-size:19px;margin:6px 0">${q.questionYiddish}</div>
+      <div id="sq_${q.id}">
+        <button class="btn sm" onclick="showModel('${s.id}','${q.id}')">גלה תשובת מודל</button>
+      </div>
+    </div>`).join('')}
+  </div>`;
+}
+function showModel(sid,qid){
+  const s=ST.find(x=>x.id===sid); const q=s.questions.find(x=>''+x.id===''+qid);
+  const box=document.getElementById('sq_'+qid);
+  box.innerHTML=`<div class="expl">✓ <span class="yi">${q.modelAnswerYiddish}</span>${q.note?'<br><span class="small muted">'+q.note+'</span>':''}</div>
+    <div class="row" style="margin-top:8px">
+      <button class="btn sm" onclick="storyKnew('${sid}','${qid}',true)">ידעתי ✓</button>
+      <button class="btn sm ghost" onclick="storyKnew('${sid}','${qid}',false)">לא ידעתי ✗</button>
+    </div>`;
+}
+function storyKnew(sid,qid,knew){
+  const s=ST.find(x=>x.id===sid); const q=s.questions.find(x=>''+x.id===''+qid);
+  S.storyDone[sid+'_'+qid]=1; save();
+  if(knew){addXP(5);toast('כל הכבוד')}
+  else{logMistake({sourceType:'story',sourceId:sid+'/'+qid,userAnswer:'(לא ידעתי)',correctAnswer:q.modelAnswerYiddish,explanation:'שאלת הבנה — '+(s.titleHebrew||s.titleYiddish),tags:['story']});toast('נשמר לתרגול')}
+  document.getElementById('sq_'+qid).innerHTML='<span class="pill '+(knew?'green':'red')+'">'+(knew?'ידעתי':'נשמר לטעויות')+'</span>';
+}
+
+/* ========================================================= FILL-IN */
+const FCATS=[['pronoun_verb','כינוי ↔ פועל'],['preposition','מילת יחס'],['question_word','מילת שאלה'],['nisht_keyn','נישט / קיין'],['verb_form','צורת פועל']];
+function renderFill(){
+  return `<div class="card"><h2>🧩 שיבוצים</h2><div class="sub">בחר/י את המילה הנכונה למשפט. בדיקה מיידית + הסבר.</div></div>
+  <div class="grid">${FCATS.map(([k,l])=>{const items=FB.filter(x=>x.type===k);const done=items.filter(x=>S.fillDone[x.id]).length;
+    return `<div class="tile" onclick="go('fill');setTimeout(()=>runFill('${k}'),0)"><div class="emo">🧩</div><h3>${l}</h3><span class="pill">${done}/${items.length}</span></div>`}).join('')}</div>
+  <div id="fillrun"></div>`;
+}
+afterRender.fill=function(){if(ctx.cat)runFill(ctx.cat)};
+function runFill(cat){
+  ctx.cat=cat;
+  const items=FB.filter(x=>x.type===cat);
+  const box=document.getElementById('fillrun');
+  if(!items.length){box.innerHTML='<div class="card muted">אין פריטים בקטגוריה זו.</div>';return}
+  box.innerHTML=`<div class="banner">${(FCATS.find(c=>c[0]===cat)||['',cat])[1]} — ${items.length} פריטים</div>`+
+    items.map((it,i)=>`<div class="card" id="fi_${it.id}" style="margin:8px 0">
+      <b>${i+1}.</b> <span class="yi" style="font-size:18px">${it.prompt}</span>
+      ${it.needsReview?`<div class="review">⚠️ ${it.reviewNote||'דורש בדיקה'}</div>`:''}
+      <div>${shuffle(it.options.slice()).map(o=>`<button class="opt yi" onclick="ansFill('${it.id}','${b64(o)}')">${o}</button>`).join('')}</div>
+    </div>`).join('');
+  window.scrollTo(0,box.offsetTop-60);
+}
+function ansFill(id,enc){
+  const it=FB.find(x=>''+x.id===''+id); const val=ub64(enc);
+  const card=document.getElementById('fi_'+id); const box=card.querySelector('div:last-child');
+  [...box.children].forEach(b=>b.disabled=true);
+  const ok=eqYi(val,it.correctAnswer);
+  [...box.children].forEach(b=>{if(eqYi(b.textContent,it.correctAnswer))b.classList.add('right')});
+  [...box.children].forEach(b=>{if(b.textContent.trim()===val&&!ok)b.classList.add('wrong')});
+  card.insertAdjacentHTML('beforeend',`<div class="expl">${ok?'✓ נכון. ':'✗ '}${it.explanation||''}</div>`);
+  S.fillDone[it.id]=1; save();
+  if(ok)addXP(3);
+  else logMistake({sourceType:'fill_in',sourceId:it.id,userAnswer:val,correctAnswer:it.correctAnswer,explanation:it.explanation||'',tags:(it.tags&&it.tags.length?it.tags:[it.type])});
+}
+
+/* ========================================================= FLASHCARDS */
+const CARDMODES=[['conj','משפטי הטיה'],['verbs','פעלים'],['storyvocab','מילים מהסיפורים'],['errors','טעויות נפוצות']];
+let cardDeck=[],cardIdx=0,cardMode='conj';
+function renderCards(){
+  return `<div class="card"><h2>📇 כרטיסיות</h2>
+    <div class="row">${CARDMODES.map(([k,l])=>`<button class="btn ${k===cardMode?'':'ghost'} sm" onclick="startDeck('${k}')">${l}</button>`).join('')}</div>
+    <div id="deckbox"></div></div>`;
+}
+afterRender.cards=function(){startDeck(cardMode)};
+function startDeck(mode){
+  cardMode=mode; cardIdx=0;
+  if(mode==='conj') cardDeck=CB.map(v=>({front:`<span class="pill">#${v.id}</span><div class="yi" style="font-size:24px;margin:12px 0">${v.presentSentence}</div><div class="sub">שם הפועל: ${v.infinitive}</div>`,
+    back:`<div class="small"><b>תרגום:</b> ${v.translation}<br><b>עבר:</b> <span class="yi">${v.past}</span><br><b>עתיד:</b> <span class="yi">${v.future}</span><br><b>ציווי:</b> <span class="yi">${v.imperative}</span><br><b>שלילה:</b> <span class="yi">${v.negative}</span><br><b>שאלה +:</b> <span class="yi">${v.positiveQuestion}</span><br><b>שאלה –:</b> <span class="yi">${v.negativeQuestion}</span></div><div class="expl small">${v.explanation||''}</div>`,key:'c'+v.id}));
+  else if(mode==='verbs') cardDeck=CB.map(v=>({front:`<div class="yi" style="font-size:28px">${v.infinitive}</div><div class="sub">מה העבר, עתיד וציווי?</div>`,
+    back:`<div class="small"><b>עבר:</b> <span class="yi">${v.past}</span><br><b>עתיד:</b> <span class="yi">${v.future}</span><br><b>ציווי:</b> <span class="yi">${v.imperative}</span></div>`,key:'v'+v.id}));
+  else if(mode==='storyvocab'){cardDeck=[];ST.forEach(s=>(s.vocabulary||[]).forEach((w,i)=>cardDeck.push({front:`<div class="yi" style="font-size:28px">${w.yi}</div><div class="sub">${s.titleHebrew||''}</div>`,back:`<div style="font-size:20px">${w.he}</div>`,key:'sv'+s.id+i})));}
+  else cardDeck=CB.filter(v=>v.needsReview||(v.tags||[]).some(t=>['irregular_past','prefix_split','prefix_fixed','zayn','zikh'].includes(t))).map(v=>({front:`<div class="yi" style="font-size:22px">${v.presentSentence}</div><div class="sub">מהי המלכודת כאן?</div>`,back:`<div class="expl small">${v.explanation||'שים לב לפועל העזר / התחילית / זיך.'}</div><div class="small"><b>עבר:</b> <span class="yi">${v.past}</span></div>`,key:'e'+v.id}));
+  if(!cardDeck.length)cardDeck=[{front:'אין כרטיסים',back:'—',key:'x'}];
+  drawCard();
+}
+function drawCard(){
+  const c=cardDeck[cardIdx]; const known=S.cardsKnown[c.key];
+  document.getElementById('deckbox').innerHTML=`
+    <div class="sub" style="margin-top:10px">כרטיס ${cardIdx+1}/${cardDeck.length} ${known?'· <span class="pill green">ידעתי</span>':''}</div>
+    <div class="flash" id="flash" onclick="document.getElementById('flash').classList.toggle('flip')">
+      <div class="flash-inner">
+        <div class="flash-face"><div>${c.front}</div><div class="sub" style="margin-top:14px">לחץ להיפוך ↺</div></div>
+        <div class="flash-face flash-back"><div>${c.back}</div></div>
+      </div>
+    </div>
+    <div class="row" style="justify-content:space-between">
+      <button class="btn ghost sm" onclick="moveCard(-1)">→ הקודם</button>
+      <div class="row">
+        <button class="btn sm" onclick="cardKnow(true)">ידעתי ✓</button>
+        <button class="btn sm ghost" onclick="cardKnow(false)">לא ידעתי ✗</button>
+      </div>
+      <button class="btn ghost sm" onclick="moveCard(1)">הבא ←</button>
+    </div>
+    <div class="row" style="margin-top:8px"><button class="btn ghost sm" onclick="shuffleDeck()">🔀 ערבב</button></div>`;
+}
+function moveCard(d){cardIdx=(cardIdx+d+cardDeck.length)%cardDeck.length;drawCard()}
+function cardKnow(k){const c=cardDeck[cardIdx];if(k){S.cardsKnown[c.key]=1;addXP(2)}else{delete S.cardsKnown[c.key];if(c.key[0]==='c'){const id=+c.key.slice(1);const v=CB.find(x=>x.id===id);if(v)logMistake({sourceType:'flashcard',sourceId:id,userAnswer:'(לא ידעתי)',correctAnswer:v.past,explanation:v.explanation||'',tags:(v.tags||['past_form'])})}}save();moveCard(1)}
+function shuffleDeck(){cardDeck=shuffle(cardDeck);cardIdx=0;drawCard();toast('עורבב')}
+
+/* ========================================================= EXAM */
+function renderExam(){
+  return `<div class="card"><h2>📝 מצב מבחן</h2>
+    <div class="sub">סימולציה של מבנה המבחן האמיתי: חלק א׳ הטיה · חלק ב׳ סיפור · חלק ג׳ שיבוץ.</div>
+    <div class="banner">הגדרות</div>
+    <div class="row">
+      <label>שאלות הטיה: <select id="ex_conj"><option>3</option><option>5</option><option>10</option></select></label>
+      <label>סיפור: <select id="ex_story">${ST.map(s=>`<option value="${s.id}">${s.titleHebrew||s.titleYiddish}</option>`).join('')}<option value="rand">אקראי</option></select></label>
+      <label>שיבוצים: <select id="ex_fill"><option>5</option><option>10</option></select></label>
+    </div>
+    <div class="row" style="margin-top:8px">
+      <label>טיימר: <select id="ex_timer"><option value="0">בלי</option><option value="20">20 דק׳</option><option value="30">30 דק׳</option><option value="45">45 דק׳</option></select></label>
+      <button class="btn" onclick="startExam()">התחל מבחן</button>
+    </div>
+    ${S.exams.length?`<div class="banner">מבחנים אחרונים</div>${S.exams.slice(0,5).map(e=>`<div class="small">${e.date} · ציון כללי <b>${e.score}%</b> (א׳ ${e.a}% · ב׳ ${e.b}% · ג׳ ${e.c}%)</div>`).join('')}`:''}
+  </div>`;
+}
+let EX=null,exTimer=null;
+function startExam(){
+  const nc=+document.getElementById('ex_conj').value, nf=+document.getElementById('ex_fill').value;
+  let sid=document.getElementById('ex_story').value; if(sid==='rand')sid=ST[Math.floor(Object.keys(S.conjDone).length)%ST.length]?.id||ST[0].id;
+  const mins=+document.getElementById('ex_timer').value;
+  EX={conj:pick(CB.slice(),nc),story:ST.find(s=>s.id===sid),fill:pick(FB.slice(),nf),mins,left:mins*60,ans:{}};
+  go('examRun');
+  if(mins){clearInterval(exTimer);exTimer=setInterval(()=>{EX.left--;const t=document.getElementById('extime');if(t)t.textContent=fmt(EX.left);if(EX.left<=0){clearInterval(exTimer);submitExam()}},1000)}
+}
+function fmt(s){s=Math.max(0,s);return Math.floor(s/60)+':'+String(s%60).padStart(2,'0')}
+function renderExamRun(){
+  if(!EX)return renderExam();
+  return `<div class="card">
+    <div class="row" style="justify-content:space-between">
+      <h2 style="margin:0">📝 מבחן</h2>
+      ${EX.mins?`<span class="timerbox">⏱ <span id="extime">${fmt(EX.left)}</span></span>`:''}
+    </div>
+    <div class="banner">חלק א׳ — הטיה (${EX.conj.length})</div>
+    ${EX.conj.map((v,qi)=>`<div class="card" style="box-shadow:none;margin:8px 0">
+      <span class="pill">#${v.id}</span> <span class="yi" style="font-size:18px">${v.presentSentence}</span> <span class="sub">(${v.infinitive})</span>
+      <table class="conj"><tbody>${ROWS.map(([f,l])=>`<tr><td class="lbl">${l}</td><td><input class="yi" id="ex_c${qi}_${f}" autocomplete="off" spellcheck="false"></td></tr>`).join('')}</tbody></table>
+    </div>`).join('')}
+    <div class="banner">חלק ב׳ — סיפור: <span class="yi">${EX.story.titleYiddish}</span></div>
+    ${(EX.story.questions||[]).map((q,qi)=>`<div class="card" style="box-shadow:none;margin:8px 0">
+      <span class="yi" style="font-size:17px">${q.questionYiddish}</span>
+      <input class="yi" style="width:100%;border:1px solid var(--line);border-radius:8px;padding:8px;margin-top:6px" id="ex_s${qi}" placeholder="תשובה ביידיש...">
+    </div>`).join('')}
+    <div class="banner">חלק ג׳ — שיבוץ (${EX.fill.length})</div>
+    ${EX.fill.map((it,qi)=>`<div class="card" style="box-shadow:none;margin:8px 0">
+      <span class="yi" style="font-size:17px">${it.prompt}</span>
+      <div>${shuffle(it.options.slice()).map(o=>`<button class="opt yi" data-q="${qi}" onclick="exFill(${qi},'${b64(o)}',this)">${o}</button>`).join('')}</div>
+    </div>`).join('')}
+    <button class="btn wide" onclick="submitExam()">סיים והצג ציון</button>
+  </div>`;
+}
+function exFill(qi,enc,btn){EX.ans['f'+qi]=ub64(enc);[...btn.parentNode.children].forEach(b=>b.classList.remove('sel'));btn.classList.add('sel')}
+function submitExam(){
+  clearInterval(exTimer);
+  let aG=0,aT=0,cG=0,cT=0;
+  // part A
+  EX.conj.forEach((v,qi)=>ROWS.forEach(([f,l,tag])=>{aT++;const ua=(document.getElementById('ex_c'+qi+'_'+f)||{}).value||'';if(eqYi(ua,v[f]))aG++;else if(ua)logMistake({sourceType:'exam',sourceId:v.id,userAnswer:ua,correctAnswer:v[f],explanation:explainRow(v,tag),tags:mergeTags(v,tag)})}));
+  // part C
+  EX.fill.forEach((it,qi)=>{cT++;const ua=EX.ans['f'+qi];if(eqYi(ua,it.correctAnswer))cG++;else if(ua)logMistake({sourceType:'exam',sourceId:it.id,userAnswer:ua,correctAnswer:it.correctAnswer,explanation:it.explanation||'',tags:(it.tags||[it.type])})});
+  const a=aT?Math.round(aG/aT*100):0, c=cT?Math.round(cG/cT*100):0;
+  const b='self'; // part B self-graded
+  const score=Math.round((a*0.7)+(c*0.3)); // weight conjugation ~70%
+  S.exams.unshift({date:new Date().toISOString().slice(0,16).replace('T',' '),score,a,b:'—',c});save();
+  addXP(aG*2+cG*2);
+  ctx.result={a,c,score,conj:EX.conj,fill:EX.fill,story:EX.story,ans:EX.ans};
+  view='examRun';
+  document.getElementById('app').innerHTML=examResult();window.scrollTo(0,0);
+}
+function examResult(){
+  const r=ctx.result;
+  const weak={};openMistakes().forEach(m=>(m.tags||[]).forEach(t=>weak[t]=(weak[t]||0)+1));
+  const weakList=Object.entries(weak).sort((x,y)=>y[1]-x[1]).slice(0,5);
+  return `<div class="card">
+    <h2>📝 תוצאות</h2>
+    <div class="stat">
+      <div class="kpi"><b>${r.score}%</b><span>ציון משוקלל</span></div>
+      <div class="kpi"><b>${r.a}%</b><span>חלק א׳ הטיה</span></div>
+      <div class="kpi"><b>עצמי</b><span>חלק ב׳ סיפור</span></div>
+      <div class="kpi"><b>${r.c}%</b><span>חלק ג׳ שיבוץ</span></div>
+    </div>
+    ${weakList.length?`<div class="banner">נושאים חלשים</div>${weakList.map(([t,n])=>`<span class="tag">${tagName(t)} · ${n}</span>`).join('')}`:''}
+    <div class="banner">חלק ב׳ — תשובות מודל (בדוק/י את עצמך)</div>
+    ${(r.story.questions||[]).map((q,qi)=>{const ua=(document.getElementById('ex_s'+qi)||{}).value||'';return `<div class="card small" style="box-shadow:none;margin:6px 0"><span class="yi">${q.questionYiddish}</span><br>שלך: <span class="yi">${ua||'—'}</span><br>מודל: <span class="yi" style="color:var(--green)">${q.modelAnswerYiddish}</span></div>`}).join('')}
+    <div class="banner">פתרונות חלק א׳</div>
+    ${r.conj.map(v=>`<div class="small" style="margin:4px 0">#${v.id} <span class="yi">${v.past}</span> · <span class="yi">${v.future}</span> · <span class="yi">${v.negative}</span></div>`).join('')}
+    <div class="row" style="margin-top:12px">
+      <button class="btn" onclick="go('exam')">מבחן חדש</button>
+      <button class="btn ghost" onclick="practiceMistakes()">תרגל רק את הטעויות שלי</button>
+    </div>
+  </div>`;
+}
+
+/* ========================================================= MISTAKES */
+function renderMistakes(){
+  const open=openMistakes();
+  const byTag={};open.forEach(m=>(m.tags||[]).forEach(t=>byTag[t]=(byTag[t]||0)+1));
+  const sorted=Object.entries(byTag).sort((a,b)=>b[1]-a[1]);
+  const top=sorted[0];
+  return `<div class="card">
+    <h2>🧠 הטעויות שלי</h2>
+    <div class="stat">
+      <div class="kpi"><b>${open.length}</b><span>טעויות פתוחות</span></div>
+      <div class="kpi"><b>${S.mistakes.filter(m=>m.solved).length}</b><span>נפתרו</span></div>
+      ${top?`<div class="kpi"><b>${tagName(top[0])}</b><span>הכי חוזרת (${top[1]})</span></div>`:''}
+    </div>
+    ${sorted.length?`<div class="banner">טעויות לפי נושא</div>${sorted.map(([t,n])=>`<div class="barrow"><span style="min-width:120px">${tagName(t)}</span><span class="bar"><i style="width:${Math.round(n/open.length*100)}%"></i></span><b>${n}</b></div>`).join('')}`:'<div class="muted">אין טעויות פתוחות — כל הכבוד! 🎉</div>'}
+    <div class="row" style="margin-top:12px">
+      ${open.length?`<button class="btn" onclick="practiceMistakes()">תרגל רק את מה שטעיתי</button>`:''}
+      <button class="btn ghost sm" onclick="clearSolved()">נקה טעויות פתורות</button>
+    </div>
+  </div>
+  ${open.map(m=>`<div class="card" style="margin:8px 0" id="mk_${m.id}">
+    <div class="row" style="justify-content:space-between">
+      <div>${(m.tags||[]).map(t=>`<span class="tag">${tagName(t)}</span>`).join('')}</div>
+      <span class="sub">${m.date} · ${m.sourceType}</span>
+    </div>
+    <div class="small" style="margin-top:6px"><b>התשובה שלך:</b> <span class="yi bad" style="padding:2px 6px;border-radius:4px">${m.userAnswer||'—'}</span></div>
+    <div class="small"><b>נכון:</b> <span class="yi" style="color:var(--green)">${m.correctAnswer||'—'}</span></div>
+    ${m.explanation?`<div class="expl small">${m.explanation}</div>`:''}
+    <div class="row" style="margin-top:8px">
+      ${m.sourceType==='conjugation'||m.sourceType==='flashcard'||m.sourceType==='exam'?`<button class="btn sm ghost" onclick="retryMistake('${m.id}')">תרגל שוב</button>`:''}
+      <button class="btn sm" onclick="solveMistake('${m.id}')">סמן כנפתר ✓</button>
+    </div>
+  </div>`).join('')}`;
+}
+function solveMistake(id){const m=S.mistakes.find(x=>x.id===id);if(m)m.solved=true;save();render()}
+function clearSolved(){S.mistakes=S.mistakes.filter(m=>!m.solved);save();toast('נוקה');render()}
+function retryMistake(id){const m=S.mistakes.find(x=>x.id===id);if(m&&typeof m.sourceId==='number'){go('conjOne',{id:m.sourceId,level:3})}else toast('פתח מהמנוע המתאים')}
+function practiceMistakes(){
+  const ids=[...new Set(openMistakes().filter(m=>typeof m.sourceId==='number').map(m=>m.sourceId))];
+  if(!ids.length){toast('אין הטיות פתוחות לתרגול');return}
+  go('conjOne',{id:ids[0],level:3});toast('מתרגלים את הטעויות — '+ids.length+' משפטים');
+}
+
+/* ========================================================= 10 MINUTES */
+function renderTenmin(){
+  return `<div class="card">
+    <button class="btn ghost sm" onclick="go('home')">→ בית</button>
+    <h1>⚡ 10 דקות לפני מבחן</h1>
+    <div class="sub">כללי זהב — קצר וחד.</div>
+    <div class="banner">הטיה — הסדר שבו פותרים</div>
+    <ul class="golden">
+      <li>קודם לזהות גוף: איך · דו · ער · זי · עס · מיר · איר · זיי</li>
+      <li>הפועל המוטה תמיד במקום השני (חוק V2)</li>
+      <li>בעבר — האָבן או זײַן? פעלי תנועה/שינוי-מצב → זײַן ("איך בין געגאַנגען")</li>
+      <li>יש זיך? הוא לא נעלם — למקם אותו נכון</li>
+      <li>פועל מתפרק? בעבר גע־ נכנס באמצע (אָפּ<b>גע</b>קויפֿט)</li>
+      <li>בלתי-מתפרק (באַ/פֿאַר/דער/צע/אַנט)? בלי גע בכלל</li>
+      <li>עתיד = וועלן + שם הפועל המלא</li>
+      <li>ציווי: יחיד = שורש, רבים = +ט, בלי כינוי גוף</li>
+    </ul>
+    <div class="banner">שלילה</div>
+    <ul class="golden">
+      <li><b>נישט</b> = שלילת פועל / תואר / משפט</li>
+      <li><b>קיין</b> = לפני שם עצם לא מיודע</li>
+      <li>אחרי מילת יחס: "פֿון קיין", "אין קיין", "מיט קיין"</li>
+    </ul>
+    <div class="banner">שאלות</div>
+    <ul class="golden">
+      <li>שאלה +: מילת שאלה / צי, הפועל עולה קדימה</li>
+      <li>שאלה –: כן/לא, הפועל ראשון; דו+פועל מתחברים ("גייסטו")</li>
+    </ul>
+    <div class="banner">סיפורים</div>
+    <ul class="golden">
+      <li>קרא את השאלה לאט, זהה על מי היא</li>
+      <li>ענה ביידיש קצר ופשוט, במילים מהסיפור</li>
+      <li>אל תמציא תשובה ארוכה</li>
+    </ul>
+  </div>`;
+}
+
+/* ---------- helpers ---------- */
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor((Math.sin(i*99+a.length)*10000%1+1)%1*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+function pick(a,n){return shuffle(a).slice(0,n)}
+function b64(s){return btoa(unescape(encodeURIComponent(s)))}
+function ub64(s){return decodeURIComponent(escape(atob(s)))}
+
+/* ---------- boot ---------- */
+applyTheme();
+const h=location.hash.slice(1); if(h)view=h;
+if(!CB.length){document.getElementById('app').innerHTML='<div class="card"><h2>⏳ טוען נתונים…</h2><div class="sub">קובץ DATA.js לא נטען. ודא שהוא באותה תיקייה, או שהוטמע בקובץ.</div></div>';renderTabs();}
+else render();
+</script>
+</body>
+</html>

@@ -1,705 +1,98 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
 <meta charset="utf-8">
-<title>יידיש מאפס: מצב מבחן</title>
+<title>יידיש — הכל למבחן</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
-/* ===== design system — aligned with Stats Wizard Quest / יידיש־קוועסט ===== */
 :root{
   --paper:#F4F0E6; --paper-2:#EEE8D9; --card:#FFFDF8; --card-2:#FBF7EE;
   --ink:#1B2A2C; --ink-soft:#4A5A5B; --ink-faint:#7C8A88;
   --line:#E2D9C6; --line-soft:#EDE6D6;
   --teal:#0E8A7C; --teal-deep:#0B6B60; --teal-soft:#D6ECE7;
-  --coral:#D8593F; --coral-soft:#F6DDD5;
-  --gold-c:#C98A22; --gold-soft:#F3E5C6;
-  --grape:#6B5BB0; --grape-soft:#E4DEF4;
-  --good:#1F9E6E; --good-soft:#D3EEE1; --bad:#CC3A2E; --bad-soft:#F5D8D4;
+  --coral:#D8593F; --gold:#C98A22; --grape:#6B5BB0; --grape-soft:#E4DEF4;
   --shadow:0 1px 2px rgba(27,42,44,.04),0 6px 18px rgba(27,42,44,.07);
   --shadow-lg:0 2px 6px rgba(27,42,44,.06),0 18px 44px rgba(27,42,44,.13);
-  /* aliases so existing markup keeps working */
-  --bg:var(--paper); --bg2:var(--paper-2); --card2:var(--card-2);
-  --dim:var(--ink-soft); --amber:var(--teal); --amber2:var(--teal-deep); --gold:var(--gold-c);
-  --good-bg:var(--good-soft); --bad-bg:var(--bad-soft);
-  --accent:var(--teal); --accent-ink:#fff;
-  --radius:16px; --maxw:820px;
 }
 @media (prefers-color-scheme:dark){:root{
   --paper:#12201F; --paper-2:#0E1A19; --card:#1A2A28; --card-2:#213432;
-  --ink:#ECE6D6; --ink-soft:#AFC0BC; --ink-faint:#7E918D;
-  --line:#2C3E3B; --line-soft:#25352F;
-  --teal:#2FC8B4; --teal-deep:#5FD9C8; --teal-soft:#183430;
-  --coral:#EE7A5F; --coral-soft:#3A231C; --gold-c:#E1AC4E; --gold-soft:#382E19;
-  --grape:#A99CE6; --grape-soft:#282146; --good:#3FD08C; --good-soft:#143324;
-  --bad:#F0796B; --bad-soft:#3A1C18;
-  --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 22px rgba(0,0,0,.35);
-  --shadow-lg:0 2px 8px rgba(0,0,0,.4),0 20px 50px rgba(0,0,0,.5);
-  --accent-ink:#06201C;
-}}
-:root[data-theme="light"]{
-  --paper:#F4F0E6; --paper-2:#EEE8D9; --card:#FFFDF8; --card-2:#FBF7EE;
-  --ink:#1B2A2C; --ink-soft:#4A5A5B; --ink-faint:#7C8A88; --line:#E2D9C6; --line-soft:#EDE6D6;
-  --teal:#0E8A7C; --teal-deep:#0B6B60; --teal-soft:#D6ECE7; --coral:#D8593F; --coral-soft:#F6DDD5;
-  --gold-c:#C98A22; --gold-soft:#F3E5C6; --grape:#6B5BB0; --grape-soft:#E4DEF4;
-  --good:#1F9E6E; --good-soft:#D3EEE1; --bad:#CC3A2E; --bad-soft:#F5D8D4; --accent-ink:#fff;
-  --shadow:0 1px 2px rgba(27,42,44,.04),0 6px 18px rgba(27,42,44,.07);
-  --shadow-lg:0 2px 6px rgba(27,42,44,.06),0 18px 44px rgba(27,42,44,.13);
-}
-:root[data-theme="dark"]{
-  --paper:#12201F; --paper-2:#0E1A19; --card:#1A2A28; --card-2:#213432;
   --ink:#ECE6D6; --ink-soft:#AFC0BC; --ink-faint:#7E918D; --line:#2C3E3B; --line-soft:#25352F;
-  --teal:#2FC8B4; --teal-deep:#5FD9C8; --teal-soft:#183430; --coral:#EE7A5F; --coral-soft:#3A231C;
-  --gold-c:#E1AC4E; --gold-soft:#382E19; --grape:#A99CE6; --grape-soft:#282146;
-  --good:#3FD08C; --good-soft:#143324; --bad:#F0796B; --bad-soft:#3A1C18; --accent-ink:#06201C;
+  --teal:#2FC8B4; --teal-deep:#5FD9C8; --teal-soft:#183430; --grape:#A99CE6; --grape-soft:#282146;
   --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 22px rgba(0,0,0,.35);
   --shadow-lg:0 2px 8px rgba(0,0,0,.4),0 20px 50px rgba(0,0,0,.5);
-}
-*{box-sizing:border-box}
-html,body{margin:0;padding:0}
-body{
-  direction:rtl; background:var(--paper); color:var(--ink);
+}}
+*{box-sizing:border-box;margin:0;padding:0}
+body{direction:rtl;background:var(--paper);color:var(--ink);min-height:100vh;
   font-family:"Assistant","Heebo","Segoe UI",system-ui,-apple-system,"Arial Hebrew",Arial,sans-serif;
-  line-height:1.6; -webkit-font-smoothing:antialiased;
-  min-height:100vh;
-}
-.wrap{max-width:var(--maxw); margin:0 auto; padding:16px 16px 64px}
-.yid{font-family:"Frank Ruhl Libre","Times New Roman","David",serif; direction:rtl; unicode-bidi:isolate; font-weight:600;}
-:focus-visible{outline:2.5px solid var(--teal); outline-offset:2px; border-radius:6px}
-@media (prefers-reduced-motion: reduce){*{animation:none!important; transition:none!important}}
-
-/* top bar */
-.top{display:flex; align-items:center; justify-content:space-between; gap:10px; padding:12px 0 6px;}
-.brand{display:flex; align-items:baseline; gap:8px; font-weight:800; letter-spacing:-.01em}
-.brand span:first-child{filter:drop-shadow(0 2px 3px rgba(14,138,124,.35))}
-.brand b{color:var(--teal-deep)}
-.brand small{color:var(--ink-soft); font-weight:600; font-size:12px}
-.iconbtn{background:var(--card); color:var(--ink); border:1px solid var(--line); border-radius:11px; padding:7px 12px; cursor:pointer; font-size:14px; font-family:inherit; box-shadow:var(--shadow); transition:transform .15s, background .2s}
-.iconbtn:hover{background:var(--card-2); transform:translateY(-1px)}
-
-/* HUD — sticky stats bar */
-.hud{display:flex; gap:10px; align-items:center; flex-wrap:wrap;
-  position:sticky; top:0; z-index:50;
-  margin:0 -16px 16px; padding:11px 16px;
-  background:color-mix(in srgb, var(--paper) 86%, transparent);
-  backdrop-filter:saturate(1.3) blur(10px); -webkit-backdrop-filter:saturate(1.3) blur(10px);
-  border-bottom:1px solid var(--line-soft);
-  box-shadow:var(--shadow)}
-.hud .pill{background:color-mix(in srgb,var(--card-2) 82%,transparent); border:1px solid var(--line-soft); border-radius:99px; padding:6px 13px; font-size:14px; font-weight:700; color:var(--ink-soft); display:flex; gap:6px; align-items:center; box-shadow:var(--shadow)}
-.hearts{letter-spacing:2px}
-.bar{flex:1; min-width:120px; height:9px; background:var(--line-soft); border:none; border-radius:99px; overflow:hidden}
-.bar > i{display:block; height:100%; width:0; background:linear-gradient(90deg,var(--teal),var(--teal-deep)); border-radius:99px; box-shadow:0 0 8px color-mix(in srgb,var(--teal) 55%,transparent); transition:width .5s cubic-bezier(.4,0,.2,1)}
-.tnum{font-variant-numeric:tabular-nums}
-
-/* hero */
-.hero{background:linear-gradient(150deg,var(--teal-soft),var(--grape-soft) 90%); border:1px solid var(--line); border-radius:22px; padding:24px 22px; margin-bottom:18px; position:relative; overflow:hidden; box-shadow:var(--shadow)}
-.hero h1{margin:0 0 8px; font-size:27px; line-height:1.15; text-wrap:balance; font-weight:800;
-  background:linear-gradient(120deg,var(--teal-deep),var(--grape)); -webkit-background-clip:text; background-clip:text; color:transparent}
-.hero p{margin:0; color:var(--ink-soft); font-size:15px; font-weight:600}
-.hero .glow{position:absolute; inset:auto -40px -70px auto; width:220px; height:220px; background:radial-gradient(circle,color-mix(in srgb,var(--teal) 30%,transparent),transparent 70%); filter:blur(10px); pointer-events:none}
-
-/* world tiles */
-.grid{display:grid; grid-template-columns:1fr 1fr; gap:14px}
-@media (max-width:560px){.grid{grid-template-columns:1fr}}
-.tile{position:relative; background:var(--card); border:1px solid var(--line); border-radius:var(--radius); padding:18px; cursor:pointer; text-align:right; color:inherit; font-family:inherit; display:flex; gap:12px; align-items:flex-start; box-shadow:var(--shadow); overflow:hidden; transition:transform .25s ease, box-shadow .25s, border-color .25s}
-.tile::before{content:""; position:absolute; inset-inline:0; top:0; height:3px; background:linear-gradient(90deg,var(--teal),var(--grape)); transform:scaleX(0); transform-origin:right; transition:transform .3s ease}
-.tile:hover::before{transform:scaleX(1)}
-.tile:hover{transform:translateY(-4px); box-shadow:var(--shadow-lg); border-color:color-mix(in srgb,var(--teal) 45%,var(--line))}
-.tile .emo{font-size:30px; line-height:1}
-.tile h3{margin:0 0 3px; font-size:18px}
-.tile p{margin:0; color:var(--ink-soft); font-size:13px}
-.tile .badge{display:inline-block; margin-top:8px; font-size:11px; font-weight:800; color:#fff; background:var(--teal); padding:3px 10px; border-radius:99px}
-.tile.core{border-color:color-mix(in srgb,var(--teal) 50%,var(--line))}
-.tile.core::before{transform:scaleX(1)}
-.tile .best{font-size:11px; color:var(--ink-faint); margin-top:6px}
-
-/* card / question */
-.card{background:var(--card); border:1px solid var(--line); border-radius:var(--radius); padding:20px; margin-bottom:14px; box-shadow:var(--shadow)}
-.qhead{display:flex; justify-content:space-between; align-items:center; gap:10px; margin-bottom:6px}
-.tag{display:inline-flex; align-items:center; gap:5px; font-size:12px; font-weight:700; color:var(--teal-deep); background:var(--teal-soft); padding:4px 11px; border-radius:99px}
-.tag.soft{background:var(--card-2); color:var(--ink-soft); border:1px solid var(--line-soft)}
-.prompt{font-size:15px; color:var(--ink-soft); margin:2px 0 4px}
-.big{font-size:30px; margin:6px 0 4px; line-height:1.25}
-.ask{font-size:18px; font-weight:700; margin:10px 0 14px}
-.hint-inf{color:var(--teal-deep); font-weight:700}
-
-/* options */
-.opts{display:grid; gap:10px}
-.opt{background:var(--card-2); border:1.5px solid var(--line); border-radius:12px; padding:13px 14px; cursor:pointer; text-align:right; font-family:inherit; color:inherit; font-size:20px; transition:border-color .16s, background .16s, transform .12s}
-.opt:hover{border-color:var(--teal); background:color-mix(in srgb,var(--teal-soft) 55%,var(--card-2)); transform:translateY(-1px)}
-.opt.correct{border-color:var(--good); background:var(--good-soft)}
-.opt.wrong{border-color:var(--bad); background:var(--bad-soft)}
-.opt:disabled{cursor:default; transform:none}
-
-/* text input */
-.answer{display:flex; gap:8px; margin-top:6px}
-.answer input{flex:1; background:var(--card-2); border:1.5px solid var(--line); border-radius:12px; padding:13px 14px; color:var(--ink); font-size:24px; font-family:"Frank Ruhl Libre",serif; direction:rtl; text-align:right}
-.answer input:focus{outline:none; border-color:var(--teal); box-shadow:0 0 0 3px var(--teal-soft)}
-.keys{display:flex; flex-wrap:wrap; gap:6px; margin-top:10px}
-.keys button{background:var(--card-2); border:1px solid var(--line); color:var(--ink); border-radius:9px; padding:8px 12px; font-size:20px; cursor:pointer; font-family:"Frank Ruhl Libre",serif; min-width:42px; transition:border-color .15s, background .15s}
-.keys button:hover{border-color:var(--teal); background:var(--teal-soft)}
-
-/* feedback */
-.fb{margin-top:14px; border-radius:12px; padding:13px 15px; font-size:15px; display:none; border-inline-start:4px solid transparent}
-.fb.show{display:block; animation:pop .25s ease}
-.fb.ok{background:var(--good-soft); border:1px solid color-mix(in srgb,var(--good) 40%,var(--line)); border-inline-start:4px solid var(--good)}
-.fb.no{background:var(--bad-soft); border:1px solid color-mix(in srgb,var(--bad) 40%,var(--line)); border-inline-start:4px solid var(--bad)}
-.fb .head{font-weight:800; margin-bottom:4px}
-.fb .ans{font-family:"Frank Ruhl Libre",serif; font-size:22px; margin:4px 0}
-.fb .rule{color:var(--ink-soft); font-size:14px; margin-top:6px}
-@keyframes pop{from{transform:scale(.97); opacity:.4}to{transform:scale(1); opacity:1}}
-@keyframes shake{10%,90%{transform:translateX(-2px)}30%,70%{transform:translateX(4px)}50%{transform:translateX(-6px)}}
-.shake{animation:shake .4s}
-
-/* buttons */
-.row{display:flex; gap:10px; flex-wrap:wrap; margin-top:14px}
-.btn{display:inline-flex; align-items:center; justify-content:center; gap:8px; background:var(--teal); color:#fff; border:none; border-radius:13px; padding:12px 22px; font-size:16px; font-weight:800; cursor:pointer; font-family:inherit; box-shadow:0 4px 14px color-mix(in srgb,var(--teal) 32%,transparent); transition:transform .15s, filter .2s}
-.btn:hover{transform:translateY(-2px); filter:brightness(1.05)}
-.btn:active{transform:translateY(0)}
-.btn.ghost{background:var(--card); color:var(--ink); border:1px solid var(--line); box-shadow:var(--shadow)}
-.btn.ghost:hover{background:var(--card-2); filter:none}
-.btn.sm{padding:8px 15px; font-size:14px; border-radius:10px}
-.btn:disabled{opacity:.5; cursor:default; transform:none}
-
-/* howto */
-.howto{margin-top:12px; background:var(--card-2); border:1px dashed color-mix(in srgb,var(--teal) 40%,var(--line)); border-radius:12px; padding:12px 14px; font-size:14px; display:none}
-.howto.show{display:block}
-.howto ol{margin:6px 0 0; padding-inline-start:20px}
-.howto li{margin:3px 0}
-
-/* results */
-.result h2{margin:0 0 4px}
-.score-big{font-size:52px; font-weight:900; color:var(--teal-deep); font-variant-numeric:tabular-nums}
-table.coach{width:100%; border-collapse:collapse; margin-top:12px; font-size:14px}
-table.coach th,table.coach td{text-align:right; padding:9px 8px; border-bottom:1px solid var(--line-soft)}
-table.coach th{color:var(--ink-soft); font-weight:700}
-.chip{font-size:12px; font-weight:800; padding:2px 10px; border-radius:99px}
-.chip.strong{background:var(--good-soft); color:var(--good)}
-.chip.mid{background:var(--gold-soft); color:var(--gold-c)}
-.chip.weak{background:var(--bad-soft); color:var(--bad)}
-.hide{display:none!important}
-.center{text-align:center}
-footer{color:var(--ink-faint); font-size:12px; text-align:center; margin-top:24px}
-.modeflag{font-size:12px; color:var(--ink-soft)}
+  line-height:1.6;-webkit-font-smoothing:antialiased}
+.wrap{max-width:760px;margin:0 auto;padding:22px 16px 60px}
+.hero{background:linear-gradient(150deg,var(--teal-soft),var(--grape-soft) 90%);border:1px solid var(--line);
+  border-radius:22px;padding:26px 22px;box-shadow:var(--shadow);text-align:center;margin-bottom:20px}
+.hero .logo{font-size:46px}
+.hero h1{font-size:28px;font-weight:800;margin:8px 0 6px;
+  background:linear-gradient(120deg,var(--teal-deep),var(--grape));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p{color:var(--ink-soft);font-weight:600;font-size:15px}
+.grid{display:grid;gap:14px}
+.tile{position:relative;display:block;text-decoration:none;color:inherit;background:var(--card);
+  border:1px solid var(--line);border-radius:16px;padding:18px 20px;box-shadow:var(--shadow);overflow:hidden;
+  transition:transform .25s,box-shadow .25s,border-color .25s}
+.tile::before{content:"";position:absolute;inset-inline:0;top:0;height:3px;
+  background:linear-gradient(90deg,var(--teal),var(--grape));transform:scaleX(0);transform-origin:right;transition:transform .3s}
+.tile:hover::before,.tile.core::before{transform:scaleX(1)}
+.tile:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg);border-color:color-mix(in srgb,var(--teal) 45%,var(--line))}
+.row{display:flex;align-items:center;gap:14px}
+.emo{font-size:32px;line-height:1}
+.tx h2{font-size:19px;margin-bottom:2px}
+.tx p{color:var(--ink-soft);font-size:13.5px}
+.badge{display:inline-block;margin-top:4px;font-size:11px;font-weight:800;color:#fff;background:var(--teal);padding:3px 10px;border-radius:99px}
+.sub{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.pdf{font-size:12px;font-weight:700;color:var(--teal-deep);background:var(--teal-soft);border-radius:99px;padding:4px 12px;text-decoration:none}
+footer{color:var(--ink-faint);font-size:12px;text-align:center;margin-top:26px}
 </style>
-
+</head>
+<body>
 <div class="wrap">
-  <div class="top">
-    <div class="brand"><span>🎯</span><span>יידיש <b>מאפס</b></span><small>מצב מבחן</small></div>
-    <button class="iconbtn" id="themeBtn">🌓 מצב</button>
+  <div class="hero">
+    <div class="logo">🎯</div>
+    <h1>יידיש — הכל למבחן</h1>
+    <p>מבחן 12/08 · הכל מחומר הקורס בלבד (60 משפטים · 3 סיפורים · שיבוצים) · אין המצאות</p>
   </div>
 
-  <!-- HOME -->
-  <section id="home">
-    <div class="hero">
-      <div class="glow"></div>
-      <h1>מכונת מבחן ליידיש — לא סתם משחק</h1>
-      <p>הכל מחומר הקורס בלבד: 60 משפטי ההטיה, 3 הסיפורים והשיבוצים. הלב הוא הטיית הפעלים — בדיוק מה שנותן נקודות במבחן.</p>
-    </div>
-    <div class="grid" id="tiles"></div>
-    <div class="row center" style="justify-content:center; margin-top:18px">
-      <button class="btn ghost sm" id="resetBtn">אפס התקדמות</button>
-    </div>
-    <footer>נבנה מטבלאות הפתרונות של הקורס · אין המצאות · בהצלחה במבחן 12/08</footer>
-  </section>
+  <div class="grid">
+    <a class="tile core" href="guide.html">
+      <div class="row"><span class="emo">📘</span><div class="tx">
+        <h2>המדריך המלא</h2>
+        <p>המדריך האינטראקטיבי — הטיות, סיפורים, שיבוצים, כרטיסיות, מבחן, מעקב טעויות.</p>
+        <span class="badge">התחל כאן</span>
+      </div></div>
+    </a>
 
-  <!-- PLAY -->
-  <section id="play" class="hide">
-    <div class="hud">
-      <button class="iconbtn" id="backBtn">→ חזרה</button>
-      <span class="pill hearts" id="hearts">❤️❤️❤️</span>
-      <span class="pill">⭐ <span class="tnum" id="score">0</span></span>
-      <span class="pill">🔥 <span class="tnum" id="streak">0</span></span>
-      <span class="pill hide" id="timerPill">⏱ <span class="tnum" id="timer">0:00</span></span>
-      <div class="bar"><i id="prog"></i></div>
-    </div>
-    <div id="stage"></div>
-  </section>
+    <a class="tile core" href="game.html">
+      <div class="row"><span class="emo">🕹️</span><div class="tx">
+        <h2>המשחק — מצב מבחן</h2>
+        <p>סולם תרגול: 4 ברירות → מילוי → כתיבה. לבבות, רצף, מאמן טעויות. הסיפורים ביידיש + תרגום.</p>
+        <span class="badge">תרגל</span>
+      </div></div>
+    </a>
 
-  <!-- RESULT -->
-  <section id="result" class="hide"></section>
+    <a class="tile" href="sheet.html">
+      <div class="row"><span class="emo">📄</span><div class="tx">
+        <h2>דף נוסחאות + מבחן</h2>
+        <p>כל כללי ההטיה בעמוד אחד + מבחן קצר עם מפתח תשובות.</p>
+        <div class="sub"><a class="pdf" href="sheet.pdf">⬇︎ PDF להדפסה</a></div>
+      </div></div>
+    </a>
+
+    <a class="tile" href="exam.html">
+      <div class="row"><span class="emo">📝</span><div class="tx">
+        <h2>מבחן מעורבב</h2>
+        <p>15 פעלים מכל 7 הרמות, בסדר מעורבב — תשובות מלאות + הסבר לכל אחד.</p>
+        <div class="sub"><a class="pdf" href="exam.pdf">⬇︎ PDF להדפסה</a></div>
+      </div></div>
+    </a>
+  </div>
+
+  <footer>נבנה מטבלאות הפתרונות של הקורס · בהצלחה במבחן 🍀</footer>
 </div>
-
-<script>
-/* ---------- COURSE DATA (verbatim from course answer tables — nothing invented) ---------- */
-const VERBS = [
- {inf:"לערנען",he:"ללמוד",subj:"איך",present:"איך לערן אין אוניווערסיטעט",past:"איך האָב געלערנט אין אוניווערסיטעט",future:"איך וועל לערנען אין אוניווערסיטעט",impSg:"לערן!",impPl:"לערנט!",neg:"איך לערן נישט אין אוניווערסיטעט",qPos:"צי לערן איך אין אוניווערסיטעט?",qNeg:"לערן איך אין אוניווערסיטעט?",motion:false,reg:true},
- {inf:"גיין",he:"ללכת",subj:"דו",present:"דו גייסט מיט די קינדער אַהײַם",past:"דו ביסט געגאַנגען מיט די קינדער אַהײַם",future:"דו וועסט גיין מיט די קינדער אַהײַם",impSg:"גיי!",impPl:"גייט!",neg:"דו גייסט נישט מיט די קינדער אַהײַם",qPos:"צי גייסטו מיט די קינדער אַהײַם?",qNeg:"גייסטו מיט די קינדער אַהײַם?",motion:true,reg:false,
-   pres6:{"איך":"גיי","דו":"גייסט","ער":"גייט","מיר":"גייען","איר":"גייט","זיי":"גייען"}},
- {inf:"שרײַבן",he:"לכתוב",subj:"ער",present:"ער שרײַבט אַ בריוו צו זײַן קוזין",past:"ער האָט געשריבן אַ בריוו צו זײַן קוזין",future:"ער וועט שרײַבן אַ בריוו צו זײַן קוזין",impSg:"שרײַב!",impPl:"שרײַבט!",neg:"ער שרײַבט נישט קיין בריוו צו זײַן קוזין",qPos:"צי שרײַבט ער אַ בריוו צו זײַן קוזין?",qNeg:"שרײַבט ער אַ בריוו צו זײַן קוזין?",motion:false,reg:false,note:"פועל חריג: געשריבן ולא געשרײַבט"},
- {inf:"זײַן",he:"להיות",subj:"זי",present:"זי איז די שענסטע אין קלאַס",past:"זי איז געווען די שענסטע אין קלאַס",future:"זי וועט זײַן די שענסטע אין קלאַס",impSg:"זײַ!",impPl:"זײַט!",neg:"זי איז נישט די שענסטע אין קלאַס",qPos:"צי איז זי די שענסטע אין קלאַס?",qNeg:"איז זי די שענסטע אין קלאַס?",motion:true,reg:false,
-   pres6:{"איך":"בין","דו":"ביסט","ער":"איז","מיר":"זײַנען","איר":"זײַט","זיי":"זײַנען"},note:"עבר עם איז (לא האָט): זי איז געווען"},
- {inf:"האָבן",he:"יש / להחזיק",subj:"מיר",present:"מיר האָבן דרײַ קינדער",past:"מיר האָבן געהאט דרײַ קינדער",future:"מיר וועלן האָבן דרײַ קינדער",impSg:"האָב!",impPl:"האָט!",neg:"מיר האָבן נישט קיין דרײַ קינדער",qPos:"צי האָבן מיר דרײַ קינדער?",qNeg:"האָבן מיר דרײַ קינדער?",motion:false,reg:false,
-   pres6:{"איך":"האָב","דו":"האָסט","ער":"האָט","מיר":"האָבן","איר":"האָט","זיי":"האָבן"}},
- {inf:"לויפֿן",he:"לרוץ",subj:"איר",present:"איר לויפֿט קויפֿן גוטע זאַכן",past:"איר זײַט געלאָפֿן קויפֿן גוטע זאַכן",future:"איר וועט לויפֿן קויפֿן גוטע זאַכן",impSg:"לויף!",impPl:"לויפֿט!",neg:"איר לויפֿט נישט קויפֿן קיין גוטע זאַכן",qPos:"צי לויפֿט איר קויפֿן גוטע זאַכן?",qNeg:"לויפֿט איר קויפֿן גוטע זאַכן?",motion:true,reg:false,note:"פועל תנועה: עבר עם זײַט געלאָפֿן"},
- {inf:"מאַכן",he:"לעשות",subj:"זיי",present:"זיי מאַכן די היים-אַרבעט",past:"זיי האָבן געמאַכט די היים-אַרבעט",future:"זיי וועלן מאַכן די היים-אַרבעט",impSg:"מאַך!",impPl:"מאַכט!",neg:"זיי מאַכן נישט די היים-אַרבעט",qPos:"צי מאַכן זיי די היים-אַרבעט?",qNeg:"מאַכן זיי די היים-אַרבעט?",motion:false,reg:true},
- {inf:"קוקן",he:"להסתכל",subj:"דער חבר",present:"דער חבר קוקט אויף אַ שיינעם פֿילם",past:"דער חבר האָט געקוקט אויף אַ שיינעם פֿילם",future:"דער חבר וועט קוקן אויף אַ שיינעם פֿילם",impSg:"קוק!",impPl:"קוקט!",neg:"דער חבר קוקט נישט אויף קיין שיינעם פֿילם",qPos:"צי קוקט דער חבר אויף אַ שיינעם פֿילם?",qNeg:"קוקט דער חבר אויף אַ שיינעם פֿילם?",motion:false,reg:true},
- {inf:"נעמען",he:"לקחת",subj:"די חברטע",present:"די חברטע נעמט אַ בוך",past:"די חברטע האָט גענומען אַ בוך",future:"די חברטע וועט נעמען אַ בוך",impSg:"נעם!",impPl:"נעמט!",neg:"די חברטע נעמט נישט קיין בוך",qPos:"צי נעמט די חברטע אַ בוך?",qNeg:"נעמט די חברטע אַ בוך?",motion:false,reg:false,note:"פועל חריג: גענומען"},
- {inf:"אַרבעטן",he:"לעבוד",subj:"די לערערס",present:"די לערערס אַרבעטן מיט אַ סך תלמידים",past:"די לערערס האָבן געאַרבעט מיט אַ סך תלמידים",future:"די לערערס וועלן אַרבעטן מיט אַ סך תלמידים",impSg:"אַרבעט!",impPl:"אַרבעט!",neg:"די לערערס אַרבעטן נישט מיט קיין סך תלמידים",qPos:"צי אַרבעטן די לערערס מיט אַ סך תלמידים?",qNeg:"אַרבעטן די לערערס מיט אַ סך תלמידים?",motion:false,reg:true},
- {inf:"רעדן",he:"לדבר",subj:"איך",present:"איך רעד מיט חברים אין פּאַרק",past:"איך האָב גערעדט מיט חברים אין פּאַרק",future:"איך וועל רעדן מיט חברים אין פּאַרק",impSg:"רעד!",impPl:"רעדט!",neg:"איך רעד נישט מיט קיין חברים אין פּאַרק",qPos:"צי רעד איך מיט חברים אין פּאַרק?",qNeg:"רעד איך מיט חברים אין פּאַרק?",motion:false,reg:true},
- {inf:"קומען",he:"לבוא",subj:"דו",present:"דו קומסט אַהיים זייער שפּעט אין אָוונט",past:"דו ביסט געקומען אַהיים זייער שפּעט אין אָוונט",future:"דו וועסט קומען אַהיים זייער שפּעט אין אָוונט",impSg:"קום!",impPl:"קומט!",neg:"דו קומסט נישט אַהיים זייער שפּעט אין אָוונט",qPos:"צי קומסטו אַהיים זייער שפּעט אין אָוונט?",qNeg:"קומסטו אַהיים זייער שפּעט אין אָוונט?",motion:true,reg:false,note:"פועל תנועה: עבר עם ביסט געקומען"},
- {inf:"וואַרטן",he:"לחכות",subj:"זי",present:"זי וואַרט אַ לאַנגע צײַט",past:"זי האָט געוואַרט אַ לאַנגע צײַט",future:"זי וועט וואַרטן אַ לאַנגע צײַט",impSg:"וואַרט!",impPl:"וואַרט!",neg:"זי וואַרט נישט קיין לאַנגע צײַט",qPos:"צי וואַרט זי אַ לאַנגע צײַט?",qNeg:"וואַרט זי אַ לאַנגע צײַט?",motion:false,reg:true},
- {inf:"פֿאָרן",he:"לנסוע",subj:"די חברים",present:"די חברים פֿאָרן אויף אַ וויזיט קיין חיפה",past:"די חברים זײַנען געפֿאָרן אויף אַ וויזיט קיין חיפה",future:"די חברים וועלן פֿאָרן אויף אַ וויזיט קיין חיפה",impSg:"פֿאָר!",impPl:"פֿאָרט!",neg:"די חברים פֿאָרן נישט אויף קיין וויזיט קיין חיפה",qPos:"צי פֿאָרן די חברים אויף אַ וויזיט קיין חיפה?",qNeg:"פֿאָרן די חברים אויף אַ וויזיט קיין חיפה?",motion:true,reg:false,note:"פועל תנועה: עבר עם זײַנען געפֿאָרן"},
- {inf:"לערנען",he:"ללמוד",subj:"ער",present:"ער לערנט דרײַ נײַע לעקציעס",past:"ער האָט געלערנט דרײַ נײַע לעקציעס",future:"ער וועט לערנען דרײַ נײַע לעקציעס",impSg:"לערן!",impPl:"לערנט!",neg:"ער לערנט נישט קיין דרײַ נײַע לעקציעס",qPos:"צי לערנט ער דרײַ נײַע לעקציעס?",qNeg:"לערנט ער דרײַ נײַע לעקציעס?",motion:false,reg:true}
-];
-
-/* Story Q&A — VERBATIM from teacher's Yiddish model answers (STORIES_QA_WITH_ANSWERS.md / WhatsApp).
-   ansY = תשובת המודל ביידיש · he = תרגום לעברית (מוצג אחרי המענה). המסיחים נבנים דינמית מתשובות אמת של סיפורים אחרים. */
-const STORY_Q = [
- {story:"דאָס פּעקעלע פּוטער", q:"ווער זײַנען געווען די נאַציס?", ansY:"די נאַציס זײַנען געווען דײַטשן מיט ביקסן.", he:"הנאצים היו גרמנים עם רובים."},
- {story:"דאָס פּעקעלע פּוטער", q:"וואָס איז אַ געטאָ?", ansY:"אַ געטאָ איז אַ קליינער צאָל גאַסן מיט אַ מויער.", he:"גטו הוא מספר קטן של רחובות עם חומה."},
- {story:"דאָס פּעקעלע פּוטער", q:"וואָס האָבן די נאַציס געטאָן די ייִדן פֿון געטאָ?", ansY:"די נאַציס האָבן די ייִדן פֿון געטאָ פֿאַרגאַזט און פֿאַרברענט.", he:"הנאצים הרגו בגז ושרפו את יהודי הגטו."},
- {story:"דאָס פּעקעלע פּוטער", q:"צוליב וואָס איז וואָלאַדקע געבליבן אויף יענער זײַט מויער?", ansY:"וואָלאַדקע איז געבליבן אויף יענער זײַט מויער כּדי צו העלפֿן.", he:"וולאדקה נשארה בצד השני של החומה כדי לעזור (היא לא נראתה יהודייה)."},
- {story:"דאָס פּעקעלע פּוטער", q:"ווען האָבן די יונגע העלדישע באַשלאָסן צו מאַכן אַן אויפֿשטאַנד?", ansY:"די יונגע העלדישע ייִדן האָבן באַשלאָסן צו מאַכן אַן אויפֿשטאַנד ווען עס זײַנען שוין געבליבן ווייניק ייִדן אין געטאָ.", he:"כשנשארו כבר מעט יהודים בגטו."},
- {story:"דאָס פּעקעלע פּוטער", q:"ווי אַזוי האָט וואָלאַדקע געטראָגן דינאַמיט אין געטאָ?", ansY:"וואָלאַדקע האָט געטראָגן דינאַמיט אין געטאָ אין אַ פּעקעלע פּוטער.", he:"בתוך חבילה שנראתה כמו חבילת חמאה."},
- {story:"דאָס פּעקעלע פּוטער", q:"וואָס איז געשען ווען וואָלאַדקע איז געווען אויף דער מויער פֿון געטאָ?", ansY:"ווען וואָלאַדקע איז געווען אויף דער מויער פֿון געטאָ, האָבן זיך דערהערט שאָסן.", he:"נשמעו יריות; החברים ברחו והיא נשארה לבד עד שחבר קרא לה."},
- {story:"דאָס פּעקעלע פּוטער", q:"וואָס איז געווען די סכּנה בײַם אַראָפּשפּרינגען פֿון געטאָ מויער?", ansY:"די סכּנה איז געווען אַז זי קען נאָך פֿאַלן און דאָס פּעקעלע פּוטער קען אויפֿרײַסן.", he:"שתיפול והחבילה תתפוצץ (וגם: שהנאצים יראו ויירו בה)."},
-
- {story:"דאָס שיסעלע מיט בוימל", q:"ווו שטייט דאָס הייזל?", ansY:"דאָס הייזל שטייט בײַם עק דאָרף.", he:"הבית עומד בקצה הכפר."},
- {story:"דאָס שיסעלע מיט בוימל", q:"פֿאַרוואָס ווונדערן זיך די מענטשן?", ansY:"די מענטשן ווונדערן זיך וואָס, ווי נאָר עס קומט דער ווינטער, אַזוי שטעלט אַוועק דער באַלעבאָס יעדן אויף דער נאַכט דאָס שיסעלע מיט בוימל אויפֿן פֿענצטער.", he:"מתפלאים שברגע שמגיע החורף, בעל הבית מעמיד כל לילה את הקערית עם השמן על החלון."},
- {story:"דאָס שיסעלע מיט בוימל", q:"ווי אַזוי האָט געהייסן דער בעל-הבית?", ansY:"דער באַלעבאָס האָט געהייסן אברהם.", he:"קראו לו אברהם."},
- {story:"דאָס שיסעלע מיט בוימל", q:"ווען איז די מעשׂה געווען?", ansY:"די מעשׂה איז געווען מיט אַ צוואַנציק יאָר צוריק.", he:"לפני כעשרים שנה (כשאברהם היה בן 19)."},
- {story:"דאָס שיסעלע מיט בוימל", q:"וואָס האָט געזאָגט דער ערשטער געדאַנק?", ansY:"דער ערשטער געדאַנק האָט געזאָגט: וואָס טוסטו? דרעמל ניט אײַן!", he:"המחשבה הראשונה אמרה: מה אתה עושה? אל תירדם!"},
- {story:"דאָס שיסעלע מיט בוימל", q:"וואָס האָט ער דערזען אין חלום?", ansY:"ער האָט דערזען אין חלום אַ פֿײַערל.", he:"הוא ראה אור/אש קטנה."},
- {story:"דאָס שיסעלע מיט בוימל", q:"וואָס האָט דער אַלטער געזאָגט?", ansY:"דער אַלטער האָט געזאָגט: אויב דו, בחור, האָסט ליב אַרבעט, קענסטו בײַ מיר דאָ פֿאַרבלײַבן.", he:"הזקן אמר: אם אתה אוהב עבודה, תוכל להישאר כאן אצלי."},
- {story:"דאָס שיסעלע מיט בוימל", q:"וואָס טוט ער יעדן ווינטער?", ansY:"יעדן ווינטער צינדט ער אָן אַ שיסעלע מיט בוימל.", he:"כל חורף הוא מדליק קערית שמן (כדי להציל מאחרים בדרכים)."},
-
- {story:"דער בוים און דאָס יינגל", q:"וועמען האָט דער בוים ליב געהאַט?", ansY:"דער בוים האָט ליב געהאַט דאָס יינגל.", he:"העץ אהב את הילד."},
- {story:"דער בוים און דאָס יינגל", q:"וואָס האָט דאָס יינגל געזאַמלט?", ansY:"דאָס יינגל האָט געזאַמלט די בלעטער.", he:"הילד אסף את העלים (ועשה מהם כתרים)."},
- {story:"דער בוים און דאָס יינגל", q:"אין וואָס האָבן זיי זיך געשפּילט?", ansY:"זיי האָבן זיך געשפּילט אין באַהעלטעניש.", he:"הם שיחקו במחבואים."},
- {story:"דער בוים און דאָס יינגל", q:"וואָס האָט דער בוים געגעבן?", ansY:"דער בוים האָט געגעבן זײַן פֿרוכט.", he:"העץ נתן את פירותיו / כל מה שיכול (תפוחים, ענפים, גזע)."},
- {story:"דער בוים און דאָס יינגל", q:"פֿאַרוואָס האָט דאָס יינגל געוואָלט אַ שיף?", ansY:"דאָס יינגל האָט געוואָלט אַ שיף כּדי אַוועקצופֿאָרן.", he:"הילד רצה ספינה כדי להפליג רחוק."},
- {story:"דער בוים און דאָס יינגל", q:"וואָס האָט דאָס יינגל געטאָן מיט די עפּל?", ansY:"דאָס יינגל האָט גענומען די עפּל אין מאַרק פֿאַרקויפֿן.", he:"לקח את התפוחים למכור בשוק."},
- {story:"דער בוים און דאָס יינגל", q:"פֿאַרוואָס איז דער בוים געווען טרויעריק?", ansY:"דער בוים איז געווען טרויעריק ווײַל דאָס יינגל איז ניט צוריקגעקומען אַ לאַנגע צײַט.", he:"כי הילד לא חזר זמן רב."},
- {story:"דער בוים און דאָס יינגל", q:"פֿאַרוואָס האָט דאָס יינגל געוואָלט אַ הויז?", ansY:"דאָס יינגל האָט געוואָלט אַ הויז: איך וויל אַ ווײַב און קינדער.", he:"כי רצה אישה וילדים."}
-];
-
-const SHIBUTZ = [
- {cat:"pronoun", sent:"איך ___ אין אוניווערסיטעט", bank:["לערן","לערנסט","לערנט","לערנען"], ans:"לערן", rule:"איך = השורש בלבד (בלי סיומת)."},
- {cat:"pronoun", sent:"דו ___ אין אוניווערסיטעט", bank:["לערן","לערנסט","לערנט","לערנען"], ans:"לערנסט", rule:"דו = שורש + סט."},
- {cat:"pronoun", sent:"ער ___ דרײַ נײַע לעקציעס", bank:["לערן","לערנסט","לערנט","לערנען"], ans:"לערנט", rule:"ער/זי/עס/איר = שורש + ט."},
- {cat:"pronoun", sent:"מיר ___ אין אוניווערסיטעט", bank:["לערן","לערנסט","לערנט","לערנען"], ans:"לערנען", rule:"מיר/זיי = שם הפועל המלא."},
- {cat:"verb", sent:"איך ___ אַהיים", bank:["גיי","גייסט","גייט","גייען"], ans:"גיי", rule:"גיין הוא חריג: איך גיי."},
- {cat:"verb", sent:"דו ___ אין שול", bank:["גיי","גייסט","גייט","גייען"], ans:"גייסט", rule:"דו + סט: גייסט."},
- {cat:"verb", sent:"ער ___ מיט די קינדער", bank:["גיי","גייסט","גייט","גייען"], ans:"גייט", rule:"ער + ט: גייט."},
- {cat:"prep", sent:"איך רעד ___ חברים אין פּאַרק", bank:["מיט","פֿון","צו","אויף"], ans:"מיט", rule:"מדברים 'עם' מישהו = מיט."},
- {cat:"prep", sent:"דאָס בוך ליגט ___ דעם טיש", bank:["מיט","פֿון","צו","אויף"], ans:"אויף", rule:"'על' משטח = אויף."},
- {cat:"prep", sent:"ער קומט ___ די שכנים", bank:["מיט","פֿון","צו","אויף"], ans:"צו", rule:"בא 'אל' מישהו = צו."},
- {cat:"question", sent:"___ קינדער האָסטו?", bank:["וואָס","ווער","וויפֿל","ווען"], ans:"וויפֿל", rule:"'כמה' = וויפֿל."},
- {cat:"question", sent:"___ קומסטו אַהיים?", bank:["וואָס","ווער","וויפֿל","ווען"], ans:"ווען", rule:"'מתי' = ווען."},
- {cat:"neg", sent:"ער שרײַבט ___ בריוו צו זײַן קוזין", bank:["נישט","נישט קיין"], ans:"נישט קיין", rule:"לפני שם עצם לא מיודע (אַ בריוו) → נישט קיין."},
- {cat:"neg", sent:"זי איז ___ די שענסטע אין קלאַס", bank:["נישט","נישט קיין"], ans:"נישט", rule:"לפני שם עצם מיודע (די) → רק נישט."}
-];
-
-/* category labels for the mistake coach */
-const CATS = {
- present:"הווה (גוף וסיומת)", hazyn:"האָבן / זײַן", past:"עבר", future:"עתיד",
- imperative:"ציווי", negation:"שלילה (נישט/קיין)", question:"שאלות", irregular:"פעלים חריגים",
- story:"סיפורים", pronoun:"התאמת גוף", verb:"צורת הפועל", prep:"מילות יחס", stories:"סיפורים"
-};
-
-/* rule explainer per arena form */
-const FORM_RULE = {
- present:"סיומות ההווה: איך=שורש · דו=סט · ער/זי/איר=ט · מיר/זיי=שם הפועל. חריג: שורש שנגמר ב-ט (אַרבעט, וואַרט) לא מקבל ט נוסף → איך/ער/איר = אַרבעט.",
- past:"עבר = עזר (האָבן/זײַן) + בינוני. פועל תנועה (זז ממקום למקום) → זײַן. שאר → האָבן + גע___ט.",
- future:"עתיד = וועלן מוטה + שם הפועל המלא. (וועל/וועסט/וועט/וועלן).",
- imperative:"ציווי בלי כינוי גוף: קום! (לא 'דו קום'). לרבים מוסיפים ט: קומט!",
- negation:"שלילה עם נישט. לפני שם עצם לא־מיודע (אַ) מוסיפים קיין → נישט קיין. מיודע → רק נישט.",
- question:"שאלת כן/לא: הפועל עובר לתחילת המשפט. אפשר עם צי בהתחלה."
-};
-
-/* ---------- text normalization for forgiving matching ---------- */
-function norm(s){
-  if(!s) return "";
-  return s
-    .replace(/[֑-ׇ]/g,"")   // strip niqqud/points → אַ=א, אָ=א
-    .replace(/[.!?,;:"'׳״\-־]/g,"")    // punctuation
-    .replace(/ך/g,"כ").replace(/ם/g,"מ").replace(/ן/g,"נ").replace(/ף/g,"פ").replace(/ץ/g,"צ") // final forms
-    .replace(/\s+/g," ").trim();
-}
-function matchAns(input, answers){
-  const a = norm(input);
-  if(!a) return "empty";
-  for(const t of answers){
-    const n = norm(t);
-    if(a===n) return "exact";
-    if(a===n.replace(/^צי /,"")) return "exact";       // question without צי
-    if(("צי "+a)===n) return "exact";                   // question with צי
-  }
-  // partial credit: right verb form present, minor slips
-  for(const t of answers){
-    const n = norm(t);
-    if(levRatio(a,n) >= 0.82) return "close";
-  }
-  return "wrong";
-}
-function levRatio(a,b){
-  const d = lev(a,b); return 1 - d/Math.max(a.length,b.length,1);
-}
-function lev(a,b){
-  const m=a.length,n=b.length,dp=Array.from({length:m+1},(_,i)=>[i,...Array(n).fill(0)]);
-  for(let j=0;j<=n;j++)dp[0][j]=j;
-  for(let i=1;i<=m;i++)for(let j=1;j<=n;j++)
-    dp[i][j]=Math.min(dp[i-1][j]+1,dp[i][j-1]+1,dp[i-1][j-1]+(a[i-1]===b[j-1]?0:1));
-  return dp[m][n];
-}
-
-/* ---------- persistence ---------- */
-const SAVE="yid_exam_v1";
-let store = JSON.parse(localStorage.getItem(SAVE)||"{}");
-if(!store.best) store.best={};
-function save(){localStorage.setItem(SAVE,JSON.stringify(store));}
-
-/* ---------- helpers ---------- */
-const $=s=>document.querySelector(s);
-function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor((i+1)*rnd());[a[i],a[j]]=[a[j],a[i]];}return a;}
-let seed=1; function rnd(){seed=(seed*1103515245+12345)&0x7fffffff;return seed/0x7fffffff;}
-function reseed(){seed=(Date.now?1:1);} // Date.now unavailable in some envs; keep deterministic-ish
-seed = 987654321;
-
-/* ---------- WORLDS ---------- */
-const WORLDS=[
- {id:"warmup", emo:"🔥", name:"חימום — גוף וסיומת", desc:"הווה: איך/דו/ער/מיר/איר/זיי. הבסיס, 5 דקות.", build:buildWarmup},
- {id:"hazyn", emo:"⚖️", name:"האָבן או זײַן?", desc:"הנפילה הקלאסית בעבר. פועל תנועה → זײַן.", build:buildHazyn},
- {id:"arena", emo:"🎯", name:"זירת המבחן", desc:"הטיה מלאה שלב-שלב: עבר, עתיד, ציווי, שלילה, שאלה. הלב.", core:true, build:buildArena},
- {id:"stories", emo:"📖", name:"סיפורים", desc:"3 הסיפורים — שאלות הבנה.", build:buildStories},
- {id:"shibutz", emo:"🧩", name:"שיבוץ", desc:"התאמת גוף, מילות יחס, שאלות, שלילה.", build:buildShibutz},
- {id:"exam", emo:"📝", name:"מצב מבחן", desc:"10 הטיה + 5 סיפור + 5 שיבוץ, כתיבה + טיימר.", core:true, build:buildExam}
-];
-
-function renderHome(){
-  $("#home").classList.remove("hide");
-  $("#play").classList.add("hide");
-  $("#result").classList.add("hide");
-  const t=$("#tiles"); t.innerHTML="";
-  WORLDS.forEach(w=>{
-    const best=store.best[w.id];
-    const el=document.createElement("button");
-    el.className="tile"+(w.core?" core":"");
-    el.innerHTML=`<div class="emo">${w.emo}</div><div><h3>${w.name}</h3><p>${w.desc}</p>${w.core?'<span class="badge">עיקר המבחן</span>':''}${best!=null?`<div class="best">שיא: ${best}%</div>`:''}</div>`;
-    el.onclick=()=>startWorld(w);
-    t.appendChild(el);
-  });
-}
-
-/* ---------- SESSION ENGINE ---------- */
-let S=null; // session state
-function startWorld(w){
-  S={ world:w.id, name:w.name, qs:w.build(), i:0, score:0, streak:0, hearts:3,
-      mistakes:[], catStat:{}, timed:(w.id==="exam"), t0:null, tick:null, wrongQs:[] };
-  $("#home").classList.add("hide");
-  $("#result").classList.add("hide");
-  $("#play").classList.remove("hide");
-  $("#timerPill").classList.toggle("hide", !S.timed);
-  if(S.timed){ S.t0=0; S.tick=setInterval(()=>{S.t0++; $("#timer").textContent=fmt(S.t0);},1000); }
-  renderHUD(); renderQ();
-}
-function fmt(s){return Math.floor(s/60)+":"+String(s%60).padStart(2,"0");}
-function renderHUD(){
-  $("#hearts").textContent="❤️".repeat(S.hearts)+"🖤".repeat(3-S.hearts);
-  $("#score").textContent=S.score;
-  $("#streak").textContent=S.streak;
-  $("#prog").style.width=(100*S.i/S.qs.length)+"%";
-}
-function bump(cat, ok){
-  if(!S.catStat[cat]) S.catStat[cat]={n:0,bad:0};
-  S.catStat[cat].n++; if(!ok) S.catStat[cat].bad++;
-}
-
-function renderQ(){
-  renderHUD();
-  if(S.i>=S.qs.length || S.hearts<=0) return finish();
-  const q=S.qs[S.i];
-  const stage=$("#stage");
-  const modeTxt = q.mode==="choose"?"בחירה":q.mode==="write"?"כתיבה":q.mode==="pick"?"בחירה":"";
-  let inner=`<div class="card"><div class="qhead"><span class="tag ${q.soft?'soft':''}">${q.tagText}</span><span class="modeflag">${modeTxt} · ${S.i+1}/${S.qs.length}</span></div>`;
-  inner+=q.head||"";
-  if(q.mode==="choose"||q.mode==="pick"){
-    inner+=`<div class="opts" id="opts"></div>`;
-  }else{
-    inner+=`<div class="answer"><input id="inp" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="כתבו כאן ביידיש…"></div>
-      <div class="keys" id="keys"></div>`;
-  }
-  if(q.howto){ inner+=`<div class="howto" id="howto"><b>איך פותרים?</b>${q.howto}</div>`; }
-  inner+=`<div class="fb" id="fb"></div>`;
-  inner+=`<div class="row" id="ctl"></div></div>`;
-  stage.innerHTML=inner;
-
-  if(q.mode==="choose"||q.mode==="pick"){
-    const opts=$("#opts");
-    q.options.forEach(o=>{
-      const b=document.createElement("button");
-      b.className="opt yid"; b.textContent=o;
-      b.onclick=()=>choose(b,o,q);
-      opts.appendChild(b);
-    });
-  }else{
-    buildKeys();
-    const inp=$("#inp"); inp.focus();
-    inp.addEventListener("keydown",e=>{ if(e.key==="Enter") submitText(q); });
-  }
-  const ctl=$("#ctl");
-  if(q.howto){
-    const h=document.createElement("button"); h.className="btn ghost sm"; h.textContent="🧭 איך פותרים?";
-    h.onclick=()=>$("#howto").classList.toggle("show"); ctl.appendChild(h);
-  }
-  if(q.mode==="write"){
-    const sub=document.createElement("button"); sub.className="btn"; sub.textContent="בדיקה";
-    sub.onclick=()=>submitText(q); ctl.appendChild(sub);
-    const rev=document.createElement("button"); rev.className="btn ghost"; rev.textContent="הראה תשובה";
-    rev.onclick=()=>reveal(q); ctl.appendChild(rev);
-  }
-}
-
-function buildKeys(){
-  const keys=["אַ","אָ","ײַ","ױ","פֿ","װ","ח","־"," "];
-  const k=$("#keys");
-  keys.forEach(ch=>{
-    const b=document.createElement("button"); b.type="button";
-    b.textContent = ch===" "?"␣":ch;
-    b.onclick=()=>{ const inp=$("#inp"); const s=inp.selectionStart||inp.value.length;
-      inp.value=inp.value.slice(0,s)+ch+inp.value.slice(inp.selectionEnd||s);
-      inp.focus(); inp.selectionStart=inp.selectionEnd=s+ch.length; };
-    k.appendChild(b);
-  });
-}
-
-/* MC answer */
-function choose(btn,val,q){
-  const ok = val===q.answer;
-  document.querySelectorAll(".opt").forEach(o=>{o.disabled=true;
-    if(o.textContent===q.answer)o.classList.add("correct");});
-  if(!ok) btn.classList.add("wrong");
-  grade(q, ok, q.answer);
-}
-/* text answer */
-function submitText(q){
-  const inp=$("#inp"); const v=inp.value;
-  const res=matchAns(v, q.accept);
-  if(res==="empty"){ inp.classList.add("shake"); setTimeout(()=>inp.classList.remove("shake"),400); return; }
-  inp.disabled=true;
-  const ok = res==="exact";
-  const close = res==="close";
-  grade(q, ok, q.accept[0], close);
-}
-function reveal(q){
-  const inp=$("#inp"); inp.value=q.accept[0]; inp.disabled=true;
-  grade(q, false, q.accept[0], false, true);
-}
-
-function grade(q, ok, correctText, close=false, revealed=false){
-  bump(q.cat, ok);
-  const fb=$("#fb");
-  if(ok){
-    S.score += 10 + Math.min(S.streak,5)*2;
-    S.streak++;
-    fb.className="fb ok show";
-    fb.innerHTML=`<div class="head">✔ נכון${S.streak>2?` · רצף ${S.streak}🔥`:""}</div>`+
-      (q.showAns!==false?`<div class="ans yid">${correctText}</div>`:"")+
-      (q.rule?`<div class="rule">${q.rule}</div>`:"");
-  }else{
-    if(!revealed){ S.hearts--; }
-    S.streak=0;
-    if(!q.__logged){ S.mistakes.push(q); S.wrongQs.push(q); q.__logged=true; }
-    fb.className="fb no show";
-    fb.innerHTML=`<div class="head">${close?"כמעט! טעות קטנה":revealed?"התשובה:":"✘ לא מדויק"}</div>`+
-      `<div class="ans yid">${correctText}</div>`+
-      (q.rule?`<div class="rule">📘 ${q.rule}</div>`:"");
-    if(close){ S.score+=4; fb.querySelector(".head").textContent="כמעט! (+4 חלקי) — "+correctText; }
-  }
-  renderHUD();
-  const ctl=$("#ctl"); ctl.innerHTML="";
-  const next=document.createElement("button"); next.className="btn";
-  next.textContent = (S.i+1>=S.qs.length||S.hearts<=0)?"סיום":"הבא ←";
-  next.onclick=()=>{ S.i++; renderQ(); };
-  ctl.appendChild(next);
-  next.focus();
-}
-
-/* ---------- QUESTION BUILDERS ---------- */
-const PRON=["איך","דו","ער","מיר","איר","זיי"];
-const PRON_HE={"איך":"אני","דו":"אתה","ער":"הוא","מיר":"אנחנו","איר":"אתם","זיי":"הם"};
-const FINAL_FORM={"כ":"ך","מ":"ם","נ":"ן","פ":"ף","צ":"ץ"}; // אות סופית בסוף מילה
-function finalize(w){ if(!w) return w; const c=w.slice(-1); return FINAL_FORM[c]?w.slice(0,-1)+FINAL_FORM[c]:w; }
-function presentForm(v,p){
-  if(v.pres6) return v.pres6[p];
-  const stem=v.inf.replace(/ען$/,"").replace(/ן$/,"");
-  let f;
-  if(p==="איך") f=stem;                                        // איך = השורש
-  else if(p==="דו") f=/[סזשׂשצ]$/.test(stem)?stem+"ט":stem+"סט"; // שורש בשורק → רק ט; אחרת סט
-  else if(p==="ער"||p==="איר") f=/ט$/.test(stem)?stem:stem+"ט"; // שורש שנגמר ב-ט → בלי ט כפול (אַרבעט)
-  else f=v.inf;                                                // מיר/זיי = שם הפועל
-  return finalize(f); // המרת האות האחרונה לצורה סופית (לערנ→לערן, מאַכ→מאַך)
-}
-function buildWarmup(){
-  const qs=[];
-  const regs=VERBS.filter(v=>v.reg||v.pres6);
-  const chosen=shuffle(regs).slice(0,4);
-  chosen.forEach(v=>{
-    shuffle(PRON).slice(0,3).forEach(p=>{
-      const ans=presentForm(v,p);
-      // distractors = other persons' forms
-      const others=PRON.filter(x=>x!==p).map(x=>presentForm(v,x)).filter(x=>x!==ans);
-      const options=shuffle([ans,...shuffle([...new Set(others)]).slice(0,3)]);
-      qs.push({
-        cat:"present", tagText:"הווה 🔥", mode:"choose", answer:ans, options,
-        head:`<div class="prompt">שם הפועל: <span class="hint-inf yid">${v.inf}</span> · ${v.he}</div>
-              <div class="ask">איך אומרים בהווה עם <b class="yid">${p}</b> (${PRON_HE[p]})?</div>`,
-        rule:FORM_RULE.present
-      });
-    });
-  });
-  return qs.slice(0,10);
-}
-function buildHazyn(){
-  const qs=[];
-  shuffle(VERBS).forEach(v=>{
-    if(qs.length>=8)return;
-    const ans = v.motion?"זײַן":"האָבן";
-    qs.push({
-      cat:"hazyn", tagText:"האָבן / זײַן ⚖️", mode:"pick", answer:ans, options:shuffle(["האָבן","זײַן"]),
-      head:`<div class="prompt">בעבר, איזה פועל עזר?</div>
-            <div class="big yid">${v.inf}</div><div class="prompt">${v.he}</div>`,
-      rule: (v.motion?"פועל תנועה — כל הגוף זז ממקום למקום → זײַן. ":"פועל רגיל → האָבן + גע___ט. ")+"עבר: "+v.past,
-      showAns:false, __answerText:ans
-    });
-  });
-  return qs;
-}
-const FORMS=[
- {key:"past", label:"עבר", field:"past"},
- {key:"future", label:"עתיד", field:"future"},
- {key:"imperative", label:"ציווי (יחיד)", field:"impSg"},
- {key:"negation", label:"שלילה", field:"neg"},
- {key:"question", label:"שאלה (+)", field:"qPos"}
-];
-const CAT_OF_FORM={past:"past",future:"future",imperative:"imperative",negation:"negation",question:"question"};
-function arenaModeFor(idx){ return idx<4?"choose":idx<9?"choose":"write"; } // ramps to write later
-function buildArena(forceWrite){
-  const qs=[]; let count=0;
-  shuffle(VERBS).slice(0,6).forEach(v=>{
-    FORMS.forEach(f=>{
-      const target=v[f.field];
-      const mode = forceWrite?"write":(count<6?"choose":"write");
-      count++;
-      const accept=[target];
-      if(f.key==="imperative") accept.push(v.impPl);
-      const distract = FORMS.filter(x=>x.key!==f.key).map(x=>v[x.field]);
-      const options=shuffle([target,...shuffle(distract).slice(0,3)]);
-      const cat = (!v.reg && (f.key==="past")) ? "irregular" : CAT_OF_FORM[f.key];
-      qs.push({
-        cat, tagText:`הטיה · ${f.label} 🎯`, mode,
-        answer:target, accept, options,
-        head:`<div class="prompt">משפט בהווה · שם הפועל <span class="hint-inf yid">${v.inf}</span> (${v.he})</div>
-              <div class="big yid">${v.present}</div>
-              <div class="ask">כתבו את המשפט ב<b>${f.label}</b>:</div>`,
-        rule: (v.note?v.note+" · ":"")+FORM_RULE[f.key],
-        howto:`<ol><li>מי הנושא? <b class="yid">${v.subj}</b></li><li>פועל תנועה? ${v.motion?"כן → בעבר זײַן":"לא → בעבר האָבן"}</li><li>עתיד = וועלן + שם הפועל</li><li>שלילה — צריך קיין? (אַ → כן)</li><li>שאלה — הפועל עובר לתחילת המשפט</li></ol>`
-      });
-    });
-  });
-  return qs;
-}
-function buildStories(){
-  const qs=[];
-  const pool=STORY_Q.map(x=>x.ansY);
-  shuffle(STORY_Q).slice(0,8).forEach(q=>{
-    const distract=shuffle(pool.filter(a=>a!==q.ansY)).slice(0,3);
-    const options=shuffle([q.ansY,...distract]);
-    qs.push({
-      cat:"story", tagText:`סיפור · ${q.story} 📖`, mode:"choose", answer:q.ansY, options,
-      head:`<div class="ask yid" style="font-size:22px">${q.q}</div>
-            <div class="prompt">בחר/י את תשובת המודל ביידיש (משפט שלם: נושא + פועל מוטה).</div>`,
-      rule:`<b>תשובת המודל (מהמורה):</b> <span class="yid">${q.ansY}</span><br><b>תרגום:</b> ${q.he}`,
-      showAns:false
-    });
-  });
-  return qs;
-}
-function buildShibutz(){
-  const qs=[];
-  shuffle(SHIBUTZ).forEach(s=>{
-    qs.push({
-      cat:s.cat, tagText:`שיבוץ · ${CATS[s.cat]||""} 🧩`, mode:"pick",
-      answer:s.ans, options:shuffle(s.bank.slice()),
-      head:`<div class="ask yid" style="font-size:24px">${s.sent.replace("___",'<span style="color:var(--amber)">＿＿</span>')}</div>`,
-      rule:s.rule
-    });
-  });
-  return qs;
-}
-function buildExam(){
-  const conj=buildArena(true).slice(0,10);      // 10 conjugation — write only
-  const stories=buildStories().slice(0,5);
-  const shib=buildShibutz().slice(0,5);
-  return [...conj,...stories,...shib];
-}
-
-/* fix: pick-mode options need answer text shown; for hazyn showAns off but reveal correct */
-/* patch grade for pick with showAns=false already handled (correctText passed) */
-
-/* ---------- FINISH + COACH ---------- */
-function finish(){
-  if(S.tick) clearInterval(S.tick);
-  const total=S.qs.length;
-  const answered=Math.min(S.i,total);
-  const pct=Math.round(100*S.score/Math.max(total*10,1));
-  const pctClamp=Math.min(pct,100);
-  if(store.best[S.world]==null || pctClamp>store.best[S.world]){ store.best[S.world]=pctClamp; save(); }
-  $("#play").classList.add("hide");
-  const r=$("#result"); r.classList.remove("hide");
-  let coach="";
-  const cats=Object.keys(S.catStat);
-  if(cats.length){
-    coach=`<table class="coach"><thead><tr><th>נושא</th><th>הצלחה</th><th>מצב</th></tr></thead><tbody>`;
-    cats.sort((a,b)=> (S.catStat[b].bad/S.catStat[b].n)-(S.catStat[a].bad/S.catStat[a].n));
-    cats.forEach(c=>{
-      const st=S.catStat[c]; const good=st.n-st.bad; const ratio=good/st.n;
-      const cls=ratio>=0.8?"strong":ratio>=0.5?"mid":"weak";
-      const lbl=ratio>=0.8?"חזק":ratio>=0.5?"בינוני":"חלש";
-      coach+=`<tr><td>${CATS[c]||c}</td><td class="tnum">${good}/${st.n}</td><td><span class="chip ${cls}">${lbl}</span></td></tr>`;
-    });
-    coach+=`</tbody></table>`;
-  }
-  const heartsMsg = S.hearts<=0?`<p style="color:var(--bad)">נגמרו הלבבות — אפשר לנסות שוב, כל פעם מתחזק.</p>`:"";
-  const nMist=[...new Set(S.wrongQs)].length;
-  r.innerHTML=`<div class="card result center">
-    <div class="qhead" style="justify-content:center"><span class="tag">${S.name}</span></div>
-    <h2>סיכום אימון</h2>
-    <div class="score-big">${pctClamp}%</div>
-    <p class="tnum">⭐ ${S.score} נקודות · ${answered}/${total} שאלות${S.timed?` · ⏱ ${fmt(S.t0)}`:""}</p>
-    ${heartsMsg}
-    <div style="text-align:right">${coach}</div>
-    <div class="row" style="justify-content:center; margin-top:16px">
-      ${nMist?`<button class="btn" id="practiceMist">🎯 תרגל רק את הטעויות שלי (${nMist})</button>`:""}
-      <button class="btn ghost" id="again">שוב</button>
-      <button class="btn ghost" id="home2">תפריט</button>
-    </div>
-  </div>`;
-  if(nMist) $("#practiceMist").onclick=()=>practiceMistakes();
-  $("#again").onclick=()=>{ const w=WORLDS.find(x=>x.id===S.world); startWorld(w); };
-  $("#home2").onclick=renderHome;
-}
-function practiceMistakes(){
-  const qs=[...new Set(S.wrongQs)].map(q=>({...q, __logged:false}));
-  S={ world:S.world, name:"תרגול הטעויות", qs:shuffle(qs), i:0, score:0, streak:0, hearts:3,
-      mistakes:[], catStat:{}, timed:false, t0:null, tick:null, wrongQs:[] };
-  $("#result").classList.add("hide");
-  $("#play").classList.remove("hide");
-  $("#timerPill").classList.add("hide");
-  renderHUD(); renderQ();
-}
-
-/* ---------- controls ---------- */
-$("#backBtn").onclick=()=>{ if(S&&S.tick)clearInterval(S.tick); renderHome(); };
-$("#resetBtn").onclick=()=>{ if(confirm("לאפס את כל ההתקדמות והשיאים?")){ store={best:{}}; save(); renderHome(); } };
-/* theme toggle */
-(function(){
-  const root=document.documentElement;
-  const saved=store.theme;
-  if(saved) root.setAttribute("data-theme",saved);
-  $("#themeBtn").onclick=()=>{
-    const cur=root.getAttribute("data-theme")|| (matchMedia("(prefers-color-scheme:dark)").matches?"dark":"light");
-    const next=cur==="dark"?"light":"dark";
-    root.setAttribute("data-theme",next); store.theme=next; save();
-  };
-})();
-
-renderHome();
-</script>
+</body>
+</html>
