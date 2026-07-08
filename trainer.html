@@ -1,0 +1,394 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>יידיש — מאמן (הטיות · סיפורים · שיבוצים · מבחן)</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+:root{
+  --paper:#F4F0E6; --paper-2:#EEE8D9; --card:#FFFDF8; --card-2:#FBF7EE;
+  --ink:#1B2A2C; --ink-soft:#4A5A5B; --ink-faint:#7C8A88; --line:#E2D9C6; --line-soft:#EDE6D6;
+  --teal:#0E8A7C; --teal-deep:#0B6B60; --teal-soft:#D6ECE7; --coral:#D8593F; --coral-soft:#F6DDD5;
+  --gold:#C98A22; --gold-soft:#F3E5C6; --grape:#6B5BB0; --grape-soft:#E4DEF4;
+  --good:#1F9E6E; --good-soft:#D3EEE1; --bad:#CC3A2E; --bad-soft:#F5D8D4;
+  --shadow:0 1px 2px rgba(27,42,44,.05),0 6px 18px rgba(27,42,44,.08);
+  --shadow-lg:0 2px 6px rgba(27,42,44,.06),0 18px 44px rgba(27,42,44,.13);
+}
+@media (prefers-color-scheme:dark){:root{
+  --paper:#12201F; --paper-2:#0E1A19; --card:#1A2A28; --card-2:#213432;
+  --ink:#ECE6D6; --ink-soft:#AFC0BC; --ink-faint:#7E918D; --line:#2C3E3B; --line-soft:#25352F;
+  --teal:#2FC8B4; --teal-deep:#5FD9C8; --teal-soft:#183430; --coral:#EE7A5F; --coral-soft:#3A231C;
+  --gold:#E1AC4E; --gold-soft:#382E19; --grape:#A99CE6; --grape-soft:#282146;
+  --good:#3FD08C; --good-soft:#143324; --bad:#F0796B; --bad-soft:#3A1C18;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 22px rgba(0,0,0,.35);
+  --shadow-lg:0 2px 8px rgba(0,0,0,.4),0 20px 50px rgba(0,0,0,.5);
+}}
+*{box-sizing:border-box;margin:0;padding:0}
+body{direction:rtl;background:var(--paper);color:var(--ink);min-height:100vh;
+  font-family:"Assistant","Heebo","Segoe UI",system-ui,-apple-system,"Arial Hebrew",Arial,sans-serif;
+  line-height:1.6;-webkit-font-smoothing:antialiased}
+.yid{font-family:"Frank Ruhl Libre","Times New Roman","David",serif;direction:rtl;unicode-bidi:isolate;font-weight:600}
+.wrap{max-width:640px;margin:0 auto;padding:14px 14px 60px}
+a.home{display:inline-block;color:var(--teal-deep);text-decoration:none;font-weight:700;font-size:14px;margin-bottom:8px}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
+.tab{border:1px solid var(--line);background:var(--card);border-radius:99px;padding:8px 14px;font-size:14px;font-weight:800;color:var(--ink-soft);cursor:pointer;font-family:inherit}
+.tab.on{background:var(--teal);color:#fff;border-color:var(--teal)}
+.subtabs{display:flex;gap:6px;flex-wrap:wrap;flex:1}
+.sbtn{border:1px solid var(--line);background:var(--card);border-radius:99px;padding:6px 12px;font-size:13px;font-weight:700;color:var(--ink-soft);cursor:pointer;font-family:inherit}
+.sbtn.on{background:var(--teal-deep);color:#fff;border-color:var(--teal-deep)}
+.scorebar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:10px 0}
+.spill{background:var(--card-2);border:1px solid var(--line-soft);border-radius:99px;padding:5px 12px;font-weight:800;color:var(--ink-soft);font-size:13px}
+.spill b{color:var(--teal-deep)}
+.mapbtn{margin-inline-start:auto;border:1px solid var(--line);background:var(--card);border-radius:99px;padding:6px 13px;font-weight:700;font-size:13px;cursor:pointer;font-family:inherit;color:var(--ink)}
+.prog{height:8px;background:var(--line-soft);border-radius:99px;overflow:hidden;margin-bottom:14px}
+.prog>i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--teal),var(--teal-deep));border-radius:99px;transition:width .4s}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow);padding:18px 16px}
+.meta{display:flex;justify-content:space-between;align-items:center;color:var(--ink-faint);font-size:12px;font-weight:700;margin-bottom:6px;gap:8px}
+.pill{background:var(--teal-soft);color:var(--teal-deep);border-radius:99px;padding:3px 10px;font-size:12px;font-weight:800;white-space:nowrap}
+.pill.gold{background:var(--gold-soft);color:var(--gold)}
+.qbadge{display:inline-block;font-size:12px;font-weight:800;padding:3px 11px;border-radius:99px;margin-bottom:6px}
+.qbadge.ok{background:var(--good-soft);color:var(--good)}
+.qbadge.no{background:var(--coral-soft);color:var(--coral)}
+.q{font-size:21px;margin:4px 0 2px}
+.hint{color:var(--ink-soft);font-size:14px;margin-bottom:8px}
+.hint b{color:var(--ink)}
+.answer{min-height:56px;border:2px dashed var(--line);border-radius:12px;padding:10px;display:flex;flex-wrap:wrap;gap:8px;align-content:flex-start;margin:12px 0}
+.answer.empty::before{content:"הקש/י על המילים כדי לבנות את המשפט…";color:var(--ink-faint);font-size:14px;font-weight:600;font-family:"Assistant",sans-serif}
+.bank{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:8px}
+.tile{border:1px solid var(--line);background:var(--card-2);border-radius:10px;padding:8px 13px;font-size:20px;cursor:pointer;box-shadow:0 2px 0 var(--line);transition:transform .08s;font-family:inherit}
+.tile:active{transform:translateY(1px)}
+.tile.placed{background:var(--teal-soft);border-color:color-mix(in srgb,var(--teal) 45%,var(--line))}
+.tile.used{visibility:hidden}
+.opt{display:block;width:100%;text-align:right;border:1.5px solid var(--line);background:var(--card-2);border-radius:12px;padding:13px 15px;font-size:20px;margin:8px 0;cursor:pointer;font-family:inherit;color:inherit}
+.opt.right{border-color:var(--good);background:var(--good-soft)}
+.opt.wrong{border-color:var(--bad);background:var(--bad-soft)}
+.row{display:flex;gap:10px;flex-wrap:wrap;margin-top:6px}
+.btn{flex:1;min-width:110px;background:var(--teal);color:#fff;border:none;border-radius:13px;padding:13px;font-size:16px;font-weight:800;cursor:pointer;font-family:inherit;box-shadow:0 4px 14px color-mix(in srgb,var(--teal) 30%,transparent)}
+.btn:disabled{opacity:.5}
+.btn.ghost{flex:0 0 auto;min-width:0;background:var(--card);color:var(--ink);border:1px solid var(--line);box-shadow:var(--shadow)}
+.fb{margin-top:12px;border-radius:12px;padding:12px 14px;font-size:15px;display:none;border-inline-start:4px solid transparent}
+.fb.show{display:block}
+.fb.ok{background:var(--good-soft);border:1px solid color-mix(in srgb,var(--good) 40%,var(--line));border-inline-start-color:var(--good)}
+.fb.no{background:var(--bad-soft);border:1px solid color-mix(in srgb,var(--bad) 40%,var(--line));border-inline-start-color:var(--bad)}
+.fb .h{font-weight:800;margin-bottom:4px}
+.fb .cor{font-size:20px;margin:4px 0}
+.fb .tr{color:var(--ink-soft);font-size:14px}
+.done{text-align:center;padding:26px 16px}
+.done .big{font-size:44px}
+.mh{font-weight:800;margin:16px 0 6px;font-size:15px}
+.maplist{display:flex;flex-direction:column;gap:8px}
+.maprow{display:flex;align-items:center;gap:10px;padding:9px 12px;border:1px solid var(--line-soft);border-radius:10px;background:var(--card-2);cursor:pointer;text-align:right}
+.maprow:hover{border-color:var(--teal)}
+.maprow .st{width:24px;height:24px;border-radius:99px;display:grid;place-items:center;font-weight:900;flex:0 0 auto;font-size:13px}
+.maprow .st.ok{background:var(--good-soft);color:var(--good)}
+.maprow .st.no{background:var(--coral-soft);color:var(--coral)}
+.maprow .st.none{background:var(--line-soft);color:var(--ink-faint)}
+.maprow .qt{flex:1;font-size:14px}
+.timer{font-weight:800;color:var(--teal-deep);font-variant-numeric:tabular-nums;font-family:ui-monospace,monospace}
+footer{color:var(--ink-faint);font-size:12px;text-align:center;margin-top:22px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="home" href="index.html">→ חזרה למדריך</a>
+  <div class="tabs" id="tabs"></div>
+  <div class="scorebar" id="score"></div>
+  <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px" id="subtabs"></div>
+  <div class="prog"><i id="pbar"></i></div>
+  <div id="stage"></div>
+  <footer>נתונים: 60 משפטי ההטיה · 3 סיפורים (תשובות המורה) · 25 שיבוצים · הכל מהקורס, אין המצאות</footer>
+</div>
+
+<script src="data.js"></script>
+<script>
+/* ===== stories: teacher's Yiddish model answers (8 per story, ordered) ===== */
+const STORIES=[
+ {t:"פּעקעלע פּוטער 🕯️",k:"p",items:[
+  {q:"ווער זײַנען געווען די נאַציס?",a:"די נאַציס זײַנען געווען דײַטשן מיט ביקסן",he:"הנאצים היו גרמנים עם רובים."},
+  {q:"וואָס איז אַ געטאָ?",a:"אַ געטאָ איז אַ קליינער צאָל גאַסן מיט אַ מויער",he:"גטו הוא מספר קטן של רחובות עם חומה."},
+  {q:"וואָס האָבן די נאַציס געטאָן די ייִדן פֿון געטאָ?",a:"די נאַציס האָבן די ייִדן פֿון געטאָ פֿאַרגאַזט און פֿאַרברענט",he:"הנאצים הרגו בגז ושרפו את יהודי הגטו."},
+  {q:"צוליב וואָס איז וואָלאַדקע געבליבן אויף יענער זײַט מויער?",a:"וואָלאַדקע איז געבליבן אויף יענער זײַט מויער כּדי צו העלפֿן",he:"וולאדקה נשארה בצד השני של החומה כדי לעזור."},
+  {q:"ווען האָבן די יונגע העלדישע באַשלאָסן צו מאַכן אַן אויפֿשטאַנד?",a:"די יונגע העלדישע ייִדן האָבן באַשלאָסן צו מאַכן אַן אויפֿשטאַנד ווען עס זײַנען שוין געבליבן ווייניק ייִדן אין געטאָ",he:"כשנשארו כבר מעט יהודים בגטו."},
+  {q:"ווי אַזוי האָט וואָלאַדקע געטראָגן דינאַמיט אין געטאָ?",a:"וואָלאַדקע האָט געטראָגן דינאַמיט אין געטאָ אין אַ פּעקעלע פּוטער",he:"בתוך חבילה שנראתה כמו חבילת חמאה."},
+  {q:"וואָס איז געשען ווען וואָלאַדקע איז געווען אויף דער מויער פֿון געטאָ?",a:"ווען וואָלאַדקע איז געווען אויף דער מויער פֿון געטאָ האָבן זיך דערהערט שאָסן",he:"נשמעו יריות."},
+  {q:"וואָס איז געווען די סכּנה בײַם אַראָפּשפּרינגען פֿון געטאָ מויער?",a:"די סכּנה איז געווען אַז זי קען נאָך פֿאַלן און דאָס פּעקעלע פּוטער קען אויפֿרײַסן",he:"שתיפול והחבילה תתפוצץ."},
+ ]},
+ {t:"שיסעלע מיט בוימל 🕎",k:"s",items:[
+  {q:"ווו שטייט דאָס הייזל?",a:"דאָס הייזל שטייט בײַם עק דאָרף",he:"הבית עומד בקצה הכפר."},
+  {q:"פֿאַרוואָס ווונדערן זיך די מענטשן?",a:"די מענטשן ווונדערן זיך וואָס ווי נאָר עס קומט דער ווינטער אַזוי שטעלט אַוועק דער באַלעבאָס יעדן אויף דער נאַכט דאָס שיסעלע מיט בוימל אויפֿן פֿענצטער",he:"מתפלאים שכל חורף בעל הבית מעמיד כל לילה את הקערית על החלון."},
+  {q:"ווי אַזוי האָט געהייסן דער בעל-הבית?",a:"דער באַלעבאָס האָט געהייסן אברהם",he:"קראו לו אברהם."},
+  {q:"ווען איז די מעשׂה געווען?",a:"די מעשׂה איז געווען מיט אַ צוואַנציק יאָר צוריק",he:"לפני כעשרים שנה."},
+  {q:"וואָס האָט געזאָגט דער ערשטער געדאַנק?",a:"דער ערשטער געדאַנק האָט געזאָגט וואָס טוסטו דרעמל ניט אײַן",he:"המחשבה הראשונה: מה אתה עושה? אל תירדם!"},
+  {q:"וואָס האָט ער דערזען אין חלום?",a:"ער האָט דערזען אין חלום אַ פֿײַערל",he:"הוא ראה אור/אש קטנה."},
+  {q:"וואָס האָט דער אַלטער געזאָגט?",a:"דער אַלטער האָט געזאָגט אויב דו בחור האָסט ליב אַרבעט קענסטו בײַ מיר דאָ פֿאַרבלײַבן",he:"הזקן: אם אתה אוהב עבודה, תוכל להישאר כאן."},
+  {q:"וואָס טוט ער יעדן ווינטער?",a:"יעדן ווינטער צינדט ער אָן אַ שיסעלע מיט בוימל",he:"כל חורף הוא מדליק קערית שמן."},
+ ]},
+ {t:"דער בוים און דאָס יינגל 🌳",k:"b",items:[
+  {q:"וועמען האָט דער בוים ליב געהאַט?",a:"דער בוים האָט ליב געהאַט דאָס יינגל",he:"העץ אהב את הילד."},
+  {q:"וואָס האָט דאָס יינגל געזאַמלט?",a:"דאָס יינגל האָט געזאַמלט די בלעטער",he:"הילד אסף את העלים."},
+  {q:"אין וואָס האָבן זיי זיך געשפּילט?",a:"זיי האָבן זיך געשפּילט אין באַהעלטעניש",he:"הם שיחקו במחבואים."},
+  {q:"וואָס האָט דער בוים געגעבן?",a:"דער בוים האָט געגעבן זײַן פֿרוכט",he:"העץ נתן את פירותיו."},
+  {q:"פֿאַרוואָס האָט דאָס יינגל געוואָלט אַ שיף?",a:"דאָס יינגל האָט געוואָלט אַ שיף כּדי אַוועקצופֿאָרן",he:"כדי להפליג רחוק."},
+  {q:"וואָס האָט דאָס יינגל געטאָן מיט די עפּל?",a:"דאָס יינגל האָט גענומען די עפּל אין מאַרק פֿאַרקויפֿן",he:"לקח את התפוחים למכור בשוק."},
+  {q:"פֿאַרוואָס איז דער בוים געווען טרויעריק?",a:"דער בוים איז געווען טרויעריק ווײַל דאָס יינגל איז ניט צוריקגעקומען אַ לאַנגע צײַט",he:"כי הילד לא חזר זמן רב."},
+  {q:"פֿאַרוואָס האָט דאָס יינגל געוואָלט אַ הויז?",a:"דאָס יינגל האָט געוואָלט אַ הויז איך וויל אַ ווײַב און קינדער",he:"כי רצה אישה וילדים."},
+ ]},
+];
+const CB=(window.YID&&YID.CONJUGATION_BANK)||[], FB=(window.YID&&YID.FILL_IN_BANK)||[];
+const CONJ_FORMS=[['past','עבר'],['future','עתיד'],['negative','שלילה']];
+
+/* ===== persistence ===== */
+const LSK='yid_trainer_v1';
+let DB={prog:{},mist:[]};
+try{DB=Object.assign({prog:{},mist:[]},JSON.parse(localStorage.getItem(LSK)||'{}'))}catch(e){}
+function save(){try{localStorage.setItem(LSK,JSON.stringify(DB))}catch(e){}}
+function stat(k){return DB.prog[k]||{tries:0,correct:0,wrong:0,ok:false}}
+function record(k,ok){const x=DB.prog[k]||{tries:0,correct:0,wrong:0,ok:false};x.tries++;if(ok){x.correct++;x.ok=true;}else x.wrong++;DB.prog[k]=x;save();}
+
+/* ===== helpers ===== */
+function norm(s){return (s||'').normalize('NFD').replace(/[֑-ׇ]/g,'')
+  .replace(/[.,!?;:'"״׳`\-–—()]/g,'').replace(/\s+/g,' ').trim()
+  .replace(/ך/g,'כ').replace(/ם/g,'מ').replace(/ן/g,'נ').replace(/ף/g,'פ').replace(/ץ/g,'צ');}
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+function pick(a,n){return shuffle(a).slice(0,n);}
+
+/* ===== question builders (return uniform question objects) ===== */
+function qConj(verb,form){
+  const field=form, label=(CONJ_FORMS.find(f=>f[0]===form)||[])[1]||form;
+  const a=verb[field]||'';
+  return {kind:'build', key:'c_'+verb.id+'_'+form, cat:'הטיה',
+    tag:`הטיה · ${label}`, answer:a,
+    head:`<div class="hint">שם הפועל: <b class="yid">${verb.infinitive}</b> · הווה: <span class="yid">${verb.presentSentence}</span></div><div class="q">בנה/בני את צורת ה<b>${label}</b>:</div>`,
+    reveal:`תשובה (${label}): <span class="yid">${a}</span>`+(verb.explanation?`<br><span class="tr">${verb.explanation}</span>`:''),
+    poolCat:'conj_'+form};
+}
+function qStory(si,qi){
+  const it=STORIES[si].items[qi];
+  return {kind:'build', key:'s_'+STORIES[si].k+'_'+qi, cat:'סיפור',
+    tag:`סיפור · ${STORIES[si].t}`, answer:it.a,
+    head:`<div class="q yid">${it.q}</div><div class="hint">בנה/בני את תשובת המודל ביידיש.</div>`,
+    reveal:`<span class="yid">${it.a}</span><br><span class="tr">תרגום: ${it.he}</span>`,
+    poolCat:'story'};
+}
+function qFill(item){
+  return {kind:'pick', key:'f_'+item.id, cat:'שיבוץ',
+    tag:`שיבוץ`, options:item.options.slice(), correct:item.correctAnswer,
+    head:`<div class="q yid">${item.prompt}</div>`,
+    reveal:`<span class="yid">${item.correctAnswer}</span><br><span class="tr">${item.explanation||''}</span>`,
+    poolCat:'fill'};
+}
+
+/* pools of words for build distractors */
+const STORY_WORDS=[...new Set(STORIES.flatMap(s=>s.items.flatMap(it=>it.a.split(' '))))];
+function conjWords(form){return [...new Set(CB.flatMap(v=>(v[form]||'').split(' ')))];}
+
+/* ===== state / router ===== */
+let mode='conj';           // conj|story|fill|exam
+let conjForm='past', storyIdx=0, fillType='all';
+let queue=[], qpos=0, view='play';
+let cur=null, placed=[], bank=[], answered=false;
+let exam=null; // {items, correct, t0, timerId}
+
+const TABS=[['conj','⚔️ הטיות'],['story','📖 סיפורים'],['fill','🧩 שיבוצים'],['exam','📝 מבחן']];
+const FILL_TYPES=[['all','הכל'],['pronoun_verb','כינוי↔פועל'],['verb_form','צורת פועל'],['preposition','מילת יחס'],['question_word','מילת שאלה'],['nisht_keyn','נישט/קיין']];
+
+function renderTabs(){
+  document.getElementById('tabs').innerHTML=TABS.map(([k,l])=>`<button class="tab ${k===mode?'on':''}" onclick="setMode('${k}')">${l}</button>`).join('');
+}
+function renderSub(){
+  const el=document.getElementById('subtabs'); let h='';
+  if(mode==='conj') h=CONJ_FORMS.map(([f,l])=>`<button class="sbtn ${f===conjForm?'on':''}" onclick="setConjForm('${f}')">${l}</button>`).join('');
+  else if(mode==='story') h=STORIES.map((s,i)=>`<button class="sbtn ${i===storyIdx?'on':''}" onclick="setStory(${i})">${s.t}</button>`).join('');
+  else if(mode==='fill') h=FILL_TYPES.map(([t,l])=>`<button class="sbtn ${t===fillType?'on':''}" onclick="setFillType('${t}')">${l}</button>`).join('');
+  el.innerHTML=h;
+}
+function counts(){
+  // count over the CURRENT mode's item universe
+  let keys=[];
+  if(mode==='conj') keys=CB.map(v=>'c_'+v.id+'_'+conjForm);
+  else if(mode==='story') keys=STORIES[storyIdx].items.map((_,i)=>'s_'+STORIES[storyIdx].k+'_'+i);
+  else if(mode==='fill') keys=(fillType==='all'?FB:FB.filter(x=>x.type===fillType)).map(x=>'f_'+x.id);
+  else return null;
+  let ok=0,need=0;keys.forEach(k=>{const x=stat(k);if(x.ok)ok++;else if(x.tries>0)need++;});
+  return {tot:keys.length,ok,need};
+}
+function renderScore(){
+  const el=document.getElementById('score');
+  if(mode==='exam'){el.innerHTML=`<span class="spill">📝 מבחן — 10 שאלות מעורבבות</span><span class="spill">🔁 טעויות פתוחות: <b>${DB.mist.length}</b></span>`;return;}
+  const c=counts();
+  el.innerHTML=`<span class="spill">⭐ נכון: <b>${c.ok}</b>/${c.tot}</span>`+
+    `<span class="spill">📌 צריך תרגול: <b>${c.need}</b></span>`+
+    `<button class="mapbtn" onclick="toggleMap()">${view==='map'?'↩ חזרה':'📊 מפה'}</button>`;
+}
+function setBar(){const b=document.getElementById('pbar');b.style.width=(view==='play'&&queue.length)?Math.round(qpos/queue.length*100)+'%':'0%';}
+
+function setMode(m){mode=m;view='play';if(m==='conj')startConj();else if(m==='story')startStory(storyIdx);else if(m==='fill')startFill();else startExam();}
+function setConjForm(f){conjForm=f;startConj();}
+function setStory(i){storyIdx=i;startStory(i);}
+function setFillType(t){fillType=t;startFill();}
+
+function startConj(){queue=CB.map(v=>qConj(v,conjForm));qpos=0;view='play';step();}
+function startStory(i){storyIdx=i;queue=STORIES[i].items.map((_,q)=>qStory(i,q));qpos=0;view='play';step();}
+function startFill(){const arr=(fillType==='all'?FB:FB.filter(x=>x.type===fillType));queue=arr.map(qFill);qpos=0;view='play';step();}
+
+/* ===== EXAM: 10 mixed, mistakes carried in ===== */
+function descOf(q){return q.key;} // key encodes type+ids
+function qFromKey(k){
+  if(k[0]==='c'){const [,id,form]=k.split('_');const v=CB.find(x=>x.id==id);return v?qConj(v,form):null;}
+  if(k[0]==='s'){const [,sk,qi]=k.split('_');const si=STORIES.findIndex(s=>s.k===sk);return si>=0?qStory(si,+qi):null;}
+  if(k[0]==='f'){const [,id]=k.split('_');const it=FB.find(x=>x.id==id);return it?qFill(it):null;}
+  return null;
+}
+function startExam(){
+  view='play';
+  const items=[];
+  const used=new Set();
+  // 1) up to 4 from open mistakes (spaced repetition)
+  shuffle(DB.mist.slice()).slice(0,4).forEach(k=>{const q=qFromKey(k);if(q&&!used.has(k)){items.push(q);used.add(k);}});
+  // 2) fill to composition: aim 4 conj + 3 story + 3 fill
+  const want={conj:4,story:3,fill:3};
+  items.forEach(q=>{const t=q.cat==='הטיה'?'conj':q.cat==='סיפור'?'story':'fill';if(want[t])want[t]--;});
+  const add=(pool,n)=>{for(const q of shuffle(pool)){if(n<=0)break;if(!used.has(q.key)){items.push(q);used.add(q.key);n--;}}};
+  // conj — מובנה: מסתובב על הצורות (עבר→עתיד→שלילה) עם פעלים שונים כדי לכסות סוגי הטיה
+  const forms=['past','future','negative'], vshuf=shuffle(CB); let added=0;
+  for(let i=0; added<want.conj && i<vshuf.length; i++){
+    const q=qConj(vshuf[i], forms[added%forms.length]);
+    if(!used.has(q.key)){items.push(q);used.add(q.key);added++;}
+  }
+  // סיפור אחר כל פעם, שיבוצים אחרים כל פעם (הגרלה מחדש)
+  add(STORIES.flatMap((s,si)=>s.items.map((_,qi)=>qStory(si,qi))),want.story);
+  add(FB.map(qFill),want.fill);
+  exam={items:shuffle(items).slice(0,10),correct:0,wrong:[],t0:0};
+  queue=exam.items;qpos=0;
+  // timer
+  if(exam.timerId)clearInterval(exam.timerId);
+  const start=performance.now();
+  exam.timerId=setInterval(()=>{const el=document.getElementById('etimer');if(el){const s=Math.floor((performance.now()-start)/1000);el.textContent=String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0');}},1000);
+  step();
+}
+
+/* ===== step / render ===== */
+function step(){
+  renderTabs();renderSub();renderScore();
+  if(qpos>=queue.length)return (mode==='exam')?finishExam():finishRun();
+  cur=queue[qpos];answered=false;placed=[];
+  if(cur.kind==='build'){
+    const words=cur.answer.split(' ');
+    let extras=[];
+    if(words.length<=8){const pool=(cur.poolCat==='story'?STORY_WORDS:conjWords(conjForm));extras=shuffle(pool.filter(w=>!words.includes(w))).slice(0,3);}
+    bank=shuffle(words.concat(extras)).map((w,idx)=>({w,idx,used:false}));
+  }
+  setBar();render();
+}
+function render(){
+  const st=stat(cur.key);
+  const badge=(mode!=='exam')?(st.ok?`<span class="qbadge ok">✓ ענית נכון (×${st.correct})</span>`:(st.tries>0?`<span class="qbadge no">📌 טעית ${st.wrong}×</span>`:'')):'';
+  const metaRight = mode==='exam'?`<span class="pill gold">מבחן ${qpos+1}/${queue.length}</span> <span class="timer" id="etimer">00:00</span>`
+                                 :`<span class="pill">${qpos+1}/${queue.length}</span>`;
+  let body='';
+  if(cur.kind==='build'){
+    body=`<div class="answer ${placed.length?'':'empty'}">${placed.map((p,i)=>`<button class="tile placed yid" onclick="unplace(${i})">${p.w}</button>`).join('')}</div>
+      <div class="bank">${bank.map(t=>`<button class="tile yid ${t.used?'used':''}" onclick="place(${t.idx})">${t.w}</button>`).join('')}</div>
+      <div class="row"><button class="btn" id="chk" onclick="checkBuild()" ${placed.length?'':'disabled'}>בדוק</button>
+      <button class="btn ghost" onclick="clearAns()">נקה</button>${mode==='exam'?'':'<button class="btn ghost" onclick="revealAns()">גלה</button>'}</div>`;
+  } else {
+    body=`<div>${shuffle(cur.options).map(o=>`<button class="opt yid" onclick="pickAns(this,'${btoa(encodeURIComponent(o))}')">${o}</button>`).join('')}</div>`;
+  }
+  document.getElementById('stage').innerHTML=`<div class="card">
+    <div class="meta"><div>${metaRight}</div><span>${cur.tag}</span></div>
+    ${badge?`<div>${badge}</div>`:''}
+    ${cur.head}
+    ${body}
+    <div class="fb" id="fb"></div></div>`;
+}
+function place(idx){if(answered)return;const t=bank.find(b=>b.idx===idx);if(!t||t.used)return;t.used=true;placed.push(t);render();}
+function unplace(i){if(answered)return;const t=placed.splice(i,1)[0];const b=bank.find(x=>x.idx===t.idx);if(b)b.used=false;render();}
+function clearAns(){if(answered)return;placed=[];bank.forEach(b=>b.used=false);render();}
+
+function resolve(ok,revealMode){
+  answered=true;
+  if(mode==='exam'){ if(!revealMode){ if(ok){exam.correct++;removeMist(cur.key);} else {exam.wrong.push(cur.key);addMist(cur.key);} } }
+  else if(!revealMode){ record(cur.key,ok); }
+  const fb=document.getElementById('fb');
+  fb.className='fb show '+(ok?'ok':'no');
+  const head=revealMode?'התשובה:':(ok?'✔ נכון!':'✘ לא מדויק — הנכונה:');
+  fb.innerHTML=`<div class="h">${head}</div><div class="cor">${cur.reveal}</div>`
+    +`<div class="row" style="margin-top:10px"><button class="btn" onclick="next()">${qpos>=queue.length-1?'סיום ←':'הבא ←'}</button></div>`;
+  renderScore();
+}
+function checkBuild(){resolve(norm(placed.map(p=>p.w).join(' '))===norm(cur.answer),false);const c=document.getElementById('chk');if(c)c.disabled=true;}
+function revealAns(){resolve(true,true);}
+function pickAns(btn,enc){
+  if(answered)return;const val=decodeURIComponent(atob(enc));const ok=norm(val)===norm(cur.correct);
+  const box=btn.parentNode;[...box.children].forEach(b=>b.disabled=true);
+  if(ok)btn.classList.add('right');else{btn.classList.add('wrong');[...box.children].forEach(b=>{if(norm(b.textContent)===norm(cur.correct))b.classList.add('right');});}
+  resolve(ok,false);
+}
+function next(){qpos++;step();}
+
+function addMist(k){if(!DB.mist.includes(k)){DB.mist.push(k);if(DB.mist.length>60)DB.mist.shift();save();}}
+function removeMist(k){const i=DB.mist.indexOf(k);if(i>=0){DB.mist.splice(i,1);save();}}
+
+function finishRun(){
+  view='play';renderTabs();renderSub();renderScore();document.getElementById('pbar').style.width='100%';
+  const c=counts();
+  document.getElementById('stage').innerHTML=`<div class="card done"><div class="big">🎉</div>
+    <h2>סיימת את הסבב</h2><p style="color:var(--ink-soft);margin-top:6px">נכון: ${c.ok}/${c.tot} · צריך תרגול: ${c.need}</p>
+    <div class="row" style="justify-content:center;margin-top:14px">
+      ${c.need?`<button class="btn" onclick="practiceNeed()">🔁 תרגל מה שצריך (${c.need})</button>`:''}
+      <button class="btn ghost" onclick="toggleMap()">📊 מפה</button></div></div>`;
+}
+function practiceNeed(){
+  let keys=[];
+  if(mode==='conj')keys=CB.map(v=>'c_'+v.id+'_'+conjForm);
+  else if(mode==='story')keys=STORIES[storyIdx].items.map((_,i)=>'s_'+STORIES[storyIdx].k+'_'+i);
+  else keys=(fillType==='all'?FB:FB.filter(x=>x.type===fillType)).map(x=>'f_'+x.id);
+  queue=keys.filter(k=>!stat(k).ok).map(qFromKey).filter(Boolean);qpos=0;view='play';
+  if(!queue.length){finishRun();return;}
+  step();
+}
+
+function finishExam(){
+  if(exam.timerId)clearInterval(exam.timerId);
+  const n=queue.length, sc=exam.correct;
+  const pct=Math.round(sc/n*100);
+  document.getElementById('pbar').style.width='100%';
+  document.getElementById('stage').innerHTML=`<div class="card done">
+    <div class="big">${pct>=80?'🏆':pct>=50?'💪':'📚'}</div>
+    <h2>ציון מבחן: ${sc}/${n} (${pct}%)</h2>
+    <p style="color:var(--ink-soft);margin-top:6px">${exam.wrong.length?`${exam.wrong.length} טעויות נשמרו — יופיעו במבחן הבא לחיזוק.`:'ללא טעויות! 🎉'}</p>
+    <p style="color:var(--ink-faint);font-size:13px">סה״כ טעויות פתוחות למבחנים: ${DB.mist.length}</p>
+    <div class="row" style="justify-content:center;margin-top:14px">
+      <button class="btn" onclick="startExam()">מבחן חדש ←</button>
+    </div></div>`;
+  renderScore();
+}
+
+/* ===== map ===== */
+function toggleMap(){view=view==='map'?'play':'map';if(view==='map')renderMap();else setMode(mode);}
+function renderMap(){
+  renderTabs();renderSub();renderScore();document.getElementById('pbar').style.width='0%';
+  let rows='';
+  const list=(label,keys,qlabelFn)=>{
+    rows+=`<div class="mh">${label}</div><div class="maplist">`;
+    keys.forEach(k=>{const x=stat(k),cls=x.ok?'ok':(x.tries>0?'no':'none'),sym=x.ok?'✓':(x.tries>0?'✗':'•');
+      const note=x.ok?`×${x.correct}`:(x.tries>0?`טעות ×${x.wrong}`:'טרם');
+      rows+=`<div class="maprow" onclick="jump('${k}')"><span class="st ${cls}">${sym}</span><span class="qt yid">${qlabelFn(k)}</span><span style="color:var(--ink-faint);font-size:12px;white-space:nowrap">${note}</span></div>`;});
+    rows+=`</div>`;
+  };
+  if(mode==='conj'){const lbl=(CONJ_FORMS.find(f=>f[0]===conjForm)||[])[1];
+    list(`הטיות — ${lbl} (${CB.length} פעלים)`,CB.map(v=>'c_'+v.id+'_'+conjForm),k=>{const v=CB.find(x=>'c_'+x.id+'_'+conjForm===k);return v?v.infinitive+' · '+v.presentSentence:k;});}
+  else if(mode==='story'){const s=STORIES[storyIdx];list(s.t,s.items.map((_,i)=>'s_'+s.k+'_'+i),k=>{const qi=+k.split('_')[2];return s.items[qi].q;});}
+  else {const arr=(fillType==='all'?FB:FB.filter(x=>x.type===fillType));list('שיבוצים',arr.map(x=>'f_'+x.id),k=>{const it=FB.find(x=>'f_'+x.id===k);return it?it.prompt:k;});}
+  document.getElementById('stage').innerHTML=`<div class="card"><h2 style="font-size:20px">📊 מה צריך לתרגל</h2>
+    <p style="color:var(--ink-soft);font-size:14px;margin-top:4px">הקש/י על שורה כדי לקפוץ אליה.</p>${rows}
+    <div class="row" style="margin-top:16px"><button class="btn ghost" onclick="resetAll()">אפס ניקוד</button></div></div>`;
+}
+function jump(k){const q=qFromKey(k);if(!q)return;queue=[q];qpos=0;view='play';step();}
+function resetAll(){if(confirm('לאפס את כל הניקוד, ההתקדמות והטעויות?')){DB={prog:{},mist:[]};save();renderMap();}}
+
+if(!CB.length){document.getElementById('stage').innerHTML='<div class="card">שגיאה: קובץ הנתונים לא נטען. ודא ש-data.js קיים לצד הדף.</div>';}
+else{ setMode('conj'); }
+</script>
+</body>
+</html>
