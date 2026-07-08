@@ -65,12 +65,29 @@ a.home{display:inline-block;color:var(--teal-deep);text-decoration:none;font-wei
 .done{text-align:center;padding:30px 16px}
 .done .big{font-size:44px}
 footer{color:var(--ink-faint);font-size:12px;text-align:center;margin-top:22px}
+.scorebar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+.spill{background:var(--card-2);border:1px solid var(--line-soft);border-radius:99px;padding:5px 12px;font-weight:800;color:var(--ink-soft);font-size:13px}
+.spill b{color:var(--teal-deep)}
+.mapbtn{margin-inline-start:auto;border:1px solid var(--line);background:var(--card);border-radius:99px;padding:6px 13px;font-weight:700;font-size:13px;cursor:pointer;font-family:inherit;color:var(--ink)}
+.qbadge{display:inline-block;font-size:12px;font-weight:800;padding:3px 11px;border-radius:99px;margin-bottom:6px}
+.qbadge.ok{background:var(--good-soft);color:var(--good)}
+.qbadge.no{background:var(--coral-soft);color:var(--coral)}
+.mh{font-weight:800;margin:16px 0 6px;font-size:15px}
+.maplist{display:flex;flex-direction:column;gap:8px}
+.maprow{display:flex;align-items:center;gap:10px;padding:10px 12px;border:1px solid var(--line-soft);border-radius:10px;background:var(--card-2);cursor:pointer;text-align:right}
+.maprow:hover{border-color:var(--teal)}
+.maprow .st{width:26px;height:26px;border-radius:99px;display:grid;place-items:center;font-weight:900;flex:0 0 auto}
+.maprow .st.ok{background:var(--good-soft);color:var(--good)}
+.maprow .st.no{background:var(--coral-soft);color:var(--coral)}
+.maprow .st.none{background:var(--line-soft);color:var(--ink-faint)}
+.maprow .qt{flex:1;font-size:15px}
 </style>
 </head>
 <body>
 <div class="wrap">
   <a class="home" href="index.html">→ חזרה למדריך</a>
   <div class="topbar"><div class="stories" id="stories"></div></div>
+  <div class="scorebar" id="score"></div>
   <div class="prog"><i id="pbar"></i></div>
   <div id="stage"></div>
   <footer>תשובות המודל של המורה (ורד קופל) · יידיש · אין המצאות</footer>
@@ -84,16 +101,19 @@ const DATA=[
   {q:"וואָס איז אַ געטאָ?", a:"אַ געטאָ איז אַ קליינער צאָל גאַסן מיט אַ מויער", he:"גטו הוא מספר קטן של רחובות עם חומה."},
   {q:"וואָס האָבן די נאַציס געטאָן די ייִדן פֿון געטאָ?", a:"די נאַציס האָבן די ייִדן פֿון געטאָ פֿאַרגאַזט און פֿאַרברענט", he:"הנאצים הרגו בגז ושרפו את יהודי הגטו."},
   {q:"צוליב וואָס איז וואָלאַדקע געבליבן אויף יענער זײַט מויער?", a:"וואָלאַדקע איז געבליבן אויף יענער זײַט מויער כּדי צו העלפֿן", he:"וולאדקה נשארה בצד השני של החומה כדי לעזור."},
+  {q:"ווען האָבן די יונגע העלדישע באַשלאָסן צו מאַכן אַן אויפֿשטאַנד?", a:"די יונגע העלדישע ייִדן האָבן באַשלאָסן צו מאַכן אַן אויפֿשטאַנד ווען עס זײַנען שוין געבליבן ווייניק ייִדן אין געטאָ", he:"כשנשארו כבר מעט יהודים בגטו."},
   {q:"ווי אַזוי האָט וואָלאַדקע געטראָגן דינאַמיט אין געטאָ?", a:"וואָלאַדקע האָט געטראָגן דינאַמיט אין געטאָ אין אַ פּעקעלע פּוטער", he:"בתוך חבילה שנראתה כמו חבילת חמאה."},
-  {q:"וואָס איז געשען ווען וואָלאַדקע איז געווען אויף דער מויער?", a:"האָבן זיך דערהערט שאָסן", he:"נשמעו יריות."},
-  {q:"וואָס איז געווען די סכּנה בײַם אַראָפּשפּרינגען?", a:"די סכּנה איז געווען אַז זי קען נאָך פֿאַלן און דאָס פּעקעלע פּוטער קען אויפֿרײַסן", he:"שתיפול והחבילה תתפוצץ."},
+  {q:"וואָס איז געשען ווען וואָלאַדקע איז געווען אויף דער מויער פֿון געטאָ?", a:"ווען וואָלאַדקע איז געווען אויף דער מויער פֿון געטאָ האָבן זיך דערהערט שאָסן", he:"נשמעו יריות."},
+  {q:"וואָס איז געווען די סכּנה בײַם אַראָפּשפּרינגען פֿון געטאָ מויער?", a:"די סכּנה איז געווען אַז זי קען נאָך פֿאַלן און דאָס פּעקעלע פּוטער קען אויפֿרײַסן", he:"שתיפול והחבילה תתפוצץ."},
  ]},
  {title:"דאָס שיסעלע מיט בוימל 🕎", key:"s", items:[
   {q:"ווו שטייט דאָס הייזל?", a:"דאָס הייזל שטייט בײַם עק דאָרף", he:"הבית עומד בקצה הכפר."},
+  {q:"פֿאַרוואָס ווונדערן זיך די מענטשן?", a:"די מענטשן ווונדערן זיך וואָס ווי נאָר עס קומט דער ווינטער אַזוי שטעלט אַוועק דער באַלעבאָס יעדן אויף דער נאַכט דאָס שיסעלע מיט בוימל אויפֿן פֿענצטער", he:"מתפלאים שברגע שמגיע החורף, בעל הבית מעמיד כל לילה את הקערית עם השמן על החלון."},
   {q:"ווי אַזוי האָט געהייסן דער בעל-הבית?", a:"דער באַלעבאָס האָט געהייסן אברהם", he:"קראו לו אברהם."},
   {q:"ווען איז די מעשׂה געווען?", a:"די מעשׂה איז געווען מיט אַ צוואַנציק יאָר צוריק", he:"לפני כעשרים שנה."},
   {q:"וואָס האָט געזאָגט דער ערשטער געדאַנק?", a:"דער ערשטער געדאַנק האָט געזאָגט וואָס טוסטו דרעמל ניט אײַן", he:"המחשבה הראשונה: מה אתה עושה? אל תירדם!"},
   {q:"וואָס האָט ער דערזען אין חלום?", a:"ער האָט דערזען אין חלום אַ פֿײַערל", he:"הוא ראה אור/אש קטנה."},
+  {q:"וואָס האָט דער אַלטער געזאָגט?", a:"דער אַלטער האָט געזאָגט אויב דו בחור האָסט ליב אַרבעט קענסטו בײַ מיר דאָ פֿאַרבלײַבן", he:"הזקן אמר: אם אתה אוהב עבודה, תוכל להישאר כאן אצלי."},
   {q:"וואָס טוט ער יעדן ווינטער?", a:"יעדן ווינטער צינדט ער אָן אַ שיסעלע מיט בוימל", he:"כל חורף הוא מדליק קערית שמן."},
  ]},
  {title:"דער בוים און דאָס יינגל 🌳", key:"b", items:[
@@ -104,7 +124,7 @@ const DATA=[
   {q:"פֿאַרוואָס האָט דאָס יינגל געוואָלט אַ שיף?", a:"דאָס יינגל האָט געוואָלט אַ שיף כּדי אַוועקצופֿאָרן", he:"כדי להפליג רחוק."},
   {q:"וואָס האָט דאָס יינגל געטאָן מיט די עפּל?", a:"דאָס יינגל האָט גענומען די עפּל אין מאַרק פֿאַרקויפֿן", he:"לקח את התפוחים למכור בשוק."},
   {q:"פֿאַרוואָס איז דער בוים געווען טרויעריק?", a:"דער בוים איז געווען טרויעריק ווײַל דאָס יינגל איז ניט צוריקגעקומען אַ לאַנגע צײַט", he:"כי הילד לא חזר זמן רב."},
-  {q:"פֿאַרוואָס האָט דאָס יינגל געוואָלט אַ הויז?", a:"דאָס יינגל האָט געוואָלט אַ הויז", he:"כי רצה אישה וילדים."},
+  {q:"פֿאַרוואָס האָט דאָס יינגל געוואָלט אַ הויז?", a:"דאָס יינגל האָט געוואָלט אַ הויז איך וויל אַ ווײַב און קינדער", he:"כי רצה אישה וילדים (איך וויל אַ ווײַב און קינדער)."},
  ]},
 ];
 
@@ -116,35 +136,63 @@ function norm(s){return (s||'').normalize('NFD').replace(/[֑-ׇ]/g,'')
   .replace(/ך/g,'כ').replace(/ם/g,'מ').replace(/ן/g,'נ').replace(/ף/g,'פ').replace(/ץ/g,'צ');}
 function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
 
+/* ===== persistent per-question score ===== */
+const LSK='yid_stories_build_v1';
+let PROG={}; try{PROG=JSON.parse(localStorage.getItem(LSK)||'{}')}catch(e){PROG={}}
+function saveP(){try{localStorage.setItem(LSK,JSON.stringify(PROG))}catch(e){}}
+function qkey(s,q){return DATA[s].key+'_'+q}
+function stat(s,q){return PROG[qkey(s,q)]||{tries:0,correct:0,wrong:0,ok:false}}
+function totals(){let tot=0,mast=0,needs=0;DATA.forEach((st,s)=>st.items.forEach((_,q)=>{tot++;const x=stat(s,q);if(x.ok)mast++;else if(x.tries>0)needs++;}));return{tot,mast,needs};}
+
 let si=0, qi=0, placed=[], bank=[], answered=false;
+let queue=[], qpos=0, view='play';
 
 function renderStories(){
   document.getElementById('stories').innerHTML=DATA.map((s,i)=>
-    `<button class="sbtn ${i===si?'on':''}" onclick="pickStory(${i})">${s.title}</button>`).join('');
+    `<button class="sbtn ${(view==='play'&&i===si)?'on':''}" onclick="startStory(${i})">${s.title}</button>`).join('');
 }
-function pickStory(i){si=i;qi=0;loadQ();}
-function progress(){const tot=DATA[si].items.length;document.getElementById('pbar').style.width=Math.round(qi/tot*100)+'%';}
+function renderScore(){
+  const t=totals();
+  document.getElementById('score').innerHTML=
+    `<span class="spill">⭐ נכון: <b>${t.mast}</b>/${t.tot}</span>`+
+    `<span class="spill">📌 צריך תרגול: <b>${t.needs}</b></span>`+
+    `<button class="mapbtn" onclick="toggleMap()">${view==='map'?'↩ חזרה לתרגול':'📊 מה צריך לתרגל'}</button>`;
+}
+function setProg(){
+  const bar=document.getElementById('pbar');
+  if(view!=='play'||!queue.length){bar.style.width='0%';return;}
+  bar.style.width=Math.round(qpos/queue.length*100)+'%';
+}
 
-function loadQ(){
+function startStory(i){si=i;queue=DATA[i].items.map((_,k)=>({s:i,q:k}));qpos=0;view='play';loadStep();}
+function startWrong(){
+  queue=[];DATA.forEach((st,s)=>st.items.forEach((_,q)=>{if(!stat(s,q).ok)queue.push({s,q});}));
+  qpos=0;view='play';
+  if(!queue.length){renderStories();renderScore();setProg();
+    document.getElementById('stage').innerHTML='<div class="card done"><div class="big">🏆</div><h2>הכול נכון!</h2><p style="color:var(--ink-soft)">ענית נכון על כל השאלות בכל הסיפורים.</p></div>';return;}
+  loadStep();
+}
+function jump(s,q){si=s;queue=DATA[s].items.map((_,k)=>({s,q:k}));qpos=q;view='play';loadStep();}
+
+function loadStep(){
+  if(qpos>=queue.length)return finishRun();
+  const cur=queue[qpos]; si=cur.s; qi=cur.q;
   answered=false; placed=[];
-  renderStories(); progress();
-  const st=DATA[si], it=st.items[qi];
-  if(!it){return finishStory();}
-  // build bank: answer words + up to 3 distractors (only if answer is short)
+  const it=DATA[si].items[qi];
   const words=it.a.split(' ');
   let extras=[];
-  if(words.length<=8){
-    const cand=shuffle(POOL.filter(w=>!words.includes(w)));
-    extras=cand.slice(0,3);
-  }
+  if(words.length<=8){extras=shuffle(POOL.filter(w=>!words.includes(w))).slice(0,3);}
   bank=shuffle(words.concat(extras)).map((w,idx)=>({w,idx,used:false}));
-  render();
+  renderStories();renderScore();setProg();render();
 }
 function render(){
-  const it=DATA[si].items[qi];
+  const it=DATA[si].items[qi], x=stat(si,qi);
+  const badge=x.ok?`<span class="qbadge ok">✓ ענית נכון (×${x.correct})</span>`
+    :(x.tries>0?`<span class="qbadge no">📌 צריך תרגול — טעית ${x.wrong}×</span>`:'');
   document.getElementById('stage').innerHTML=`
     <div class="card">
-      <div class="meta"><span class="pill">שאלה ${qi+1}/${DATA[si].items.length}</span><span>${DATA[si].title}</span></div>
+      <div class="meta"><span class="pill">שאלה ${qpos+1}/${queue.length}</span><span>${DATA[si].title}</span></div>
+      ${badge?`<div>${badge}</div>`:''}
       <div class="q yid">${it.q}</div>
       <div class="hint"><b>רמז:</b> ${it.he}</div>
       <div class="answer ${placed.length?'':'empty'}" id="ans">${placed.map((p,i)=>`<button class="tile placed yid" onclick="unplace(${i})">${p.w}</button>`).join('')}</div>
@@ -161,42 +209,63 @@ function place(idx){if(answered)return;const t=bank.find(b=>b.idx===idx);if(!t||
 function unplace(i){if(answered)return;const t=placed.splice(i,1)[0];const b=bank.find(x=>x.idx===t.idx);if(b)b.used=false;render();}
 function clearAns(){if(answered)return;placed=[];bank.forEach(b=>b.used=false);render();}
 
-function check(){
-  const it=DATA[si].items[qi];
-  const mine=placed.map(p=>p.w).join(' ');
-  const ok=norm(mine)===norm(it.a);
+function record(ok){
+  const k=qkey(si,qi), x=PROG[k]||{tries:0,correct:0,wrong:0,ok:false};
+  x.tries++; if(ok){x.correct++;x.ok=true;} else {x.wrong++;}
+  PROG[k]=x; saveP();
+}
+function afterAnswer(ok,revealMode){
   answered=true;
-  const fb=document.getElementById('fb');
+  if(!revealMode) record(ok);
+  const it=DATA[si].items[qi], fb=document.getElementById('fb');
   fb.className='fb show '+(ok?'ok':'no');
-  fb.innerHTML=(ok?'<div class="h">✔ מצוין!</div>':'<div class="h">✘ לא מדויק — התשובה הנכונה:</div>')
-    +`<div class="cor yid">${it.a}</div><div class="tr">תרגום: ${it.he}</div>`
-    +`<div class="row" style="margin-top:10px"><button class="btn" onclick="next()">${lastQ()?'סיום הסיפור ←':'הבא ←'}</button></div>`;
-  document.getElementById('check').disabled=true;
+  const head=revealMode?'התשובה:':(ok?'✔ מצוין! ניקוד +1':'✘ לא מדויק — התשובה הנכונה:');
+  fb.innerHTML=`<div class="h">${head}</div><div class="cor yid">${it.a}</div><div class="tr">תרגום: ${it.he}</div>`
+    +`<div class="row" style="margin-top:10px"><button class="btn" onclick="nextStep()">${qpos>=queue.length-1?'סיום ←':'הבא ←'}</button></div>`;
+  const c=document.getElementById('check'); if(c)c.disabled=true;
+  renderScore();
 }
-function reveal(){
-  const it=DATA[si].items[qi];answered=true;
-  const fb=document.getElementById('fb');
-  fb.className='fb show ok';
-  fb.innerHTML=`<div class="h">התשובה:</div><div class="cor yid">${it.a}</div><div class="tr">תרגום: ${it.he}</div>`
-    +`<div class="row" style="margin-top:10px"><button class="btn" onclick="next()">${lastQ()?'סיום הסיפור ←':'הבא ←'}</button></div>`;
-}
-function lastQ(){return qi>=DATA[si].items.length-1;}
-function next(){qi++;loadQ();}
-function finishStory(){
-  progress();document.getElementById('pbar').style.width='100%';
-  const hasNext=si<DATA.length-1;
+function check(){const it=DATA[si].items[qi];afterAnswer(norm(placed.map(p=>p.w).join(' '))===norm(it.a),false);}
+function reveal(){afterAnswer(true,true);}
+function nextStep(){qpos++;loadStep();}
+
+function finishRun(){
+  view='play';renderStories();renderScore();document.getElementById('pbar').style.width='100%';
+  const t=totals();
   document.getElementById('stage').innerHTML=`
    <div class="card done">
      <div class="big">🎉</div>
-     <h2>סיימת את "${DATA[si].title}"</h2>
-     <p style="color:var(--ink-soft);margin-top:6px">כל השאלות של הסיפור נענו לפי הסדר.</p>
+     <h2>סיימת את הסבב</h2>
+     <p style="color:var(--ink-soft);margin-top:6px">נכון בסך הכול: ${t.mast}/${t.tot} · צריך תרגול: ${t.needs}</p>
      <div class="row" style="justify-content:center;margin-top:14px">
-       ${hasNext?`<button class="btn" onclick="pickStory(${si+1})">לסיפור הבא ←</button>`:''}
-       <button class="btn ghost" onclick="pickStory(${si})">התחל מחדש</button>
+       ${t.needs?`<button class="btn" onclick="startWrong()">🔁 תרגל רק מה שצריך (${t.needs})</button>`:''}
+       <button class="btn ghost" onclick="toggleMap()">📊 מפת התקדמות</button>
      </div>
    </div>`;
 }
-renderStories();loadQ();
+
+function toggleMap(){ view=(view==='map')?'play':'map'; if(view==='map')renderMap(); else startStory(si); }
+function renderMap(){
+  renderStories();renderScore();document.getElementById('pbar').style.width='0%';
+  const t=totals();
+  let html=`<div class="card"><h2 style="font-size:20px">📊 מה צריך לתרגל</h2>
+    <p style="color:var(--ink-soft);font-size:14px;margin-top:4px">נכון: ${t.mast}/${t.tot} · צריך תרגול: ${t.needs}. הקש/י על שאלה כדי לקפוץ אליה.</p>
+    ${t.needs?`<div class="row" style="margin-top:10px"><button class="btn" onclick="startWrong()">🔁 תרגל רק את מה שצריך (${t.needs})</button></div>`:''}`;
+  DATA.forEach((st,s)=>{
+    html+=`<div class="mh">${st.title}</div><div class="maplist">`;
+    st.items.forEach((it,q)=>{
+      const x=stat(s,q), cls=x.ok?'ok':(x.tries>0?'no':'none'), sym=x.ok?'✓':(x.tries>0?'✗':'•');
+      const note=x.ok?`נכון ×${x.correct}`:(x.tries>0?`טעות ×${x.wrong}`:'טרם');
+      html+=`<div class="maprow" onclick="jump(${s},${q})"><span class="st ${cls}">${sym}</span><span class="qt yid">${it.q}</span><span style="color:var(--ink-faint);font-size:12px;white-space:nowrap">${note}</span></div>`;
+    });
+    html+=`</div>`;
+  });
+  html+=`<div class="row" style="margin-top:16px"><button class="btn ghost" onclick="resetP()">אפס ניקוד והתקדמות</button></div></div>`;
+  document.getElementById('stage').innerHTML=html;
+}
+function resetP(){if(confirm('לאפס את כל הניקוד וההתקדמות? פעולה בלתי הפיכה.')){PROG={};saveP();renderMap();}}
+
+renderStories();renderScore();startStory(0);
 </script>
 </body>
 </html>
