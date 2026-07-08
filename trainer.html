@@ -135,7 +135,8 @@ const STORIES=[
  ]},
 ];
 const CB=(window.YID&&YID.CONJUGATION_BANK)||[], FB=(window.YID&&YID.FILL_IN_BANK)||[];
-const CONJ_FORMS=[['past','עבר'],['future','עתיד'],['negative','שלילה']];
+const CONJ_FORMS=[['past','עבר'],['future','עתיד'],['imperative','ציווי'],['negative','שלילה'],['positiveQuestion','שאלה +']];
+const FORM_LBL={past:'עבר',future:'עתיד',imperative:'ציווי',negative:'שלילה',positiveQuestion:'שאלה +'};
 
 /* ===== persistence ===== */
 const LSK='yid_trainer_v1';
@@ -154,8 +155,9 @@ function pick(a,n){return shuffle(a).slice(0,n);}
 
 /* ===== question builders (return uniform question objects) ===== */
 function qConj(verb,form){
-  const field=form, label=(CONJ_FORMS.find(f=>f[0]===form)||[])[1]||form;
-  const a=verb[field]||'';
+  const label=FORM_LBL[form]||form;
+  let a=verb[form]||'';
+  if(form==='positiveQuestion') a=a.split('?')[0].trim()+'?'; // וריאנט ראשון של השאלה
   return {kind:'build', key:'c_'+verb.id+'_'+form, cat:'הטיה',
     tag:`הטיה · ${label}`, answer:a,
     head:`<div class="hint">שם הפועל: <b class="yid">${verb.infinitive}</b> · הווה: <span class="yid">${verb.presentSentence}</span></div><div class="q">בנה/בני את צורת ה<b>${label}</b>:</div>`,
@@ -214,7 +216,7 @@ function counts(){
 }
 function renderScore(){
   const el=document.getElementById('score');
-  if(mode==='exam'){el.innerHTML=`<span class="spill">📝 מבחן — 10 שאלות מעורבבות</span><span class="spill">🔁 טעויות פתוחות: <b>${DB.mist.length}</b></span>`;return;}
+  if(mode==='exam'){const sn=(exam&&exam.no)||((DB.examNo||0)+1);el.innerHTML=`<span class="spill">📝 מבחן #${sn} — 10 הטיות · סיפור (8) · 10 שיבוצים</span><span class="spill">🔁 טעויות פתוחות: <b>${DB.mist.length}</b></span>`;return;}
   const c=counts();
   el.innerHTML=`<span class="spill">⭐ נכון: <b>${c.ok}</b>/${c.tot}</span>`+
     `<span class="spill">📌 צריך תרגול: <b>${c.need}</b></span>`+
@@ -241,26 +243,22 @@ function qFromKey(k){
 }
 function startExam(){
   view='play';
-  const items=[];
-  const used=new Set();
-  // 1) up to 4 from open mistakes (spaced repetition)
-  shuffle(DB.mist.slice()).slice(0,4).forEach(k=>{const q=qFromKey(k);if(q&&!used.has(k)){items.push(q);used.add(k);}});
-  // 2) fill to composition: aim 4 conj + 3 story + 3 fill
-  const want={conj:4,story:3,fill:3};
-  items.forEach(q=>{const t=q.cat==='הטיה'?'conj':q.cat==='סיפור'?'story':'fill';if(want[t])want[t]--;});
-  const add=(pool,n)=>{for(const q of shuffle(pool)){if(n<=0)break;if(!used.has(q.key)){items.push(q);used.add(q.key);n--;}}};
-  // conj — מובנה: מסתובב על הצורות (עבר→עתיד→שלילה) עם פעלים שונים כדי לכסות סוגי הטיה
-  const forms=['past','future','negative'], vshuf=shuffle(CB); let added=0;
-  for(let i=0; added<want.conj && i<vshuf.length; i++){
-    const q=qConj(vshuf[i], forms[added%forms.length]);
-    if(!used.has(q.key)){items.push(q);used.add(q.key);added++;}
-  }
-  // סיפור אחר כל פעם, שיבוצים אחרים כל פעם (הגרלה מחדש)
-  add(STORIES.flatMap((s,si)=>s.items.map((_,qi)=>qStory(si,qi))),want.story);
-  add(FB.map(qFill),want.fill);
-  exam={items:shuffle(items).slice(0,10),correct:0,wrong:[],t0:0};
+  const n=(DB.examNo||0); DB.examNo=n+1; save();          // מונה מבחנים לרוטציה
+  const openC=DB.mist.filter(k=>k[0]==='c'), openF=DB.mist.filter(k=>k[0]==='f');
+  // חלק א' — 10 הטיות: חלון מסתובב על 60 הפעלים, מכסה את כל 5 הצורות (עבר/עתיד/ציווי/שלילה/שאלה+)
+  const forms=['past','future','imperative','negative','positiveQuestion'];
+  const cStart=(n*10)%CB.length; const conjItems=[];
+  for(let i=0;i<10;i++){conjItems.push(qConj(CB[(cStart+i)%CB.length], forms[i%forms.length]));}
+  openC.slice(0,2).forEach((k,idx)=>{const q=qFromKey(k);if(q)conjItems[idx]=q;}); // טעויות הטיה חוזרות
+  // חלק ב' — סיפור שלם (8 שאלות); מתחלף כל מבחן, חוזר כל שלישי (יש רק 3 סיפורים)
+  const si=n%STORIES.length;
+  const storyItems=STORIES[si].items.map((_,qi)=>qStory(si,qi));
+  // חלק ג' — 10 שיבוצים: חלון מסתובב על 25 השיבוצים
+  const fStart=(n*10)%FB.length; const fillItems=[];
+  for(let i=0;i<10;i++){fillItems.push(qFill(FB[(fStart+i)%FB.length]));}
+  openF.slice(0,2).forEach((k,idx)=>{const q=qFromKey(k);if(q)fillItems[idx]=q;}); // טעויות שיבוץ חוזרות
+  exam={items:[...conjItems,...storyItems,...fillItems],correct:0,wrong:[],no:n+1,storyTitle:STORIES[si].t};
   queue=exam.items;qpos=0;
-  // timer
   if(exam.timerId)clearInterval(exam.timerId);
   const start=performance.now();
   exam.timerId=setInterval(()=>{const el=document.getElementById('etimer');if(el){const s=Math.floor((performance.now()-start)/1000);el.textContent=String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0');}},1000);
@@ -283,7 +281,8 @@ function step(){
 function render(){
   const st=stat(cur.key);
   const badge=(mode!=='exam')?(st.ok?`<span class="qbadge ok">✓ ענית נכון (×${st.correct})</span>`:(st.tries>0?`<span class="qbadge no">📌 טעית ${st.wrong}×</span>`:'')):'';
-  const metaRight = mode==='exam'?`<span class="pill gold">מבחן ${qpos+1}/${queue.length}</span> <span class="timer" id="etimer">00:00</span>`
+  const part = cur.cat==='הטיה'?'חלק א׳':cur.cat==='סיפור'?'חלק ב׳':'חלק ג׳';
+  const metaRight = mode==='exam'?`<span class="pill gold">${part} · ${qpos+1}/${queue.length}</span> <span class="timer" id="etimer">00:00</span>`
                                  :`<span class="pill">${qpos+1}/${queue.length}</span>`;
   let body='';
   if(cur.kind==='build'){
@@ -350,18 +349,47 @@ function practiceNeed(){
 
 function finishExam(){
   if(exam.timerId)clearInterval(exam.timerId);
-  const n=queue.length, sc=exam.correct;
-  const pct=Math.round(sc/n*100);
+  const n=queue.length, sc=exam.correct, pct=Math.round(sc/n*100);
   document.getElementById('pbar').style.width='100%';
-  document.getElementById('stage').innerHTML=`<div class="card done">
-    <div class="big">${pct>=80?'🏆':pct>=50?'💪':'📚'}</div>
-    <h2>ציון מבחן: ${sc}/${n} (${pct}%)</h2>
-    <p style="color:var(--ink-soft);margin-top:6px">${exam.wrong.length?`${exam.wrong.length} טעויות נשמרו — יופיעו במבחן הבא לחיזוק.`:'ללא טעויות! 🎉'}</p>
-    <p style="color:var(--ink-faint);font-size:13px">סה״כ טעויות פתוחות למבחנים: ${DB.mist.length}</p>
-    <div class="row" style="justify-content:center;margin-top:14px">
-      <button class="btn" onclick="startExam()">מבחן חדש ←</button>
+  // ניקוד לפי חלקים
+  const P={c:{t:0,w:0,lbl:'חלק א׳ · הטיות'},s:{t:0,w:0,lbl:'חלק ב׳ · סיפור'},f:{t:0,w:0,lbl:'חלק ג׳ · שיבוצים'}};
+  queue.forEach(q=>{P[q.key[0]].t++;});
+  exam.wrong.forEach(k=>{if(P[k[0]])P[k[0]].w++;});
+  // חולשות לפי צורת הטיה
+  const formErr={}; exam.wrong.filter(k=>k[0]==='c').forEach(k=>{const f=k.split('_')[2];formErr[f]=(formErr[f]||0)+1;});
+  // דגשים — התשובות הנכונות לכל טעות
+  const review=exam.wrong.map(k=>{const q=qFromKey(k);if(!q)return null;return {cat:q.cat,tag:q.tag,ans:(q.kind==='build'?q.answer:q.correct)};}).filter(Boolean);
+  window.__lastWrong=exam.wrong.slice();
+  // המלצות "מה להשקיע"
+  const focus=[];
+  ['c','s','f'].forEach(p=>{if(P[p].w>0)focus.push(`${P[p].lbl}: <b>${P[p].w}</b> טעויות מתוך ${P[p].t}`);});
+  Object.entries(formErr).sort((a,b)=>b[1]-a[1]).forEach(([f,c])=>focus.push(`להשקיע בהטיית <b>${FORM_LBL[f]||f}</b> (${c} טעויות)`));
+  if(!focus.length)focus.push('כל הכבוד — אין נושא חלש בולט! המשך לתרגל לשמירה.');
+  const bar=(o)=>{const ok=o.t-o.w,pc=o.t?Math.round(ok/o.t*100):0;return `<div style="margin:6px 0"><div style="display:flex;justify-content:space-between;font-size:13px"><span>${o.lbl}</span><b>${ok}/${o.t}</b></div><div class="prog" style="margin:3px 0 0"><i style="width:${pc}%"></i></div></div>`;};
+  const revHTML=review.length?`<div class="mh">📌 דגשים — התשובות הנכונות לחזרה:</div>`+review.map(r=>`<div class="maprow" style="cursor:default"><span class="st no">✗</span><div class="qt"><div style="font-size:12px;color:var(--ink-faint)">${r.tag}</div><span class="yid">${r.ans}</span></div></div>`).join(''):'';
+  document.getElementById('stage').innerHTML=`<div class="card">
+    <div class="done" style="padding:10px 0 4px"><div class="big">${pct>=80?'🏆':pct>=50?'💪':'📚'}</div>
+    <h2 style="text-align:center">ציון מבחן #${exam.no}: ${sc}/${n} (${pct}%)</h2></div>
+    ${bar(P.c)}${bar(P.s)}${bar(P.f)}
+    <div class="mh">🎯 מה להשקיע וללמוד:</div>
+    <ul style="margin:0;padding-inline-start:20px;line-height:1.9">${focus.map(f=>`<li>${f}</li>`).join('')}</ul>
+    ${revHTML}
+    <p style="color:var(--ink-faint);font-size:13px;margin-top:12px">${exam.wrong.length?`${exam.wrong.length} טעויות נשמרו ויחזרו במבחן הבא. `:'ללא טעויות! 🎉 '}סה״כ טעויות פתוחות: ${DB.mist.length}</p>
+    <div class="row" style="margin-top:8px">
+      ${exam.wrong.length?`<button class="btn" onclick="examReviewWrong(window.__lastWrong)">🔁 תרגל עכשיו את הטעויות (${exam.wrong.length})</button>`:''}
+      <button class="btn ghost" onclick="startExam()">מבחן חדש ←</button>
     </div></div>`;
   renderScore();
+}
+function examReviewWrong(keys){
+  const items=(keys||[]).map(qFromKey).filter(Boolean);
+  if(!items.length)return;
+  exam={items,correct:0,wrong:[],no:exam.no,storyTitle:''};
+  queue=items;qpos=0;
+  if(exam.timerId)clearInterval(exam.timerId);
+  const start=performance.now();
+  exam.timerId=setInterval(()=>{const el=document.getElementById('etimer');if(el){const s=Math.floor((performance.now()-start)/1000);el.textContent=String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0');}},1000);
+  step();
 }
 
 /* ===== map ===== */
