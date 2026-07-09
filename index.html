@@ -14,7 +14,7 @@
   --shadow:0 1px 2px rgba(27,42,44,.05),0 6px 18px rgba(27,42,44,.08);
   --shadow-lg:0 2px 6px rgba(27,42,44,.06),0 18px 44px rgba(27,42,44,.13);
 }
-@media (prefers-color-scheme:dark){:root{
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
   --paper:#12201F; --paper-2:#0E1A19; --card:#1A2A28; --card-2:#213432;
   --ink:#ECE6D6; --ink-soft:#AFC0BC; --ink-faint:#7E918D; --line:#2C3E3B; --line-soft:#25352F;
   --teal:#2FC8B4; --teal-deep:#5FD9C8; --teal-soft:#183430; --coral:#EE7A5F; --coral-soft:#3A231C;
@@ -23,6 +23,25 @@
   --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 22px rgba(0,0,0,.35);
   --shadow-lg:0 2px 8px rgba(0,0,0,.4),0 20px 50px rgba(0,0,0,.5);
 }}
+:root[data-theme="dark"]{
+  --paper:#12201F; --paper-2:#0E1A19; --card:#1A2A28; --card-2:#213432;
+  --ink:#ECE6D6; --ink-soft:#AFC0BC; --ink-faint:#7E918D; --line:#2C3E3B; --line-soft:#25352F;
+  --teal:#2FC8B4; --teal-deep:#5FD9C8; --teal-soft:#183430; --coral:#EE7A5F; --coral-soft:#3A231C;
+  --gold:#E1AC4E; --gold-soft:#382E19; --grape:#A99CE6; --grape-soft:#282146;
+  --good:#3FD08C; --good-soft:#143324; --bad:#F0796B; --bad-soft:#3A1C18;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 22px rgba(0,0,0,.35);
+  --shadow-lg:0 2px 8px rgba(0,0,0,.4),0 20px 50px rgba(0,0,0,.5);
+}
+/* light tokens are the :root defaults; data-theme="light" just re-asserts them to win over the OS dark preference */
+:root[data-theme="light"]{
+  --paper:#F4F0E6; --paper-2:#EEE8D9; --card:#FFFDF8; --card-2:#FBF7EE;
+  --ink:#1B2A2C; --ink-soft:#4A5A5B; --ink-faint:#7C8A88; --line:#E2D9C6; --line-soft:#EDE6D6;
+  --teal:#0E8A7C; --teal-deep:#0B6B60; --teal-soft:#D6ECE7; --coral:#D8593F; --coral-soft:#F6DDD5;
+  --gold:#C98A22; --gold-soft:#F3E5C6; --grape:#6B5BB0; --grape-soft:#E4DEF4;
+  --good:#1F9E6E; --good-soft:#D3EEE1; --bad:#CC3A2E; --bad-soft:#F5D8D4;
+  --shadow:0 1px 2px rgba(27,42,44,.05),0 6px 18px rgba(27,42,44,.08);
+  --shadow-lg:0 2px 6px rgba(27,42,44,.06),0 18px 44px rgba(27,42,44,.13);
+}
 *{box-sizing:border-box;margin:0;padding:0}
 body{direction:rtl;background:var(--paper);color:var(--ink);min-height:100vh;
   font-family:"Assistant","Heebo","Segoe UI",system-ui,-apple-system,"Arial Hebrew",Arial,sans-serif;
@@ -102,7 +121,10 @@ table.conj td.lbl{background:var(--card-2);font-weight:800;white-space:nowrap;wi
 </head>
 <body>
 <div class="wrap">
-  <div style="font-weight:800;font-size:20px;color:var(--teal-deep);margin-bottom:8px">🎯 יידיש — הכל למבחן</div>
+  <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px">
+    <div style="font-weight:800;font-size:20px;color:var(--teal-deep)">🎯 יידיש — הכל למבחן</div>
+    <button id="themebtn" onclick="toggleTheme()" title="בהיר / כהה" style="border:1px solid var(--line);background:var(--card);border-radius:99px;padding:6px 12px;font-size:14px;font-weight:800;color:var(--ink-soft);cursor:pointer;font-family:inherit;white-space:nowrap">🌙 כהה</button>
+  </div>
   <div class="tabs" id="tabs"></div>
   <div class="scorebar" id="score"></div>
   <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px" id="subtabs"></div>
@@ -114,6 +136,13 @@ table.conj td.lbl{background:var(--card-2);font-weight:800;white-space:nowrap;wi
 
 <script src="data.js"></script>
 <script>
+/* ===== theme (bright/dark) ===== */
+function applyTheme(t){document.documentElement.setAttribute('data-theme',t);const b=document.getElementById('themebtn');if(b)b.textContent=(t==='light')?'🌞 בהיר':'🌙 כהה';try{localStorage.setItem('yid_theme',t)}catch(e){}}
+function toggleTheme(){const cur=document.documentElement.getAttribute('data-theme');applyTheme(cur==='light'?'dark':'light');}
+(function(){let t;try{t=localStorage.getItem('yid_theme')}catch(e){}
+  if(!t)t=(window.matchMedia&&window.matchMedia('(prefers-color-scheme:dark)').matches)?'dark':'light';
+  document.documentElement.setAttribute('data-theme',t);
+  document.addEventListener('DOMContentLoaded',function(){const b=document.getElementById('themebtn');if(b)b.textContent=(t==='light')?'🌞 בהיר':'🌙 כהה';});})();
 /* ===== stories: teacher's Yiddish model answers (8 per story, ordered) ===== */
 const STORIES=[
  {t:"פּעקעלע פּוטער 🕯️",k:"p",items:[
