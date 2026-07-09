@@ -1,0 +1,321 @@
+<!doctype html><html lang="he" dir="rtl"><head><meta charset="utf-8"><title>שאלות סיפור ביידיש — שיטת פתרון מלאה</title>
+<meta name="viewport" content="width=device-width, initial-scale=1"><style>
+:root{--ink:#1c1c1c;--soft:#4a4a4a;--faint:#8a8a8a;--line:#d5cdbb;--teal:#0B6B60;--tealbg:#E7F1ED;--coral:#B8442B;--coralbg:#F7E4DC;--gold:#8a6410;--pullbg:#FBEBB6;--card:#fff;--soft-bg:#f7f4ec}
+@media(prefers-color-scheme:dark){:root{--ink:#ECE6D6;--soft:#AFC0BC;--faint:#8598;--line:#2C3E3B;--teal:#5FD9C8;--tealbg:#173430;--coral:#EE9078;--coralbg:#3A231C;--gold:#E1AC4E;--pullbg:#5A4A1E;--card:#1A2A28;--soft-bg:#12201F}}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"Assistant","Heebo","Arial Hebrew",Arial,sans-serif;color:var(--ink);background:var(--card);line-height:1.5;font-size:11.5pt;padding:20px 22px}
+.yid{font-family:"Frank Ruhl Libre","Times New Roman","David",serif;direction:rtl;unicode-bidi:isolate}
+.wrap{max-width:860px;margin:0 auto}
+h1{text-align:center;color:var(--teal);font-size:22pt;margin-bottom:2px}
+.subt{text-align:center;color:var(--soft);font-size:11pt;margin-bottom:18px}
+.method,.quick{background:var(--soft-bg);border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin-bottom:18px}
+.mh{color:var(--teal);font-size:14pt;margin-bottom:6px}
+.lead{font-size:11pt;color:var(--soft)}
+.qwt{width:100%;border-collapse:collapse;margin-top:10px}
+.qwt th{background:var(--teal);color:#fff;padding:5px 8px;font-size:10.5pt;text-align:right}
+.qwt td{border:1px solid var(--line);padding:4px 8px;font-size:10.5pt}
+.qwt td:first-child{font-size:12pt;font-weight:600}
+.story{margin-bottom:8px}
+.sh{color:var(--teal);font-size:15pt;border-bottom:2px solid var(--teal);padding-bottom:4px;margin:22px 0 8px;page-break-after:avoid}
+.summ{background:var(--tealbg);border-radius:8px;padding:8px 12px;font-size:10.8pt;margin-bottom:12px;line-height:1.65}
+.q{border:1px solid var(--line);border-radius:10px;padding:10px 13px;margin-bottom:10px;break-inside:avoid}
+.qh{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
+.qn{background:var(--teal);color:#fff;font-weight:800;min-width:23px;height:23px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:10.5pt;flex:none}
+.qq{font-size:13pt;font-weight:600}
+.qwtag{font-size:9pt;color:var(--gold);background:var(--pullbg);border-radius:99px;padding:1px 8px}
+.qtr{font-size:9.8pt;color:var(--faint);margin:1px 0 7px 31px}
+.grid{display:grid;grid-template-columns:1fr 1.3fr 1fr;gap:7px;margin-bottom:7px}
+.g{border:1px solid var(--line);border-radius:7px;padding:5px 8px;font-size:10.5pt;background:var(--card)}
+.glbl{display:block;font-size:8.6pt;font-weight:800;color:var(--soft);margin-bottom:2px;letter-spacing:.2px}
+.g1{background:var(--tealbg)} .g2 .yid{line-height:1.7}
+.pull{background:var(--pullbg);border-radius:3px;padding:0 3px}
+.full{border:1px dashed var(--teal);border-radius:7px;padding:6px 10px;font-size:13pt;margin-bottom:3px}
+.full .glbl{display:inline;font-size:9pt}
+.w-q{background:var(--tealbg);color:var(--teal);border-radius:3px;padding:0 3px}
+.w-s{background:var(--coralbg);color:var(--coral);border-radius:3px;padding:0 3px}
+.ftr{font-size:9.8pt;color:var(--soft);font-style:italic}
+.quick .qrow{font-size:11pt;padding:3px 0;border-bottom:1px dotted var(--line)}
+.legend{text-align:center;font-size:10pt;color:var(--soft);margin-bottom:16px}
+.legend b{border-radius:4px;padding:1px 6px}
+@media print{.q,.story,.method,.quick{break-inside:avoid}body{padding:0}}
+@page{size:A4;margin:13mm}
+</style></head><body><div class="wrap">
+<h1>📖 שאלות סיפור ביידיש — שיטת פתרון מלאה</h1>
+<div class="subt">3 הסיפורים · 24 שאלות · שלד מהשאלה + מקטע מהסיפור + מילת חיבור</div>
+<div class="legend">מקרא: <b style="background:var(--tealbg);color:var(--teal)">מהשאלה</b> · <b style="background:var(--coralbg);color:var(--coral)">מהסיפור</b> · <b style="background:var(--pullbg)">✂️ הציטוט לשליפה</b></div>
+<section class="method">
+  <h2 class="mh">איך פותרים שאלת סיפור — שיטה קבועה</h2>
+  <p class="lead">כל תשובה = <b>שלד מהשאלה</b> (מעתיקים נושא+פועל, הופכים למשפט) + <b>מידע מהסיפור</b> (במקום מילת השאלה) + מילת חיבור קטנה. <b>לא ממציאים יידיש.</b> תמיד עונים <b>במשפט שלם</b>, לא במילה אחת.</p>
+  <table class="qwt"><thead><tr><th>מילת שאלה</th><th>בעברית</th><th>מה עונים</th></tr></thead><tbody>
+    <tr><td class="yid">ווער</td><td>מי</td><td>אדם / קבוצה</td></tr>
+    <tr><td class="yid">וועמען</td><td>את מי</td><td>מושא (את מי)</td></tr>
+    <tr><td class="yid">וואָס</td><td>מה</td><td>דבר / פעולה</td></tr>
+    <tr><td class="yid">ווו</td><td>איפה</td><td>מקום</td></tr>
+    <tr><td class="yid">ווען</td><td>מתי</td><td>זמן (אפשר עם ווען = כאשר)</td></tr>
+    <tr><td class="yid">פֿאַרוואָס / צוליב וואָס</td><td>למה</td><td>סיבה (ווײַל / כּדי צו)</td></tr>
+    <tr><td class="yid">ווי אַזוי</td><td>איך</td><td>דרך הפעולה</td></tr>
+  </tbody></table>
+</section>
+<section class="story">
+    <h2 class="sh">1. <span class="yid">דאָס פּעקעלע פּוטער</span> · חבילת החמאה (וואָלאַדקע)</h2>
+    <div class="summ"><b>תקציר:</b> הגרמנים כבשו את ורשה וכלאו את היהודים בגטו מוקף חומה, בשמירת נאצים עם רובים. שררו רעב ומחלות, והנאצים הרגו יהודים בגז. הצעירים הגיבורים החליטו למרוד ונזקקו לנשק מבחוץ. וולאדקה — שלא נראתה יהודייה — נשארה מחוץ לחומה כדי לעזור, והבריחה דינמיט ארוז כמו חבילת חמאה: ישבה על החומה, נשמעו יריות, חבר קרא לה, היא החליקה פנימה ומסרה את הדינמיט.</div>
+    <div class="q">
+      <div class="qh"><span class="qn">11</span><span class="yid qq">ווער זײַנען געווען די נאַציס?</span><span class="qwtag">ווער = מי</span></div>
+      <div class="qtr">מי היו הנאצים?</div>
+      <div class="grid">
+        <div class="g g1"><span class="glbl">🔁 שלד מהשאלה</span><span class="yid">די נאַציס זײַנען געווען…</span></div>
+        <div class="g g2"><span class="glbl">📖 מקטע מהסיפור</span><span class="yid">נאַצים מיט <b class="pull">ביקסן</b> האָבן געהיט אַז קיין ייִד זאָל נישט אַרויס פֿון מויער אָן זייער דערלויבעניש.</span></div>
+        <div class="g g3"><span class="glbl">➕ מה מוסיפים</span><span>אדם/קבוצה — משלימים מי, אחרי שלד השאלה.</span></div>
+      </div>
+      <div class="full"><span class="glbl">✅ תשובה מלאה</span> <span class="yid"><span class="w-q">די</span> <span class="w-q">נאַציס</span> <span class="w-q">זײַנען</span> <span class="w-q">געווען</span> <span class="w-s">דײַטשן</span> <span class="w-s">מיט</span> <span class="w-s">ביקסן.</span></span></div>
+      <div class="ftr">הנאצים היו גרמנים עם רובים.</div>
+    </div><div class="q">
+      <div class="qh"><span class="qn">12</span><span class="yid qq">וואָס איז אַ געטאָ?</span></div>
+      <div class="qtr">מה זה גטו?</div>
+      <div class="grid">
+        <div class="g g1"><span class="glbl">🔁 שלד מהשאלה</span><span class="yid">אַ געטאָ איז אַ אַ…</span></div>
+        <div class="g g2"><span class="glbl">📖 מקטע מהסיפור</span><span class="yid">זיי האָבן אַלע ייִדן פֿאַרטריבן אין אַ <b class="pull">קליינער</b> <b class="pull">צאָל</b> <b class="pull">גאַסן.</b> … אַרום די <b class="pull">גאַסן</b> האָבן זיי אויפֿגעשטעלט אַ <b class="pull">מויער.</b></span></div>
+        <div class="g g3"><span class="glbl">➕ מה מוסיפים</span><span>משלימים את <b>המושא/הפעולה</b> מהסיפור אחרי שלד השאלה.</span></div>
+      </div>
+      <div class="full"><span class="glbl">✅ תשובה מלאה</span> <span class="yid"><span class="w-q">אַ</span> <span class="w-q">געטאָ</span> <span class="w-q">איז</span> <span class="w-q">אַ</span> <span class="w-s">קליינער</span> <span class="w-s">צאָל</span> <span class="w-s">גאַסן</span> <span class="w-s">מיט</span> <span class="w-q">אַ</span> <span class="w-s">מויער.</span></span></div>
+      <div class="ftr">גטו = מספר קטן של רחובות עם חומה.</div>
+    </div><div class="q">
+      <div class="qh"><span class="qn">13</span><span class="yid qq">וואָס האָבן די נאַציס געטאָן די ייִדן פֿון געטאָ?</span></div>
+      <div class="qtr">מה עשו הנאצים ליהודי הגטו?</div>
+      <div class="grid">
+        <div class="g g1"><span class="glbl">🔁 שלד מהשאלה</span><span class="yid">די נאַציס האָבן די ייִדן פֿון געטאָ…</span></div>
+        <div class="g g2"><span class="glbl">📖 מקטע מהסיפור</span><span class="yid">מען האָט אַלע ייִדן <b class="pull">פֿאַרגאַזט.</b></span></div>
+        <div class="g g3"><span class="glbl">➕ מה מוסיפים</span><span>משלימים את <b>המושא/הפעולה</b> מהסיפור אחרי שלד השאלה.</span></div>
+      </div>
+      <div class="full"><span class="glbl">✅ תשובה מלאה</span> <span class="yid"><span class="w-q">די</span> <span class="w-q">נאַציס</span> <span class="w-q">האָבן</span> <span class="w-q">די</span> <span class="w-q">ייִדן</span> <span class="w-q">פֿון</span> <span class="w-q">געטאָ</span> <span class="w-s">פֿאַרגאַזט</span> <span class="w-s">און</span> <span class="w-s">פֿאַרברענט.</span></span></div>
+      <div class="ftr">הרגו בגז ושרפו את יהודי הגטו.</div>
+    </div><div class="q">
+      <div class="qh"><span class="qn">14</span><span class="yid qq">צוליב וואָס איז וואָלאַדקע געבליבן אויף יענער זײַט מויער?</span><span class="qwtag">צוליב = בגלל מה</span></div>
+      <div class="qtr">בגלל מה נשארה וולאדקה בצד השני של החומה?</div>
+      <div class="grid">
+        <div class="g g1"><span class="glbl">🔁 שלד מהשאלה</span><span class="yid">וואָלאַדקע איז געבליבן אויף יענער זײַט מויער…</span></div>
+        <div class="g g2"><span class="glbl">📖 מקטע מהסיפור</span><span class="yid"><b class="pull">כדי</b> צו קריגן געווער האָט מען געדאַרפֿט אַז אונדזערע מענטשן זאָלן זיין נישט אין געטאָ, נאָר אויף דער פֿרײַ, אויף יענער זיט מויער.</span></div>
+        <div class="g g3"><span class="glbl">➕ מה מוסיפים</span><span>סיבה — מוסיפים <b>ווײַל</b> (כי) או <b>כּדי צו</b> (כדי ל־) + המידע מהסיפור.</span></div>
+      </div>
+      <div class="full"><span class="glbl">✅ תשובה מלאה</span> <span class="yid"><span class="w-q">וואָלאַדקע</span> <span class="w-q">איז</span> <span class="w-q">געבליבן</span> <span class="w-q">אויף</span> <span class="w-q">יענער</span> <span class="w-q">זײַט</span> <span class="w-q">מויער</span> <span class="w-s">כּדי</span> <span class="w-s">צו</span> <span class="w-s">העלפֿן.</span></span></div>
+      <div class="ftr">נשארה בצד השני כדי לעזור — לא נראתה יהודייה.</div>
+    </div><div class="q">
+      <div class="qh"><span class="qn">15</span><span class="yid qq">ווען האָבן די יונגע העלדישע באַשלאָסן צו מאַכן אַן אויפֿשטאַנד?</span></div>
+      <div class="qtr">מתי החליטו הצעירים הגיבורים לעשות מרד?</div>
+      <div class="grid">
+        <div class="g g1"><span class="glbl">🔁 שלד מהשאלה</span><span class="yid">די יונגע העלדישע האָבן באַשלאָסן צו מאַכן אַן אויפֿשטאַנד ווען…</span></div>
+        <div class="g g2"><span class="glbl">📖 מקטע מהסיפור</span><span class="yid"><b class="pull">ווייניק</b> <b class="pull">ייִדן</b> זײַנען <b class="pull">געבליבן</b> ווײַטער לעבן אין <b class="pull">געטאָ.</b></span></div>
+        <div class="g g3"><span class="glbl">➕ מה מוסיפים</span><span>משלימים את <b>המושא/הפעולה</b> מהסיפור אחרי שלד השאלה.</span></div>
+      </div>
+      <div class="full"><span class="glbl">✅ תשובה מלאה</span> <span class="yid"><span class="w-q">די</span> <span class="w-q">יונגע</span> <span class="w-q">העלדישע</span> <span class="w-s">ייִדן</span> <span class="w-q">האָבן</span> <span class="w-q">באַשלאָסן</span> <span class="w-q">צו</span> <span class="w-q">מאַכן</span> <span class="w-q">אַן</span> <span class="w-q">אויפֿשטאַנד</span> <span class="w-q">ווען</span> <span class="w-s">עס</span> <span class="w-s">זײַנען</span> <span class="w-s">שוין</span> <span class="w-s">געבליבן</span> <span class="w-s">ווייניק</span> <span class="w-s">ייִדן</span> <span class="w-s">אין</span> <span class="w-s">געטאָ.</span></span></div>
+      <div class="ftr">כשנשארו מעט יהודים בגטו.</div>
+    </div><div class="q">
+      <div class="qh"><span class="qn">16</span><span class="yid qq">ווי אַזוי האָט וואָלאַדקע געטראָגן דינאַמיט אין געטאָ?</span><span class="qwtag">ווי = איך</span></div>
+      <div class="qtr">כיצד הבריחה וולאדקה דינמיט לגטו?</div>
+      <div class="grid">
+        <div class="g g1"><span class="glbl">🔁 שלד מהשאלה</span><span class="yid">וואָלאַדקע האָט געטראָגן דינאַמיט אין געטאָ אין…</span></div>
+        <div class="g g2"><span class="glbl">📖 מקטע מהסיפור</span><span class="yid">איך קען נאָך פֿאַלן און מײַן <b class="pull">פּעקעלע</b> <b class="pull">"פּוטער"</b> קען מען נישט פֿאַרלירן.</span></div>
+        <div class="g g3"><span class="glbl">➕ מה מוסיפים</span><span>דרך — מוסיפים <b>איך/במה</b> נעשתה הפעולה (המכשיר/האופן מהסיפור).</span></div>
+      </div>
+      <div class="full"><span class="glbl">✅ תשובה מלאה</span> <span class="yid"><span class="w-q">וואָלאַדקע</span> <span class="w-q">האָט</span> <span class="w-q">געטראָגן</span> <span class="w-q">דינאַמיט</span> <span class="w-q">אין</span> <span class="w-q">געטאָ</span> <span class="w-q">אין</span> <span class="w-s">אַ</span> <span class="w-s">פּעקעלע</span> <span class="w-s">פּוטער.</span></span></div>
+      <div class="ftr">בתוך חבילה שנראתה כמו חבילת חמאה.</div>
+    </div><div class="q">
+      <div class="qh"><span class="qn">17</span><span class="yid qq">וואָס איז געשען ווען וואָלאַדקע איז געווען אויף דער מויער פֿון געטאָ?</span></div>
+      <div class="qtr">מה קרה כשוולאדקה הייתה על חומת הגטו?</div>
+      <div class="grid">
+        <div class="g g1"><span class="glbl">🔁 שלד מהשאלה</span><span class="yid">ווען וואָלאַדקע איז געווען אויף דער מויער פֿון געטאָ,…</span></div>
+        <div class="g g2"><span class="glbl">📖 מקטע מהסיפור</span><span class="yid">איך האָב שוין געהערט ווי עס לאָזן זיך הערן <b class="pull">שאָסן.</b></span></div>
+        <div class="g g3"><span class="glbl">➕ מה מוסיפים</span><span>משלימים את <b>המושא/הפעולה</b> מהסיפור אחרי שלד השאלה.</span></div>
+      </div>
+      <div class="full"><span class="glbl">✅ תשובה מלאה</span> <span class="yid"><span class="w-q">ווען</span> <span class="w-q">וואָלאַדקע</span> <span class="w-q">איז</span> <span class="w-q">געווען</span> <span class="w-q">אויף</span> <span class="w-q">דער</span> <span class="w-q">מויער</span> <span class="w-q">פֿון</span> <span class="w-q">געטאָ,</span> <span class="w-s">האָבן</span> <span class="w-s">זיך</span> <span class="w-s">דערהערט</span> <span class="w-s">שאָסן.</span></span></div>
+      <div class="ftr">נשמעו יריות; החברים ברחו והיא נשארה לבד.</div>
+    </div><div class="q">
+      <div class="qh"><span class="qn">18</span><span class="yid qq">וואָס איז געווען די סכּנה בײַם אַראָפּשפּרינגען פֿון געטאָ מויער?</span></div>
+      <div class="qtr">מה הייתה הסכנה בקפיצה מחומת הגטו?</div>
+      <div class="grid">
+        <div class="g g1"><span class="glbl">🔁 שלד מהשאלה</span><span class="yid">די סכּנה איז געווען…</span></div>
+        <div class="g g2"><span class="glbl">📖 מקטע מהסיפור</span><span class="yid">איך <b class="pull">קען</b> <b class="pull">נאָך</b> <b class="pull">פֿאַלן</b> און מײַן <b class="pull">פּעקעלע</b> <b class="pull">"פּוטער"</b> <b class="pull">קען</b> מען נישט פֿאַרלירן.</span></div>
+        <div class="g g3"><span class="glbl">➕ מה מוסיפים</span><span>משלימים את <b>המושא/הפעולה</b> מהסיפור אחרי שלד השאלה.</span></div>
+      </div>
+      <div class="full"><span class="glbl">✅ תשובה מלאה</span> <span class="yid"><span class="w-q">די</span> <span class="w-q">סכּנה</span> <span class="w-q">איז</span> <span class="w-q">געווען</span> <span class="w-s">אַז</span> <span class="w-s">זי</span> <span class="w-s">קען</span> <span class="w-s">נאָך</span> <span class="w-s">פֿאַלן</span> <span class="w-s">און</span> <span class="w-s">דאָס</span> <span class="w-s">פּעקעלע</span> <span class="w-s">פּוטער</span> <span class="w-s">קען</span> <span class="w-s">אויפֿרײַסן.</span></span></div>
+      <div class="ftr">שתיפול והחבילה תתפוצץ, או שהנאצים יראו אותה ויירו. שתי גרסאות מהמורה — שתיהן טובות.</div>
+    </div>
+  </section>
+<section class="story">
+    <h2 class="sh">2. <span class="yid">דאָס שיסעלע מיט בוימל</span> · הקערית עם השמן</h2>
+    <div class="summ"><b>תקציר:</b> בכל לילה חורפי דולקת קערית שמן על חלון ביתו של אברהם. כששאלו ילדיו למה, סיפר: לפני כ-20 שנה, בגיל 19, נשאר יתום ולבד. ביום חורפי נפל בסופת שלגים; מחשבה אחת דחקה בו לקום, השנייה לישון. הוא ראה אור קטן מרחוק, נגרר אליו והתעלף. משפחה טיפלה בו — היה ליל חנוכה והאור היה נר חנוכה. הוא נשאר, התחתן עם בתם. מאז מדליק כל חורף קערית שמן — כדי שמאחרים בדרכים לא יאבדו.</div>
+    <div class="q">
+      <div class="qh"><span class="qn">11</span><span class="yid qq">ווו שטייט דאָס הייזל?</span><span class="qwtag">ווו = איפה</span></div>
+      <div class="qtr">היכן עומד הבית?</div>
+      <div class="grid">
+        <div class="g g1"><span class="glbl">🔁 שלד מהשאלה</span><span class="yid">דאָס הייזל שטייט…</span></div>
+        <div class="g g2"><span class="glbl">📖 מקטע מהסיפור</span><span class="yid">אין <b class="pull">דאָרף</b> איז שטיל.</span></div>
+        <div class="g g3"><span class="glbl">➕ מה מוסיפים</span><span>מקום — מוסיפים את המקום אחרי הפועל.</span></div>
+      </div>
+      <div class="full"><span class="glbl">✅ תשובה מלאה</span> <span class="yid"><span class="w-q">דאָס</span> <span class="w-q">הייזל</span> <span class="w-q">שטייט</span> <span class="w-s">בײַם</span> <span class="w-s">עק</span> <span class="w-s">דאָרף.</span></span></div>
+      <div class="ftr">הבית עומד בקצה הכפר.</div>
+    </div><div class="q">
+      <div class="qh"><span class="qn">12</span><span class="yid qq">פֿאַרוואָס ווונדערן זיך די מענטשן?</span></div>
+      <div class="qtr">למה מתפלאים האנשים?</div>
+      <div class="grid">
+        <div class="g g1"><span class="glbl">🔁 שלד מהשאלה</span><span class="yid">די מענטשן ווונדערן זיך וואָס, ווי…</span></div>
+        <div class="g g2"><span class="glbl">📖 מקטע מהסיפור</span><span class="yid">אָבער פֿון דעמאָלט אָן, ווי נאָר עס <b class="pull">קומט</b> דער <b class="pull">ווינטער</b> מיט זײַנע שנייען און קעלטן, <b class="pull">אַזוי</b> צינד איך אָן אויף דער <b class="pull">נאַכט</b> דאָס <b class="pull">שיסעלע</b> <b class="pull">בוימל.</b></span></div>
+        <div class="g g3"><span class="glbl">➕ מה מוסיפים</span><span>משלימים את <b>המושא/הפעולה</b> מהסיפור אחרי שלד השאלה.</span></div>
+      </div>
+      <div class="full"><span class="glbl">✅ תשובה מלאה</span> <span class="yid"><span class="w-q">די</span> <span class="w-q">מענטשן</span> <span class="w-q">ווונדערן</span> <span class="w-q">זיך</span> <span class="w-q">וואָס,</span> <span class="w-q">ווי</span> <span class="w-s">נאָר</span> <span class="w-s">עס</span> <span class="w-s">קומט</span> <span class="w-s">דער</span> <span class="w-s">ווינטער,</span> <span class="w-s">אַזוי</span> <span class="w-s">שטעלט</span> <span class="w-s">אַוועק</span> <span class="w-s">דער</span> <span class="w-s">באַלעבאָס</span> <span class="w-s">יעדן</span> <span class="w-s">אויף</span> <span class="w-s">דער</span> <span class="w-s">נאַכט</span> <span class="w-s">דאָס</span> <span class="w-s">שיסעלע</span> <span class="w-s">מיט</span> <span class="w-s">בוימל</span> <span class="w-s">אויפֿן</span> <span class="w-s">פֿענצטער.</span></span></div>
+      <div class="ftr">מתפלאים שברגע שמגיע החורף בעל הבית מעמיד כל לילה את קערית השמן על החלון.</div>
+    </div><div class="q">
+      <div class="qh"><span class="qn">13</span><span class="yid qq">ווי אַזוי האָט געהייסן דער בעל-הבית?</span><span class="qwtag">ווי = איך</span></div>
+      <div class="qtr">איך קראו לבעל הבית?</div>
+      <div class="grid">
+        <div class="g g1"><span class="glbl">🔁 שלד מהשאלה</span><span class="yid">דער האָט געהייסן…</span></div>
+        <div class="g g2"><span class="glbl">📖 מקטע מהסיפור</span><span class="yid">האָט <b class="pull">אַברהם</b> זיי דערציילט: מיט אַ צוואַנציק יאָר צוריק איז דאָס געווען.</span></div>
+        <div class="g g3"><span class="glbl">➕ מה מוסיפים</span><span>דרך — מוסיפים <b>איך/במה</b> נעשתה הפעולה (המכשיר/האופן מהסיפור).</span></div>
+      </div>
+      <div class="full"><span class="glbl">✅ תשובה מלאה</span> <span class="yid"><span class="w-q">דער</span> <span class="w-s">באַלעבאָס</span> <span class="w-q">האָט</span> <span class="w-q">געהייסן</span> <span class="w-s">אברהם.</span></span></div>
+      <div class="ftr">קראו לו אברהם.</div>
+    </div><div class="q">
+      <div class="qh"><span class="qn">14</span><span class="yid qq">ווען איז די מעשׂה געווען?</span></div>
+      <div class="qtr">מתי קרה הסיפור?</div>
+      <div class="grid">
+        <div class="g g1"><span class="glbl">🔁 שלד מהשאלה</span><span class="yid">די מעשׂה איז געווען…</span></div>
+        <div class="g g2"><span class="glbl">📖 מקטע מהסיפור</span><span class="yid">האָט אַברהם זיי דערציילט: מיט אַ <b class="pull">צוואַנציק</b> <b class="pull">יאָר</b> <b class="pull">צוריק</b> איז דאָס געווען.</span></div>
+        <div class="g g3"><span class="glbl">➕ מה מוסיפים</span><span>משלימים את <b>המושא/הפעולה</b> מהסיפור אחרי שלד השאלה.</span></div>
+      </div>
+      <div class="full"><span class="glbl">✅ תשובה מלאה</span> <span class="yid"><span class="w-q">די</span> <span class="w-q">מעשׂה</span> <span class="w-q">איז</span> <span class="w-q">געווען</span> <span class="w-s">מיט</span> <span class="w-s">אַ</span> <span class="w-s">צוואַנציק</span> <span class="w-s">יאָר</span> <span class="w-s">צוריק.</span></span></div>
+      <div class="ftr">לפני כעשרים שנה — כשאברהם היה בן 19.</div>
+    </div><div class="q">
+      <div class="qh"><span class="qn">15</span><span class="yid qq">וואָס האָט געזאָגט דער ערשטער געדאַנק?</span></div>
+      <div class="qtr">מה אמרה המחשבה הראשונה?</div>
+      <div class="grid">
+        <div class="g g1"><span class="glbl">🔁 שלד מהשאלה</span><span class="yid">דער ערשטער געדאַנק האָט געזאָגט: וואָס…</span></div>
+        <div class="g g2"><span class="glbl">📖 מקטע מהסיפור</span><span class="yid"><b class="pull">דרעמל</b> <b class="pull">ניט</b> <b class="pull">אײַן,</b> וועסטו דאָך אַזוי אײַביק אַנטשלאָפֿן ווערן.</span></div>
+        <div class="g g3"><span class="glbl">➕ מה מוסיפים</span><span>משלימים את <b>המושא/הפעולה</b> מהסיפור אחרי שלד השאלה.</span></div>
+      </div>
+      <div class="full"><span class="glbl">✅ תשובה מלאה</span> <span class="yid"><span class="w-q">דער</span> <span class="w-q">ערשטער</span> <span class="w-q">געדאַנק</span> <span class="w-q">האָט</span> <span class="w-q">געזאָגט:</span> <span class="w-q">וואָס</span> <span class="w-s">טוסטו?</span> <span class="w-s">דרעמל</span> <span class="w-s">ניט</span> <span class="w-s">אײַן!</span></span></div>
+      <div class="ftr">המחשבה הראשונה: מה אתה עושה? אל תירדם!</div>
+    </div><div class="q">
+      <div class="qh"><span class="qn">16</span><span class="yid qq">וואָס האָט ער דערזען אין חלום?</span></div>
+      <div class="qtr">מה הוא ראה?</div>
+      <div class="grid">
+        <div class="g g1"><span class="glbl">🔁 שלד מהשאלה</span><span class="yid">ער האָט דערזען אין חלום…</span></div>
+        <div class="g g2"><span class="glbl">📖 מקטע מהסיפור</span><span class="yid">פּלוצעם דערזע איך ווי אַ <b class="pull">פֿײַערל</b> שטייט פֿון ערגעץ ווײַט.</span></div>
+        <div class="g g3"><span class="glbl">➕ מה מוסיפים</span><span>משלימים את <b>המושא/הפעולה</b> מהסיפור אחרי שלד השאלה.</span></div>
+      </div>
+      <div class="full"><span class="glbl">✅ תשובה מלאה</span> <span class="yid"><span class="w-q">ער</span> <span class="w-q">האָט</span> <span class="w-q">דערזען</span> <span class="w-q">אין</span> <span class="w-q">חלום</span> <span class="w-s">אַ</span> <span class="w-s">פֿײַערל.</span></span></div>
+      <div class="ftr">ראה אור/אש קטנה.</div>
+    </div><div class="q">
+      <div class="qh"><span class="qn">17</span><span class="yid qq">וואָס האָט דער אַלטער געזאָגט?</span></div>
+      <div class="qtr">מה אמר הזקן?</div>
+      <div class="grid">
+        <div class="g g1"><span class="glbl">🔁 שלד מהשאלה</span><span class="yid">דער אַלטער האָט געזאָגט:…</span></div>
+        <div class="g g2"><span class="glbl">📖 מקטע מהסיפור</span><span class="yid">דערנאָך האָב איך מײַן מעשׂה דערציילט דעם אַלטן, און ער האָט זיך אָנגערופֿן: – <b class="pull">אויב</b> <b class="pull">דו,</b> <b class="pull">בּחור,</b> <b class="pull">האָסט</b> <b class="pull">ליב</b> <b class="pull">אַרבעט,</b> <b class="pull">קענסטו</b> <b class="pull">בּײַ</b> <b class="pull">מיר</b> <b class="pull">דאָ</b> אויסגעהאַרעט און <b class="pull">מיר</b> העלפֿן אַרומגיין אַרום די קי, העלפֿן די הינער און טאָן פֿאַרשיידענע <b class="pull">אַרבעט.</b></span></div>
+        <div class="g g3"><span class="glbl">➕ מה מוסיפים</span><span>משלימים את <b>המושא/הפעולה</b> מהסיפור אחרי שלד השאלה.</span></div>
+      </div>
+      <div class="full"><span class="glbl">✅ תשובה מלאה</span> <span class="yid"><span class="w-q">דער</span> <span class="w-q">אַלטער</span> <span class="w-q">האָט</span> <span class="w-q">געזאָגט:</span> <span class="w-s">אויב</span> <span class="w-s">דו,</span> <span class="w-s">בחור,</span> <span class="w-s">האָסט</span> <span class="w-s">ליב</span> <span class="w-s">אַרבעט,</span> <span class="w-s">קענסטו</span> <span class="w-s">בײַ</span> <span class="w-s">מיר</span> <span class="w-s">דאָ</span> <span class="w-s">פֿאַרבלײַבן.</span></span></div>
+      <div class="ftr">אם אתה אוהב עבודה, תוכל להישאר כאן אצלי.</div>
+    </div><div class="q">
+      <div class="qh"><span class="qn">18</span><span class="yid qq">וואָס טוט ער יעדן ווינטער?</span></div>
+      <div class="qtr">מה הוא עושה כל חורף?</div>
+      <div class="grid">
+        <div class="g g1"><span class="glbl">🔁 שלד מהשאלה</span><span class="yid">יעדן ווינטער ער…</span></div>
+        <div class="g g2"><span class="glbl">📖 מקטע מהסיפור</span><span class="yid">ווען די קינדער זײַנען נאָך געווען קליין, האָבן זיי זיך נישט געוווּנדערט, וואָס דער טאַטע <b class="pull">צינדט</b> <b class="pull">אָן</b> אַלע נאַכט דאָס <b class="pull">שיסעלע</b> מיט <b class="pull">בוימל</b> אויפֿן פֿענצטערל, אָבער ווען זיי זײַנען עלטער געוואָרן, האָט זיי די זאַך שטאַרק געוווּנדערט.</span></div>
+        <div class="g g3"><span class="glbl">➕ מה מוסיפים</span><span>משלימים את <b>המושא/הפעולה</b> מהסיפור אחרי שלד השאלה.</span></div>
+      </div>
+      <div class="full"><span class="glbl">✅ תשובה מלאה</span> <span class="yid"><span class="w-q">יעדן</span> <span class="w-q">ווינטער</span> <span class="w-s">צינדט</span> <span class="w-q">ער</span> <span class="w-s">אָן</span> <span class="w-s">אַ</span> <span class="w-s">שיסעלע</span> <span class="w-s">מיט</span> <span class="w-s">בוימל.</span></span></div>
+      <div class="ftr">כל חורף מדליק קערית שמן — כדי להציל מאחרים בדרכים.</div>
+    </div>
+  </section>
+<section class="story">
+    <h2 class="sh">3. <span class="yid">דער בוים און דאָס יינגל</span> · העץ והילד (העץ הנדיב)</h2>
+    <div class="summ"><b>תקציר:</b> עץ אהב ילד קטן: הילד אסף עלים, טיפס, אכל תפוחים ושיחק. הילד גדל וביקש — כסף (העץ נתן תפוחים למכור), בית (נתן ענפים), ספינה (נתן גזע). הילד נעלם זמן רב והעץ התעצב. בסוף חזר זקן וביקש רק מקום לנוח, והעץ נתן את הגדם. העץ היה מאושר שנתן הכול.</div>
+    <div class="q">
+      <div class="qh"><span class="qn">11</span><span class="yid qq">וועמען האָט דער בוים ליב געהאַט?</span></div>
+      <div class="qtr">את מי אהב העץ?</div>
+      <div class="grid">
+        <div class="g g1"><span class="glbl">🔁 שלד מהשאלה</span><span class="yid">דער בוים האָט ליב געהאַט…</span></div>
+        <div class="g g2"><span class="glbl">📖 מקטע מהסיפור</span><span class="yid">דו האָסט שוין מײַנע עפּל געגעסן." דאָס <b class="pull">יינגל</b> האָט געזאָגט: "מײַנע ציין זײַנען צו שוואַך פֿאַר די עפּל." דער בוים האָט געזאָגט: "איך האָב נישט מער קיין צווײַגן פֿאַר דיר צו וויגן." האָט דאָס <b class="pull">יינגל</b> געזאָגט: "איך בין צו אַלט זיך צו וויגן אויף דײַנע צווײַגן." האָט דער בוים געזאָגט: "איך האָב נישט קיין שטאַם פֿאַר דיר צו קלעטערן." האָט דאָס <b class="pull">יינגל</b> געזאָגט: "איך בין צו מיד צו קלעטערן." האָט דער בוים געזאָגט: "אַנטשולדיק מיר, הלוואי וואָלט איך געקענט דיר עפּעס געבן.</span></div>
+        <div class="g g3"><span class="glbl">➕ מה מוסיפים</span><span>משלימים את <b>המושא/הפעולה</b> מהסיפור אחרי שלד השאלה.</span></div>
+      </div>
+      <div class="full"><span class="glbl">✅ תשובה מלאה</span> <span class="yid"><span class="w-q">דער</span> <span class="w-q">בוים</span> <span class="w-q">האָט</span> <span class="w-q">ליב</span> <span class="w-q">געהאַט</span> <span class="w-s">דאָס</span> <span class="w-s">יינגל.</span></span></div>
+      <div class="ftr">העץ אהב את הילד. (ליב געהאַט = עבר של האָבן ליב.)</div>
+    </div><div class="q">
+      <div class="qh"><span class="qn">12</span><span class="yid qq">וואָס האָט דאָס יינגל געזאַמלט?</span></div>
+      <div class="qtr">מה אסף הילד?</div>
+      <div class="grid">
+        <div class="g g1"><span class="glbl">🔁 שלד מהשאלה</span><span class="yid">דאָס יינגל האָט געזאַמלט…</span></div>
+        <div class="g g2"><span class="glbl">📖 מקטע מהסיפור</span><span class="yid">דאָס יינגל איז געקומען צום בוים יעדן טאָג און האָט געזאַמלט די <b class="pull">בלעטער</b> וואָס זײַנען אַראָפּגעפֿאַלן.</span></div>
+        <div class="g g3"><span class="glbl">➕ מה מוסיפים</span><span>משלימים את <b>המושא/הפעולה</b> מהסיפור אחרי שלד השאלה.</span></div>
+      </div>
+      <div class="full"><span class="glbl">✅ תשובה מלאה</span> <span class="yid"><span class="w-q">דאָס</span> <span class="w-q">יינגל</span> <span class="w-q">האָט</span> <span class="w-q">געזאַמלט</span> <span class="w-s">די</span> <span class="w-s">בלעטער.</span></span></div>
+      <div class="ftr">הילד אסף את העלים ועשה מהם כתרים.</div>
+    </div><div class="q">
+      <div class="qh"><span class="qn">13</span><span class="yid qq">אין וואָס האָבן זיי זיך געשפּילט?</span></div>
+      <div class="qtr">במה שיחקו?</div>
+      <div class="grid">
+        <div class="g g1"><span class="glbl">🔁 שלד מהשאלה</span><span class="yid">זיי האָבן זיך געשפּילט אין…</span></div>
+        <div class="g g2"><span class="glbl">📖 מקטע מהסיפור</span><span class="yid">—</span></div>
+        <div class="g g3"><span class="glbl">➕ מה מוסיפים</span><span>משלימים את <b>המושא/הפעולה</b> מהסיפור אחרי שלד השאלה.</span></div>
+      </div>
+      <div class="full"><span class="glbl">✅ תשובה מלאה</span> <span class="yid"><span class="w-q">זיי</span> <span class="w-q">האָבן</span> <span class="w-q">זיך</span> <span class="w-q">געשפּילט</span> <span class="w-q">אין</span> <span class="w-s">באַהעלטעניש.</span></span></div>
+      <div class="ftr">שיחקו במחבואים. (זיך געשפּילט = פועל עם זיך בעבר.)</div>
+    </div><div class="q">
+      <div class="qh"><span class="qn">14</span><span class="yid qq">וואָס האָט דער בוים געגעבן?</span></div>
+      <div class="qtr">מה נתן העץ?</div>
+      <div class="grid">
+        <div class="g g1"><span class="glbl">🔁 שלד מהשאלה</span><span class="yid">דער בוים האָט געגעבן וואָס…</span></div>
+        <div class="g g2"><span class="glbl">📖 מקטע מהסיפור</span><span class="yid">און דער בוים איז געווען גליקלעך און האָט געפֿילט אַז <b class="pull">ער</b> האָט געגעבן <b class="pull">אַלץ</b> וואָס <b class="pull">ער</b> <b class="pull">קען:</b> זײַנע <b class="pull">פֿרוכט,</b> זײַנע צווײַגן און <b class="pull">זײַן</b> שטאַם.</span></div>
+        <div class="g g3"><span class="glbl">➕ מה מוסיפים</span><span>משלימים את <b>המושא/הפעולה</b> מהסיפור אחרי שלד השאלה.</span></div>
+      </div>
+      <div class="full"><span class="glbl">✅ תשובה מלאה</span> <span class="yid"><span class="w-q">דער</span> <span class="w-q">בוים</span> <span class="w-q">האָט</span> <span class="w-q">געגעבן</span> <span class="w-s">זײַן</span> <span class="w-s">פֿרוכט</span> <span class="w-s">/</span> <span class="w-s">אַלץ</span> <span class="w-q">וואָס</span> <span class="w-s">ער</span> <span class="w-s">קען.</span></span></div>
+      <div class="ftr">נתן פירותיו / כל מה שיכול: תפוחים, ענפים, גזע, ובסוף גדם.</div>
+    </div><div class="q">
+      <div class="qh"><span class="qn">15</span><span class="yid qq">פֿאַרוואָס האָט דאָס יינגל געוואָלט אַ שיף?</span></div>
+      <div class="qtr">למה רצה הילד ספינה?</div>
+      <div class="grid">
+        <div class="g g1"><span class="glbl">🔁 שלד מהשאלה</span><span class="yid">דאָס יינגל האָט געוואָלט אַ שיף…</span></div>
+        <div class="g g2"><span class="glbl">📖 מקטע מהסיפור</span><span class="yid">—</span></div>
+        <div class="g g3"><span class="glbl">➕ מה מוסיפים</span><span>משלימים את <b>המושא/הפעולה</b> מהסיפור אחרי שלד השאלה.</span></div>
+      </div>
+      <div class="full"><span class="glbl">✅ תשובה מלאה</span> <span class="yid"><span class="w-q">דאָס</span> <span class="w-q">יינגל</span> <span class="w-q">האָט</span> <span class="w-q">געוואָלט</span> <span class="w-q">אַ</span> <span class="w-q">שיף</span> <span class="w-s">כּדי</span> <span class="w-s">אַוועקצופֿאָרן.</span></span></div>
+      <div class="ftr">רצה ספינה כדי להפליג רחוק.</div>
+    </div><div class="q">
+      <div class="qh"><span class="qn">16</span><span class="yid qq">וואָס האָט דאָס יינגל געטאָן מיט די עפּל?</span></div>
+      <div class="qtr">מה עשה הילד עם התפוחים?</div>
+      <div class="grid">
+        <div class="g g1"><span class="glbl">🔁 שלד מהשאלה</span><span class="yid">דאָס יינגל האָט די עפּל…</span></div>
+        <div class="g g2"><span class="glbl">📖 מקטע מהסיפור</span><span class="yid">דו וועסט ווערן רײַך און גליקלעך." דאָס יינגל האָט אַרויפֿגעקלעטערט אויפֿן בוים, האָט אַראָפּגעריסן זײַנע עפּל און האָט זיי <b class="pull">גענומען</b> אין <b class="pull">מאַרק</b> <b class="pull">פֿאַרקויפֿן.</b></span></div>
+        <div class="g g3"><span class="glbl">➕ מה מוסיפים</span><span>משלימים את <b>המושא/הפעולה</b> מהסיפור אחרי שלד השאלה.</span></div>
+      </div>
+      <div class="full"><span class="glbl">✅ תשובה מלאה</span> <span class="yid"><span class="w-q">דאָס</span> <span class="w-q">יינגל</span> <span class="w-q">האָט</span> <span class="w-s">גענומען</span> <span class="w-q">די</span> <span class="w-q">עפּל</span> <span class="w-s">אין</span> <span class="w-s">מאַרק</span> <span class="w-s">פֿאַרקויפֿן.</span></span></div>
+      <div class="ftr">לקח את התפוחים למכור בשוק.</div>
+    </div><div class="q">
+      <div class="qh"><span class="qn">17</span><span class="yid qq">פֿאַרוואָס איז דער בוים געווען טרויעריק?</span></div>
+      <div class="qtr">למה היה העץ עצוב?</div>
+      <div class="grid">
+        <div class="g g1"><span class="glbl">🔁 שלד מהשאלה</span><span class="yid">דער בוים איז געווען טרויעריק איז…</span></div>
+        <div class="g g2"><span class="glbl">📖 מקטע מהסיפור</span><span class="yid">אָבער דאָס <b class="pull">יינגל</b> איז <b class="pull">ניט</b> <b class="pull">צוריקגעקומען</b> אַ <b class="pull">לאַנגע</b> <b class="pull">צײַט.</b></span></div>
+        <div class="g g3"><span class="glbl">➕ מה מוסיפים</span><span>משלימים את <b>המושא/הפעולה</b> מהסיפור אחרי שלד השאלה.</span></div>
+      </div>
+      <div class="full"><span class="glbl">✅ תשובה מלאה</span> <span class="yid"><span class="w-q">דער</span> <span class="w-q">בוים</span> <span class="w-q">איז</span> <span class="w-q">געווען</span> <span class="w-q">טרויעריק</span> <span class="w-s">ווײַל</span> <span class="w-s">דאָס</span> <span class="w-s">יינגל</span> <span class="w-q">איז</span> <span class="w-s">ניט</span> <span class="w-s">צוריקגעקומען</span> <span class="w-s">אַ</span> <span class="w-s">לאַנגע</span> <span class="w-s">צײַט.</span></span></div>
+      <div class="ftr">העץ היה עצוב כי הילד לא חזר זמן רב.</div>
+    </div><div class="q">
+      <div class="qh"><span class="qn">18</span><span class="yid qq">פֿאַרוואָס האָט דאָס יינגל געוואָלט אַ הויז?</span></div>
+      <div class="qtr">למה רצה הילד בית?</div>
+      <div class="grid">
+        <div class="g g1"><span class="glbl">🔁 שלד מהשאלה</span><span class="yid">דאָס יינגל האָט געוואָלט אַ הויז: אַ…</span></div>
+        <div class="g g2"><span class="glbl">📖 מקטע מהסיפור</span><span class="yid">דו האָסט שוין מײַנע עפּל געגעסן." דאָס יינגל האָט געזאָגט: "מײַנע ציין זײַנען צו שוואַך פֿאַר די עפּל." דער בוים האָט געזאָגט: <b class="pull">"איך</b> האָב נישט מער קיין צווײַגן פֿאַר דיר צו וויגן." האָט דאָס יינגל געזאָגט: <b class="pull">"איך</b> בין צו אַלט זיך צו וויגן אויף דײַנע צווײַגן." האָט דער בוים געזאָגט: <b class="pull">"איך</b> האָב נישט קיין שטאַם פֿאַר דיר צו קלעטערן." האָט דאָס יינגל געזאָגט: <b class="pull">"איך</b> בין צו מיד צו קלעטערן." האָט דער בוים געזאָגט: "אַנטשולדיק מיר, הלוואי וואָלט <b class="pull">איך</b> געקענט דיר עפּעס געבן.</span></div>
+        <div class="g g3"><span class="glbl">➕ מה מוסיפים</span><span>משלימים את <b>המושא/הפעולה</b> מהסיפור אחרי שלד השאלה.</span></div>
+      </div>
+      <div class="full"><span class="glbl">✅ תשובה מלאה</span> <span class="yid"><span class="w-q">דאָס</span> <span class="w-q">יינגל</span> <span class="w-q">האָט</span> <span class="w-q">געוואָלט</span> <span class="w-q">אַ</span> <span class="w-q">הויז:</span> <span class="w-s">איך</span> <span class="w-s">וויל</span> <span class="w-q">אַ</span> <span class="w-s">ווײַב</span> <span class="w-s">און</span> <span class="w-s">קינדער.</span></span></div>
+      <div class="ftr">רצה בית כי רצה אישה וילדים.</div>
+    </div>
+  </section>
+<section class="quick"><h2 class="mh">נוסחה מהירה למבחן</h2>
+  <div class="qrow"><span class="yid">וואָס האָט X געטאָן?</span> → <span class="yid">X האָט</span> + הפעולה מהסיפור.</div>
+  <div class="qrow"><span class="yid">פֿאַרוואָס…?</span> → שלד + <b class="yid">ווײַל…</b> / <b class="yid">כּדי צו…</b></div>
+  <div class="qrow"><span class="yid">ווען…?</span> → שלד + <b class="yid">ווען…</b> / זמן מהסיפור.</div>
+  <div class="qrow"><span class="yid">ווי אַזוי…?</span> → שלד + דרך הפעולה מהסיפור.</div>
+  <p class="lead" style="margin-top:10px">הכי חשוב: <b>לא להמציא יידיש חדשה</b> — הדבקה חכמה: שלד מהשאלה + מילים מהסיפור + מילת חיבור.</p>
+</section>
+</div></body></html>

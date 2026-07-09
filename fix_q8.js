@@ -1,0 +1,17 @@
+const fs=require("fs");
+const NEW="די סכּנה איז געווען אַז די נאַציס וועלן מיך דערזען און וועלן מיך דערשיסן";
+const NOTE="הסכנה הייתה שהנאצים יראו אותי ויירו בי. (תשובת המורה.)";
+let d=fs.readFileSync("data.js","utf8");
+const oldA="די סכּנה איז געווען אַז זי קען נאָך פֿאַלן און דאָס פּעקעלע פּוטער קען אויפֿרײַסן";
+d.includes(oldA)?d=d.replace(oldA,NEW):console.log("data: answer NOT found");
+const oldN="שתיפול והחבילה תתפוצץ, או שהנאצים יראו אותה ויירו. שתי גרסאות מהמורה — שתיהן טובות.";
+d.includes(oldN)?d=d.replace(oldN,NOTE):console.log("data: note NOT found");
+fs.writeFileSync("data.js",d);
+let t=fs.readFileSync("trainer.html","utf8");
+const oldTA='a:"די סכּנה איז געווען אַז זי קען נאָך פֿאַלן און דאָס פּעקעלע פּוטער קען אויפֿרײַסן",he:"שתיפול והחבילה תתפוצץ."';
+const newTA='a:"'+NEW+'",he:"הסכנה: הנאצים יראו אותי ויירו בי."';
+t.includes(oldTA)?t=t.replace(oldTA,newTA):console.log("trainer: NOT found");
+fs.writeFileSync("trainer.html",t);
+global.window={};require("./data.js");
+console.log("OK data.js Q8:",window.YID.STORIES[0].questions[7].modelAnswerYiddish);
+console.log("trainer has new:",t.includes(NEW));
