@@ -373,7 +373,7 @@ function hintFor(v,field,stage){
   const subj=v.presentSentence.split(' ')[0], t=new Set(v.tags||[]);
   const fut={'איך':'וועל','דו':'וועסט','ער':'וועט','זי':'וועט','עס':'וועט','מיר':'וועלן','איר':'וועט','זיי':'וועלן'}[subj]||'וועט';
   const H={
-   translation:['הגוף: '+subj,'תרגם את המשפט כמו בהווה','—','מתחיל ב־'+(v.translation||'').split(' ')[0]],
+   translation:['תרגם/י את משפט ההווה לעברית','הגוף: '+subj,'מתחיל ב־'+(v.translation||'').split(' ')[0],'התרגום המלא: '+(v.translation||'')],
    past:['הגוף: '+subj,(t.has('motion')?'זה פועל תנועה של כל הגוף':'בדוק אם זה פועל תנועה'),'עבר: עזר '+((t.has('zayn')||t.has('motion'))?'זײַן':'האָבן')+' + בינוני','מתחיל ב־'+(v.past||'').split(' ').slice(0,2).join(' ')],
    future:['עתיד = וועלן + שם הפועל','עם '+subj+' → '+fut,'אחריו הפועל במקור','מתחיל ב־'+subj+' '+fut],
    imperative:['ציווי בלי כינוי גוף','יחיד = השורש, רבים = +ט','—','מתחיל ב־'+(v.imperative||'').split(' ')[0]],
@@ -428,7 +428,7 @@ function renderExam(keepScroll){
   const A=EX.verbs.map((v,vi)=>`<div class="card" style="margin-bottom:12px">
       <div class="meta"><span class="pill gold">משפט ${vi+1} / 10</span><span>${BUCK_LBL[verbBucket(v)]}</span></div>
       <div class="yid" style="font-size:19px;margin:2px 0">${v.presentSentence}</div>
-      <div class="hint">שם הפועל: <b class="yid">${v.infinitive}</b>${v.translation?` · ${v.translation}`:''}</div>
+      <div class="hint">שם הפועל: <b class="yid">${v.infinitive}</b></div>
       <table class="conj"><tbody>${FORM_FIELDS.map(([f,l])=>fieldRow(v,f,l)).join('')}</tbody></table></div>`).join('');
   const st=STORIES.find(s=>s.k===EX.storyKey);
   const B=`<div class="card" style="margin-bottom:12px"><div class="meta"><span class="pill gold">חלק ב׳ · סיפור</span><span>${st.t}</span></div>
