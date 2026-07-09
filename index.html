@@ -86,6 +86,11 @@ a.home{display:inline-block;color:var(--teal-deep);text-decoration:none;font-wei
 .maprow .qt{flex:1;font-size:14px}
 .timer{font-weight:800;color:var(--teal-deep);font-variant-numeric:tabular-nums;font-family:ui-monospace,monospace}
 footer{color:var(--ink-faint);font-size:12px;text-align:center;margin-top:22px}
+.exin{width:100%;border:1px solid var(--line);border-radius:8px;padding:7px 9px;font-size:16px;background:var(--card-2);color:var(--ink);font-family:"Frank Ruhl Libre",serif}
+.exin:focus{outline:none;border-color:var(--teal);box-shadow:0 0 0 3px var(--teal-soft)}
+.exbuilt{min-height:30px;border:1px dashed var(--line);border-radius:8px;padding:5px 9px;font-size:16px;background:var(--card-2)}
+table.conj td{border:1px solid var(--line);padding:6px 8px;vertical-align:middle}
+table.conj td.lbl{background:var(--card-2);font-weight:800;white-space:nowrap;width:74px;font-size:13px}
 </style>
 </head>
 <body>
@@ -242,28 +247,199 @@ function qFromKey(k){
   if(k[0]==='f'){const [,id]=k.split('_');const it=FB.find(x=>x.id==id);return it?qFill(it):null;}
   return null;
 }
-function startExam(){
-  view='play';
-  const n=(DB.examNo||0); DB.examNo=n+1; save();          // מונה מבחנים לרוטציה
-  const openC=DB.mist.filter(k=>k[0]==='c'), openF=DB.mist.filter(k=>k[0]==='f');
-  // חלק א' — 10 הטיות: חלון מסתובב על 60 הפעלים, מכסה את כל 5 הצורות (עבר/עתיד/ציווי/שלילה/שאלה+)
-  const forms=['past','future','imperative','negative','positiveQuestion'];
-  const cStart=(n*10)%CB.length; const conjItems=[];
-  for(let i=0;i<10;i++){conjItems.push(qConj(CB[(cStart+i)%CB.length], forms[i%forms.length]));}
-  openC.slice(0,2).forEach((k,idx)=>{const q=qFromKey(k);if(q)conjItems[idx]=q;}); // טעויות הטיה חוזרות
-  // חלק ב' — סיפור שלם (8 שאלות); מתחלף כל מבחן, חוזר כל שלישי (יש רק 3 סיפורים)
-  const si=n%STORIES.length;
-  const storyItems=STORIES[si].items.map((_,qi)=>qStory(si,qi));
-  // חלק ג' — 10 שיבוצים: חלון מסתובב על 25 השיבוצים
-  const fStart=(n*10)%FB.length; const fillItems=[];
-  for(let i=0;i<10;i++){fillItems.push(qFill(FB[(fStart+i)%FB.length]));}
-  openF.slice(0,2).forEach((k,idx)=>{const q=qFromKey(k);if(q)fillItems[idx]=q;}); // טעויות שיבוץ חוזרות
-  exam={items:[...conjItems,...storyItems,...fillItems],correct:0,wrong:[],no:n+1,storyTitle:STORIES[si].t};
-  queue=exam.items;qpos=0;
-  if(exam.timerId)clearInterval(exam.timerId);
-  const start=performance.now();
-  exam.timerId=setInterval(()=>{const el=document.getElementById('etimer');if(el){const s=Math.floor((performance.now()-start)/1000);el.textContent=String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0');}},1000);
-  step();
+/* ================= FULL EXAM (real structure) ================= */
+// present forms for cloze — derived from the 6-exam banks (each once, from the real present sentences)
+const PRES={};
+["לערן,גייסט,שרײַבט,איז,האָבן,לויפֿט,מאַכן,קוקט,נעמט,אַרבעטן",
+ "רעד,קומסט,לערנט,וואַרט,פֿאָרן,פֿאָרן אַרויס,גייען אַרײַן,רעדט אָפּ,קויפֿן אָפּ,לייענט אויס",
+ "באַשרײַב,קויפֿסט אָפּ,פֿאַרקויפֿט,באַלערנט,לויפֿן אַרויס,פֿאַרמאַכט,גייען מיט,לויף נאָך,קומסט צו,פֿליט בײַ",
+ "האָט מורא,איז שולדיק,טראַכטן אויס,ווערט פֿאַרחלשט,אַנטלויפֿן,דערצייל,חלומסט,האָט ליב,פסקנט,ווערן דורשטיק",
+ "ווערט גרויס,זײַנען מצליח,צעברעך,פֿאַרשרײַבסט,באַקענט,שלאָפֿט,טאַנצן,אַרבעט,באַאַרבעטן,אַרבעט אַרײַן",
+ "שווימסט,קריכט,לערנט אָפּ,לייענען אויס,פֿאַרקוקט זיך,וואַשן זיך,באַקען זיך,פֿאַרשרײַבסט זיך,ברענגען,וווינען"
+].forEach((row,ri)=>row.split(",").forEach((w,i)=>{PRES[ri*10+i+1]=w;}));
+const FORM_FIELDS=[['translation','תרגום'],['past','עבר'],['future','עתיד'],['imperative','ציווי'],['negative','שלילה'],['positiveQuestion','שאלה +'],['negativeQuestion','שאלה −']];
+const FIELD_TOPIC={translation:'תרגום',past:'עבר',future:'עתיד',imperative:'ציווי',negative:'שלילה',positiveQuestion:'שאלה',negativeQuestion:'שאלה'};
+function verbBucket(v){const t=new Set(v.tags||[]);
+  if(t.has('zikh'))return 'zikh';
+  if(/\s/.test(v.infinitive)||['זײַן','האָבן'].includes(v.infinitive)||v.infinitive.indexOf('ווער')===0)return 'special';
+  if(t.has('prefix_fixed'))return 'inseparable';
+  if(t.has('prefix_split'))return 'separable';
+  if(t.has('motion'))return 'motion';
+  return 'regular';}
+const BUCK_LBL={regular:'קל',motion:'בינוני · תנועה',separable:'קשה · מתפרק',inseparable:'קשה · בלתי-מתפרק',zikh:'קשה · זיך',special:'קשה · מיוחד'};
+function lev(a,b){const m=a.length,n=b.length,d=[...Array(m+1)].map((_,i)=>[i,...Array(n).fill(0)]);for(let j=1;j<=n;j++)d[0][j]=j;for(let i=1;i<=m;i++)for(let j=1;j<=n;j++)d[i][j]=Math.min(d[i-1][j]+1,d[i][j-1]+1,d[i-1][j-1]+(a[i-1]===b[j-1]?0:1));return d[m][n];}
+function ratio(a,b){const L=Math.max(a.length,b.length);return L?1-lev(a,b)/L:1;}
+
+let EX=null;
+function buildExam(n){
+  const byB={}; CB.forEach(v=>{(byB[verbBucket(v)]=byB[verbBucket(v)]||[]).push(v);});
+  const want=[['regular',2],['motion',2],['separable',2],['inseparable',2],['zikh',1],['special',1]];
+  const chosen=[], used=new Set();
+  want.forEach(([b,cnt])=>{const arr=byB[b]||[];for(let i=0;i<cnt;i++){if(!arr.length)break;const v=arr[(n*cnt+i)%arr.length];if(v&&!used.has(v.id)){chosen.push(v);used.add(v.id);}}});
+  const all=CB.slice(); let ai=(n*7)%all.length;
+  while(chosen.length<10){const v=all[ai++%all.length];if(!used.has(v.id)){chosen.push(v);used.add(v.id);}if(ai>all.length*2)break;}
+  const verbs=chosen.slice(0,10);
+  const storyKey=['p','p','b','b','s','s'][n%6];
+  const slots=verbs.map(v=>({verbId:v.id,sentence:v.presentSentence,ans:PRES[v.id]||v.infinitive}));
+  const bank=slots.map(s=>s.ans);
+  // deterministic-ish scramble by index so bank order is stable per exam
+  const bankShuf=bank.slice().sort((a,b)=>(a+n).length-(b+n).length||a.localeCompare(b));
+  return {no:n, verbs, storyKey, slots, bank:bankShuf};
+}
+function exAns(){DB.exAns=DB.exAns||{};DB.exAns[EX.no]=DB.exAns[EX.no]||{conj:{},story:{},cloze:{}};return DB.exAns[EX.no];}
+function exGraded(){DB.exGraded=DB.exGraded||{};return DB.exGraded[EX.no];}
+
+function startExam(){ if(DB.examNo==null)DB.examNo=0; DB.ansMode=DB.ansMode||'type'; EX=buildExam(DB.examNo); renderExam(); }
+function newExam(){ DB.examNo=(DB.examNo||0)+1; save(); EX=buildExam(DB.examNo); renderExam(); }
+function setAnsMode(m){DB.ansMode=m;save();renderExam();}
+
+function saveField(sec,a,b){const ea=exAns();if(sec==='conj'){ea.conj[a]=ea.conj[a]||{};}const el=event.target;/*placeholder*/}
+// direct setters used by inputs/builders
+function setConj(vid,field,val){const ea=exAns();ea.conj[vid]=ea.conj[vid]||{};ea.conj[vid][field]=val;save();}
+function setStory(qi,val){const ea=exAns();ea.story[qi]=val;save();}
+function setCloze(vid,val){const ea=exAns();ea.cloze[vid]=val;save();}
+function getConj(vid,field){const ea=exAns();return (ea.conj[vid]&&ea.conj[vid][field])||'';}
+function getStoryA(qi){return exAns().story[qi]||'';}
+function getCloze(vid){return exAns().cloze[vid]||'';}
+
+// word-bank builder: append/remove words to the SAME string value (lossless toggle)
+function enc(w){return encodeURIComponent(w);}
+function bankAppend(kind,a,b,encw){const word=decodeURIComponent(encw);const cur=(kind==='conj'?getConj(a,b):kind==='story'?getStoryA(a):getCloze(a));const nv=(cur?cur+' ':'')+word;if(kind==='conj')setConj(a,b,nv);else if(kind==='story')setStory(a,nv);else setCloze(a,nv);renderExam(true);}
+function bankPop(kind,a,b){let cur=((kind==='conj'?getConj(a,b):kind==='story'?getStoryA(a):getCloze(a))||'').trim().split(/\s+/).filter(Boolean);cur.pop();const nv=cur.join(' ');if(kind==='conj')setConj(a,b,nv);else if(kind==='story')setStory(a,nv);else setCloze(a,nv);renderExam(true);}
+function clearField(kind,a,b){if(kind==='conj')setConj(a,b,'');else if(kind==='story')setStory(a,'');else setCloze(a,'');renderExam(true);}
+function scrambleFor(answer,extraPool){const w=(answer||'').split(/\s+/).filter(Boolean);const ex=shuffle((extraPool||[]).filter(x=>!w.includes(x))).slice(0,2);return shuffle(w.concat(ex));}
+function bankUI(kind,a,b,answer,pool){
+  const bE=(b==null?'null':`'${b}'`), aE=JSON.stringify(a);
+  const chips=scrambleFor(answer,pool).map(w=>`<button class="tile yid" style="font-size:16px;padding:5px 11px" onclick="bankAppend('${kind}',${aE},${bE},'${enc(w)}')">${w}</button>`).join('');
+  return `<div class="bank" style="margin:4px 0;gap:6px">${chips}<button class="tile" style="font-size:13px;padding:5px 10px" onclick="bankPop('${kind}',${aE},${bE})">⌫</button><button class="tile" style="font-size:13px;padding:5px 10px" onclick="clearField('${kind}',${aE},${bE})">נקה</button></div>`;
+}
+// hints
+function hintFor(v,field,stage){
+  const subj=v.presentSentence.split(' ')[0], t=new Set(v.tags||[]);
+  const fut={'איך':'וועל','דו':'וועסט','ער':'וועט','זי':'וועט','עס':'וועט','מיר':'וועלן','איר':'וועט','זיי':'וועלן'}[subj]||'וועט';
+  const H={
+   translation:['הגוף: '+subj,'תרגם את המשפט כמו בהווה','—','מתחיל ב־'+(v.translation||'').split(' ')[0]],
+   past:['הגוף: '+subj,(t.has('motion')?'זה פועל תנועה של כל הגוף':'בדוק אם זה פועל תנועה'),'עבר: עזר '+((t.has('zayn')||t.has('motion'))?'זײַן':'האָבן')+' + בינוני','מתחיל ב־'+(v.past||'').split(' ').slice(0,2).join(' ')],
+   future:['עתיד = וועלן + שם הפועל','עם '+subj+' → '+fut,'אחריו הפועל במקור','מתחיל ב־'+subj+' '+fut],
+   imperative:['ציווי בלי כינוי גוף','יחיד = השורש, רבים = +ט','—','מתחיל ב־'+(v.imperative||'').split(' ')[0]],
+   negative:['לשלול את המשפט',(t.has('nisht_keyn')?'המושא לא-מיודע → נישט קיין':'בדוק אם המושא לא-מיודע'),'נישט / נישט קיין לפי הכלל','מתחיל ב־'+(v.negative||'').split(' ').slice(0,2).join(' ')],
+   positiveQuestion:['שאלה+ עם צי','שים צי בהתחלה','אחר כך היפוך פועל־גוף','מתחיל ב־צי'],
+   negativeQuestion:['שאלה− בלי צי','היפוך סדר — הפועל ראשון','—','מתחיל ב־'+(v.negativeQuestion||'').split(' ')[0]]
+  };
+  const arr=H[field]||['—'];return arr[Math.min(stage,arr.length-1)];
+}
+function hint(kind,a,b){const key='h_'+EX.no+'_'+kind+'_'+a+'_'+(b||'');DB.hints=DB.hints||{};DB.hints[key]=(DB.hints[key]||0)+1;save();
+  let txt='';
+  if(kind==='conj'){const v=CB.find(x=>x.id==a);txt=hintFor(v,b,DB.hints[key]-1);}
+  else if(kind==='story'){const st=STORIES.find(s=>s.k===EX.storyKey),it=st.items[a];const qw=it.q.split(' ')[0];
+    const map={'ווער':'מי','וואָס':'מה','ווען':'מתי','ווי':'איך','פֿאַרוואָס':'למה','צוליב':'למה','וווּ':'איפה','אין':'—'};
+    txt=[`מילת השאלה: ${qw} = ${map[qw]||'?'}`,'"מחזרים" את השאלה בתשובה','מילים חשובות: '+it.a.split(' ').slice(0,3).join(' '),'מתחיל ב־'+it.a.split(' ').slice(0,2).join(' ')][Math.min(DB.hints[key]-1,3)];}
+  else {const v=CB.find(x=>x.id==a);const subj=v.presentSentence.split(' ')[0];txt=['קודם הגוף: '+subj,'סט→דו · ט→ער/איר · ן→מיר/זיי','בדוק משמעות','מתחיל ב־'+(PRES[a]||'').split(' ')[0]][Math.min(DB.hints[key]-1,3)];}
+  alert('רמז '+DB.hints[key]+':\n'+txt);
+}
+
+/* ===== exam field renderers + grading ===== */
+function blankSentence(sent,word){const i=sent.indexOf(word);return i<0?sent+' ______':sent.slice(0,i)+'______'+sent.slice(i+word.length);}
+function escAttr(s){return (s||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;');}
+function correctFor(v,field){if(field==='positiveQuestion')return (v.positiveQuestion||'').split('?')[0].trim()+'?';if(field==='translation')return v.translation||'';return v[field]||'';}
+function clozePick(vid,encw){setCloze(vid,decodeURIComponent(encw));renderExam(true);}
+function fieldRow(v,field,label){
+  const val=getConj(v.id,field);
+  let inp;
+  if(DB.ansMode==='type') inp=`<input class="exin yid" dir="rtl" value="${escAttr(val)}" oninput="setConj(${v.id},'${field}',this.value)">`;
+  else inp=`<div class="exbuilt yid">${val?val:'<span style=\'color:var(--ink-faint)\'>—</span>'}</div>`+bankUI('conj',v.id,field,correctFor(v,field));
+  return `<tr><td class="lbl">${label}</td><td>${inp}<div style="margin-top:3px"><button class="tile" style="font-size:12px;padding:3px 9px" onclick="hint('conj',${v.id},'${field}')">💡 רמז</button></div></td></tr>`;
+}
+function storyRow(qi,it){
+  const val=getStoryA(qi);
+  let inp;
+  if(DB.ansMode==='type') inp=`<input class="exin yid" dir="rtl" value="${escAttr(val)}" oninput="setStory(${qi},this.value)">`;
+  else inp=`<div class="exbuilt yid">${val?val:'<span style=\'color:var(--ink-faint)\'>—</span>'}</div>`+bankUI('story',qi,null,it.a);
+  return `<div style="margin:11px 0"><div class="yid" style="font-size:16px;margin-bottom:3px">${qi+1}. ${it.q}</div>${inp}<div style="margin-top:3px"><button class="tile" style="font-size:12px;padding:3px 9px" onclick="hint('story',${qi},null)">💡 רמז</button></div></div>`;
+}
+function clozeRow(s,k){
+  const val=getCloze(s.verbId), parts=blankSentence(s.sentence,s.ans).split('______');
+  let ctrl;
+  if(DB.ansMode==='type') ctrl=`<input class="exin yid" dir="rtl" style="display:inline-block;width:auto;min-width:110px" value="${escAttr(val)}" oninput="setCloze(${s.verbId},this.value)">`;
+  else ctrl=`<span class="exbuilt yid" style="display:inline-block;min-width:90px">${val||'—'}</span> `+EX.bank.map(w=>`<button class="tile yid" style="font-size:14px;padding:3px 8px" onclick="clozePick(${s.verbId},'${enc(w)}')">${w}</button>`).join('');
+  return `<div style="margin:9px 0;line-height:2.1"><b>${k+1}.</b> <span class="yid">${parts[0]}</span>${ctrl}<span class="yid">${parts[1]||''}</span> <button class="tile" style="font-size:12px;padding:3px 9px" onclick="hint('cloze',${s.verbId},null)">💡</button></div>`;
+}
+function renderExam(keepScroll){
+  renderTabs();document.getElementById('subtabs').innerHTML='';document.getElementById('pbar').style.width='0%';
+  document.getElementById('score').innerHTML=`<span class="spill">📝 מבחן #${EX.no+1} · 10 הטיות · סיפור (8) · 10 שיבוצים</span>`+
+    `<span class="spill" style="cursor:pointer" onclick="setAnsMode('${DB.ansMode==='type'?'bank':'type'}')">מצב תשובה: ${DB.ansMode==='type'?'📝 הקלדה':'🧩 מחסן'} ↔</span>`+
+    `<button class="mapbtn" onclick="newExam()">🔄 מבחן חדש</button>`;
+  const scrollY=window.scrollY, graded=DB.exGraded&&DB.exGraded[EX.no];
+  const A=EX.verbs.map((v,vi)=>`<div class="card" style="margin-bottom:12px">
+      <div class="meta"><span class="pill gold">משפט ${vi+1} / 10</span><span>${BUCK_LBL[verbBucket(v)]}</span></div>
+      <div class="yid" style="font-size:19px;margin:2px 0">${v.presentSentence}</div>
+      <div class="hint">שם הפועל: <b class="yid">${v.infinitive}</b>${v.translation?` · ${v.translation}`:''}</div>
+      <table class="conj"><tbody>${FORM_FIELDS.map(([f,l])=>fieldRow(v,f,l)).join('')}</tbody></table></div>`).join('');
+  const st=STORIES.find(s=>s.k===EX.storyKey);
+  const B=`<div class="card" style="margin-bottom:12px"><div class="meta"><span class="pill gold">חלק ב׳ · סיפור</span><span>${st.t}</span></div>
+    <div class="hint">ענה/עני ביידיש במשפט שלם.</div>${st.items.map((it,qi)=>storyRow(qi,it)).join('')}</div>`;
+  const C=`<div class="card"><div class="meta"><span class="pill gold">חלק ג׳ · שיבוצים</span></div>
+    <div style="margin:4px 0 8px">מחסן מילים: ${EX.bank.map(w=>`<b class="yid" style="background:var(--gold-soft);color:var(--gold);border-radius:8px;padding:2px 9px;display:inline-block;margin:2px">${w}</b>`).join('')}</div>
+    <div class="hint">שבץ/י כל מילה מהמחסן פעם אחת.</div>${EX.slots.map((s,k)=>clozeRow(s,k)).join('')}</div>`;
+  const check=`<div class="row" style="margin:14px 0"><button class="btn" onclick="gradeExam()">✅ בדוק תשובות</button><button class="btn ghost" onclick="if(confirm('לנקות את כל התשובות במבחן זה?')){DB.exAns[EX.no]={conj:{},story:{},cloze:{}};if(DB.exGraded)delete DB.exGraded[EX.no];save();renderExam();}">אפס תשובות</button></div>`;
+  document.getElementById('stage').innerHTML=`<h3 class="mh">חלק א׳ · הטיות (10 משפטים × 7 שדות)</h3>${A}<h3 class="mh">חלק ב׳ · סיפור (8 שאלות)</h3>${B}<h3 class="mh">חלק ג׳ · שיבוצים (10)</h3>${C}${check}${graded?examResultsHTML(graded):''}`;
+  window.scrollTo(0, keepScroll?scrollY:0);
+}
+function fieldOk(user,field,v){const u=norm(user);if(!u)return false;let acc;
+  if(field==='imperative')acc=(v.imperative||'').split(/\s+/).map(x=>x.replace(/[!]/g,'')).filter(Boolean).concat([v.imperative]);
+  else if(field==='positiveQuestion')acc=(v.positiveQuestion||'').split('?').map(s=>s.trim()).filter(Boolean);
+  else acc=[v[field]||''];
+  return acc.some(a=>{const na=norm(a);return na===u||(field==='translation'&&na&&ratio(u,na)>=0.7);});}
+function whyFor(v,field){const t=new Set(v.tags||[]);
+  if(field==='past')return (t.has('zayn')||t.has('motion'))?'פועל תנועה → עבר עם זײַן.':(t.has('prefix_fixed')?'בלתי-מתפרק → בלי גע בעבר.':'עבר עם האָבן + גע___ט.');
+  if(field==='negative')return t.has('nisht_keyn')?'מושא לא-מיודע → נישט קיין.':'נישט (מיודע / תואר).';
+  if(field==='positiveQuestion')return 'שאלה+ = עם צי.';
+  if(field==='negativeQuestion')return 'שאלה− = בלי צי, היפוך סדר.';
+  if(field==='future')return 'עתיד = וועלן + שם הפועל.';
+  if(field==='imperative')return 'ציווי: השורש (יחיד), +ט (רבים).';
+  if(field==='translation')return 'בדוק את התרגום מול ההווה.';
+  return v.explanation||'בדוק את הצורה.';}
+function gradeExam(){
+  const res={parts:{a:{pts:0,max:70},b:{pts:0,max:24},c:{pts:0,max:10}},mistakes:[],weak:{}};
+  EX.verbs.forEach((v,vi)=>FORM_FIELDS.forEach(([field,label])=>{
+    const user=getConj(v.id,field);
+    if(fieldOk(user,field,v))res.parts.a.pts++;
+    else{const tp=FIELD_TOPIC[field];res.weak[tp]=(res.weak[tp]||0)+1;
+      res.mistakes.push({part:'א׳',pos:'משפט '+(vi+1)+' · '+label,q:v.presentSentence+' · '+v.infinitive,mine:user||'—',correct:correctFor(v,field),why:whyFor(v,field),topic:tp});}
+  }));
+  const st=STORIES.find(s=>s.k===EX.storyKey);
+  st.items.forEach((it,qi)=>{const user=getStoryA(qi),r=ratio(norm(user),norm(it.a));let pts=0;
+    if(user){if(r>=0.85)pts=3;else if(r>=0.5)pts=2;else if(user.trim().split(/\s+/).length>=3)pts=1;}
+    res.parts.b.pts+=pts;
+    if(pts<2){res.weak['סיפורים']=(res.weak['סיפורים']||0)+1;
+      res.mistakes.push({part:'ב׳',pos:'שאלה '+(qi+1),q:it.q,mine:user||'—',correct:it.a,why:'עונים במשפט שלם ביידיש.',topic:'סיפורים'});}
+  });
+  EX.slots.forEach((s,k)=>{const user=getCloze(s.verbId);
+    if(norm(user)===norm(s.ans)&&user)res.parts.c.pts++;
+    else{res.weak['שיבוצים']=(res.weak['שיבוצים']||0)+1;
+      res.mistakes.push({part:'ג׳',pos:'שיבוץ '+(k+1),q:s.sentence,mine:user||'—',correct:s.ans,why:'קודם גוף → צורת פועל → משמעות.',topic:'שיבוצים'});}
+  });
+  DB.exGraded=DB.exGraded||{};DB.exGraded[EX.no]=res;
+  DB.examWeak=DB.examWeak||{};Object.entries(res.weak).forEach(([t,c])=>{DB.examWeak[t]=(DB.examWeak[t]||0)+c;});
+  save();renderExam();
+}
+function examResultsHTML(res){
+  const a=res.parts.a,b=res.parts.b,c=res.parts.c,tot=a.pts+b.pts+c.pts,max=a.max+b.max+c.max,pct=Math.round(tot/max*100);
+  const lvl=pct>=90?'מוכן מאוד 🏆':pct>=80?'טוב — לחזק טעויות 💪':pct>=65?'צריך עוד חזרה 📚':'לחזור למדריך 🔴';
+  const bar=(o,l)=>`<div style="margin:5px 0"><div style="display:flex;justify-content:space-between;font-size:13px"><span>${l}</span><b>${o.pts}/${o.max}</b></div><div class="prog" style="margin:3px 0 0"><i style="width:${Math.round(o.pts/o.max*100)}%"></i></div></div>`;
+  const weak=Object.entries(res.weak).sort((x,y)=>y[1]-x[1]).map(([t,n])=>`<span class="qbadge no" style="margin:2px">${t} · ${n}</span>`).join('')||'<span class="qbadge ok">אין 🎉</span>';
+  const mist=res.mistakes.map(m=>`<div class="maprow" style="cursor:default;flex-direction:column;align-items:stretch;gap:2px">
+     <div style="font-size:12px;color:var(--ink-faint)">חלק ${m.part} · ${m.pos} · נושא: <b>${m.topic}</b></div>
+     <div class="yid" style="font-size:14px">${m.q}</div>
+     <div style="font-size:13px">שלך: <span class="yid" style="color:var(--bad)">${m.mine}</span> · נכון: <span class="yid" style="color:var(--good)">${m.correct}</span></div>
+     <div style="font-size:12px;color:var(--ink-soft)">${m.why}</div></div>`).join('');
+  return `<div class="card" style="margin-top:14px;border:2px solid var(--teal)" id="exres">
+    <div class="done" style="padding:8px 0"><div class="big">${pct>=80?'🏆':pct>=65?'💪':'📚'}</div>
+    <h2 style="text-align:center">ציון: ${tot}/${max} (${pct}%)</h2><div style="text-align:center;color:var(--ink-soft)">${lvl}</div></div>
+    ${bar(a,'חלק א׳ · הטיות')}${bar(b,'חלק ב׳ · סיפור')}${bar(c,'חלק ג׳ · שיבוצים')}
+    <div class="mh">🎯 נושאים לחזק (מסומנים גם במדריך):</div><div>${weak}</div>
+    ${res.mistakes.length?`<div class="mh">📌 הטעויות שלך (${res.mistakes.length}):</div><div class="maplist">${mist}</div>`:''}
+    <div class="row" style="margin-top:12px"><button class="btn" onclick="newExam()">מבחן חדש ←</button><button class="btn ghost" onclick="setMode('guide')">📘 למדריך</button></div></div>`;
 }
 
 /* ===== step / render ===== */
@@ -403,6 +579,7 @@ function weakByTopic(){
     else if(k[0]==='s')bump('סיפורים',x);
     else if(k[0]==='f')bump('שיבוצים',x);
   });
+  Object.entries(DB.examWeak||{}).forEach(([t,n])=>{w[t]=w[t]||{ok:0,wrong:0};w[t].wrong+=n;});
   return w;
 }
 function tdot(topic,W){const o=W[topic];
