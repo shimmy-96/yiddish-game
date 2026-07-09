@@ -2,7 +2,7 @@
 <html lang="he" dir="rtl">
 <head>
 <meta charset="utf-8">
-<title>יידיש — מאמן (הטיות · סיפורים · שיבוצים · מבחן)</title>
+<title>יידיש — הכל למבחן</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
 :root{
@@ -90,7 +90,7 @@ footer{color:var(--ink-faint);font-size:12px;text-align:center;margin-top:22px}
 </head>
 <body>
 <div class="wrap">
-  <a class="home" href="index.html">→ חזרה למדריך</a>
+  <div style="font-weight:800;font-size:20px;color:var(--teal-deep);margin-bottom:8px">🎯 יידיש — הכל למבחן</div>
   <div class="tabs" id="tabs"></div>
   <div class="scorebar" id="score"></div>
   <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px" id="subtabs"></div>
@@ -191,7 +191,7 @@ let queue=[], qpos=0, view='play';
 let cur=null, placed=[], bank=[], answered=false;
 let exam=null; // {items, correct, t0, timerId}
 
-const TABS=[['conj','⚔️ הטיות'],['story','📖 סיפורים'],['fill','🧩 שיבוצים'],['exam','📝 מבחן']];
+const TABS=[['guide','📘 מדריך'],['conj','⚔️ הטיות'],['story','📖 סיפורים'],['fill','🧩 שיבוצים'],['exam','📝 מבחן']];
 const FILL_TYPES=[['all','הכל'],['pronoun_verb','כינוי↔פועל'],['verb_form','צורת פועל'],['preposition','מילת יחס'],['question_word','מילת שאלה'],['nisht_keyn','נישט/קיין']];
 
 function renderTabs(){
@@ -216,6 +216,7 @@ function counts(){
 }
 function renderScore(){
   const el=document.getElementById('score');
+  if(mode==='guide'){el.innerHTML='<span class="spill">📘 כללי היסוד · נושאים מסומנים אדום/צהוב/ירוק לפי הטעויות שלך</span>';return;}
   if(mode==='exam'){const sn=(exam&&exam.no)||((DB.examNo||0)+1);el.innerHTML=`<span class="spill">📝 מבחן #${sn} — 10 הטיות · סיפור (8) · 10 שיבוצים</span><span class="spill">🔁 טעויות פתוחות: <b>${DB.mist.length}</b></span>`;return;}
   const c=counts();
   el.innerHTML=`<span class="spill">⭐ נכון: <b>${c.ok}</b>/${c.tot}</span>`+
@@ -224,7 +225,7 @@ function renderScore(){
 }
 function setBar(){const b=document.getElementById('pbar');b.style.width=(view==='play'&&queue.length)?Math.round(qpos/queue.length*100)+'%':'0%';}
 
-function setMode(m){mode=m;view='play';if(m==='conj')startConj();else if(m==='story')startStory(storyIdx);else if(m==='fill')startFill();else startExam();}
+function setMode(m){mode=m;view='play';if(m==='guide')renderGuide();else if(m==='conj')startConj();else if(m==='story')startStory(storyIdx);else if(m==='fill')startFill();else startExam();}
 function setConjForm(f){conjForm=f;startConj();}
 function setStory(i){storyIdx=i;startStory(i);}
 function setFillType(t){fillType=t;startFill();}
@@ -393,6 +394,64 @@ function examReviewWrong(keys){
 }
 
 /* ===== map ===== */
+/* ===== מדריך קבוע + סימון נושאים חלשים ===== */
+function weakByTopic(){
+  const w={}, map={past:'עבר',future:'עתיד',imperative:'ציווי',negative:'שלילה',positiveQuestion:'שאלה'};
+  const bump=(t,x)=>{if(!x.tries)return;w[t]=w[t]||{ok:0,wrong:0};if(x.ok)w[t].ok++;else w[t].wrong++;};
+  Object.entries(DB.prog).forEach(([k,x])=>{
+    if(k[0]==='c')bump(map[k.split('_')[2]]||'עבר',x);
+    else if(k[0]==='s')bump('סיפורים',x);
+    else if(k[0]==='f')bump('שיבוצים',x);
+  });
+  return w;
+}
+function tdot(topic,W){const o=W[topic];
+  if(!o||(!o.ok&&!o.wrong))return '<span class="qbadge" style="background:var(--line-soft);color:var(--ink-faint)">טרם</span>';
+  if(o.wrong>=3)return '<span class="qbadge no">חלש · '+o.wrong+' טעויות</span>';
+  if(o.wrong>=1)return '<span class="qbadge" style="background:var(--gold-soft);color:var(--gold)">בינוני · '+o.wrong+'</span>';
+  return '<span class="qbadge ok">שולט ✓</span>';}
+function renderGuide(){
+  renderTabs();renderScore();document.getElementById('subtabs').innerHTML='';document.getElementById('pbar').style.width='0%';
+  const W=weakByTopic();
+  const y=s=>`<span class="yid">${s}</span>`;
+  const T=(title,badge,html)=>`<div class="card" style="margin-bottom:12px"><div style="display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:6px"><h3 style="font-size:17px;margin:0">${title}</h3>${badge||''}</div>${html}</div>`;
+  let h='';
+  h+=T('גופים בהווה — סיומות הפועל','',
+    `<table class="conj"><tbody>
+     <tr><td class="lbl">איך</td><td>צורה קצרה (השורש)</td></tr>
+     <tr><td class="lbl">דו</td><td>בדרך כלל ־סט</td></tr>
+     <tr><td class="lbl">ער/זי/עס</td><td>בדרך כלל ־ט</td></tr>
+     <tr><td class="lbl">מיר</td><td>־ן / ־ען</td></tr>
+     <tr><td class="lbl">איר</td><td>בדרך כלל ־ט</td></tr>
+     <tr><td class="lbl">זיי</td><td>־ן / ־ען</td></tr></tbody></table>
+     <div class="hint" style="margin-top:6px">חריג: שורש שנגמר ב־ט (אַרבעט, וואַרט) לא מקבל ט נוסף → איך/ער/איר = ${y('אַרבעט')}.</div>`);
+  h+=T('עתיד',tdot('עתיד',W),`עזר <b>וועלן</b> + שם הפועל: ${y('איך וועל · דו וועסט · ער וועט · מיר וועלן · איר וועט · זיי וועלן')} + פועל במקור.`);
+  h+=T('עבר — האָבן או זײַן?',tdot('עבר',W),
+    `פועל <b>תנועה של כל הגוף</b> (גיין · קומען · פֿאָרן · לויפֿן · שווימען · קריכן · שלאָפֿן) → עזר ${y('זײַן')}. שאר הפעלים → ${y('האָבן')} + גע___ט.
+     <div class="hint" style="margin-top:6px">חריג: ${y('טאַנצן')} עם האָבן; ${y('ווערן')} עם זײַן (איז געוואָרן).</div>
+     <table class="conj" style="margin-top:8px"><tbody><tr><td class="lbl">האָבן</td><td>${y('איך האָב · דו האָסט · ער האָט · מיר/זיי האָבן · איר האָט')}</td></tr>
+     <tr><td class="lbl">זײַן</td><td>${y('איך בין · דו ביסט · ער איז · מיר/זיי זײַנען · איר זײַט')}</td></tr></tbody></table>`);
+  h+=T('פעלים מתפרקים','',`בהווה ובציווי התחילית נפרדת; בעבר ${y('גע')} נכנס באמצע: ${y('אַרויספֿאָרן → אַרויסגעפֿאָרן · אָפּקויפֿן → אָפּגעקויפֿט · אויסלייענען → אויסגעלייענט')}.`);
+  h+=T('פעלים בלתי-מתפרקים','',`תחיליות ${y('באַ · פֿאַר · דער · צע · אַנט')} — <b>אין גע בעבר</b>: ${y('פֿאַרקויפֿן → פֿאַרקויפֿט · דערציילן → דערציילט · צעברעכן → צעבראָכן · אַנטלויפֿן → אַנטלאָפֿן')}.`);
+  h+=T('פעלים עם זיך','',`לא לשכוח ${y('זיך')} בכל זמן: ${y('וואַשן זיך · באַקענען זיך · פֿאַרשרײַבן זיך · פֿאַרקוקן זיך')}.`);
+  h+=T('שלילה — נישט / נישט קיין',tdot('שלילה',W),
+    `${y('נישט')} = שלילה רגילה / תואר / מושא <b>מיודע</b> (די/דעם). ${y('נישט קיין')} = שם עצם <b>לא מיודע</b> / אַ / מספר / כמות.
+     <div class="hint" style="margin-top:6px">${y('ער שרײַבט נישט קיין בריוו')} · ${y('זי איז נישט די שענסטע')}.</div>`);
+  h+=T('שאלות (בהטיות)',tdot('שאלה',W),`${y('שאלה+')} = כן/לא <b>עם צי</b>. ${y('שאלה−')} = כן/לא <b>בלי צי</b>, היפוך סדר. דו מתמזג: ${y('גייסטו · קומסטו')}.`);
+  h+=T('סיפורים — מילות שאלה ופתיחים',tdot('סיפורים',W),
+    `${y('ווער')}=מי · ${y('וואָס')}=מה · ${y('ווען')}=מתי · ${y('ווי אַזוי')}=איך · ${y('פֿאַרוואָס')}=למה · ${y('וווּ')}=איפה.
+     <div class="hint" style="margin-top:6px">"מחזרים" את השאלה בתשובה: ${y('ווו שטייט דאָס הייזל? → דאָס הייזל שטייט…')}. עונים במשפט שלם ביידיש.</div>`);
+  h+=T('שיבוצים — איך פותרים',tdot('שיבוצים',W),`הסדר: <b>קודם גוף → צורת פועל → משמעות</b>. ${y('סט')}→דו · ${y('ט')}→ער/איר · ${y('ן')}→מיר/זיי. כל מילה מהמחסן פעם אחת.`);
+  h+=`<div class="card" style="margin-bottom:12px"><h3 style="font-size:17px;margin:0 0 8px">📎 עוד באותו מקום</h3>
+    <div style="display:flex;flex-direction:column;gap:8px">
+    <a class="btn ghost" href="tests.html">🧾 6 מבחנים מלאים להדפסה (עם מפתח)</a>
+    <a class="btn ghost" href="sheet.html">📄 דף נוסחאות + מבחן קצר</a>
+    <a class="btn ghost" href="guide.html">📖 המדריך המאויר המלא</a>
+    <a class="btn ghost" href="game.html">🕹️ המשחק (מצב סולם + לבבות)</a>
+    </div></div>`;
+  document.getElementById('stage').innerHTML=h;
+  window.scrollTo(0,0);
+}
 function toggleMap(){view=view==='map'?'play':'map';if(view==='map')renderMap();else setMode(mode);}
 function renderMap(){
   renderTabs();renderSub();renderScore();document.getElementById('pbar').style.width='0%';
@@ -416,7 +475,7 @@ function jump(k){const q=qFromKey(k);if(!q)return;queue=[q];qpos=0;view='play';s
 function resetAll(){if(confirm('לאפס את כל הניקוד, ההתקדמות והטעויות?')){DB={prog:{},mist:[]};save();renderMap();}}
 
 if(!CB.length){document.getElementById('stage').innerHTML='<div class="card">שגיאה: קובץ הנתונים לא נטען. ודא ש-data.js קיים לצד הדף.</div>';}
-else{ setMode('conj'); }
+else{ setMode('guide'); }
 </script>
 </body>
 </html>
