@@ -160,8 +160,8 @@ function qConj(verb,form){
   if(form==='positiveQuestion') a=a.split('?')[0].trim()+'?'; // וריאנט ראשון של השאלה
   return {kind:'build', key:'c_'+verb.id+'_'+form, cat:'הטיה',
     tag:`הטיה · ${label}`, answer:a,
-    head:`<div class="hint">שם הפועל: <b class="yid">${verb.infinitive}</b> · הווה: <span class="yid">${verb.presentSentence}</span></div><div class="q">בנה/בני את צורת ה<b>${label}</b>:</div>`,
-    reveal:`תשובה (${label}): <span class="yid">${a}</span>`+(verb.explanation?`<br><span class="tr">${verb.explanation}</span>`:''),
+    head:`<div class="hint">שם הפועל: <b class="yid">${verb.infinitive}</b> · הווה: <span class="yid">${verb.presentSentence}</span>${verb.translation?`<br><span style="color:var(--ink-faint)">תרגום: ${verb.translation}</span>`:''}</div><div class="q">בנה/בני את צורת ה<b>${label}</b>:</div>`,
+    reveal:`תשובה (${label}): <span class="yid">${a}</span>`+(verb.translation?`<br><span class="tr">תרגום: ${verb.translation}</span>`:'')+(verb.explanation?`<br><span class="tr">${verb.explanation}</span>`:''),
     poolCat:'conj_'+form};
 }
 function qStory(si,qi){
