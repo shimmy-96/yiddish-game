@@ -88,7 +88,14 @@ a.home{display:inline-block;color:var(--teal-deep);text-decoration:none;font-wei
 footer{color:var(--ink-faint);font-size:12px;text-align:center;margin-top:22px}
 .exin{width:100%;border:1px solid var(--line);border-radius:8px;padding:7px 9px;font-size:16px;background:var(--card-2);color:var(--ink);font-family:"Frank Ruhl Libre",serif}
 .exin:focus{outline:none;border-color:var(--teal);box-shadow:0 0 0 3px var(--teal-soft)}
-.exbuilt{min-height:30px;border:1px dashed var(--line);border-radius:8px;padding:5px 9px;font-size:16px;background:var(--card-2)}
+.exbuilt{min-height:30px;border:1px dashed var(--line);border-radius:8px;padding:5px 9px;font-size:16px;background:var(--card-2);cursor:pointer}
+.exbuilt.active{border:2px solid var(--teal);background:var(--teal-soft);box-shadow:0 0 0 3px var(--teal-soft)}
+#kbd{position:sticky;bottom:0;z-index:40;background:var(--card);border-top:2px solid var(--teal);box-shadow:0 -6px 20px rgba(27,42,44,.14);border-radius:16px 16px 0 0;padding:10px 12px;margin-top:14px}
+#kbd .khd{font-size:12.5px;font-weight:800;color:var(--teal-deep);margin-bottom:7px}
+#kbd .kwords{display:flex;flex-wrap:wrap;gap:7px}
+#kbd .kw{font-family:"Frank Ruhl Libre",serif;font-size:18px;padding:8px 14px;border:1px solid var(--line);border-radius:10px;background:var(--card-2);color:var(--ink);cursor:pointer;min-height:42px}
+#kbd .kw:active{transform:scale(.96)}
+#kbd .kctl{font-size:13px;font-weight:700;padding:8px 12px;border:1px solid var(--line);border-radius:10px;background:var(--paper-2);cursor:pointer}
 table.conj td{border:1px solid var(--line);padding:6px 8px;vertical-align:middle}
 table.conj td.lbl{background:var(--card-2);font-weight:800;white-space:nowrap;width:74px;font-size:13px}
 </style>
@@ -101,6 +108,7 @@ table.conj td.lbl{background:var(--card-2);font-weight:800;white-space:nowrap;wi
   <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px" id="subtabs"></div>
   <div class="prog"><i id="pbar"></i></div>
   <div id="stage"></div>
+  <div id="kbd" style="display:none"></div>
   <footer>נתונים: 60 משפטי ההטיה · 3 סיפורים (תשובות המורה) · 25 שיבוצים · הכל מהקורס, אין המצאות</footer>
 </div>
 
@@ -230,7 +238,7 @@ function renderScore(){
 }
 function setBar(){const b=document.getElementById('pbar');b.style.width=(view==='play'&&queue.length)?Math.round(qpos/queue.length*100)+'%':'0%';}
 
-function setMode(m){mode=m;view='play';if(m==='guide')renderGuide();else if(m==='conj')startConj();else if(m==='story')startStory(storyIdx);else if(m==='fill')startFill();else startExam();}
+function setMode(m){mode=m;view='play';if(m!=='exam'){const k=document.getElementById('kbd');if(k){k.style.display='none';k.innerHTML='';}}if(m==='guide')renderGuide();else if(m==='conj')startConj();else if(m==='story')startStory(storyIdx);else if(m==='fill')startFill();else startExam();}
 function setConjForm(f){conjForm=f;startConj();}
 function setStory(i){storyIdx=i;startStory(i);}
 function setFillType(t){fillType=t;startFill();}
@@ -291,7 +299,7 @@ function exGraded(){DB.exGraded=DB.exGraded||{};return DB.exGraded[EX.no];}
 
 function startExam(){ if(DB.examNo==null)DB.examNo=0; DB.ansMode=DB.ansMode||'type'; EX=buildExam(DB.examNo); renderExam(); }
 function newExam(){ DB.examNo=(DB.examNo||0)+1; save(); EX=buildExam(DB.examNo); renderExam(); }
-function setAnsMode(m){DB.ansMode=m;save();renderExam();}
+function setAnsMode(m){DB.ansMode=m;DB.active=null;save();renderExam();}
 
 function saveField(sec,a,b){const ea=exAns();if(sec==='conj'){ea.conj[a]=ea.conj[a]||{};}const el=event.target;/*placeholder*/}
 // direct setters used by inputs/builders
@@ -304,15 +312,33 @@ function getCloze(vid){return exAns().cloze[vid]||'';}
 
 // word-bank builder: append/remove words to the SAME string value (lossless toggle)
 function enc(w){return encodeURIComponent(w);}
-function bankAppend(kind,a,b,encw){const word=decodeURIComponent(encw);const cur=(kind==='conj'?getConj(a,b):kind==='story'?getStoryA(a):getCloze(a));const nv=(cur?cur+' ':'')+word;if(kind==='conj')setConj(a,b,nv);else if(kind==='story')setStory(a,nv);else setCloze(a,nv);renderExam(true);}
-function bankPop(kind,a,b){let cur=((kind==='conj'?getConj(a,b):kind==='story'?getStoryA(a):getCloze(a))||'').trim().split(/\s+/).filter(Boolean);cur.pop();const nv=cur.join(' ');if(kind==='conj')setConj(a,b,nv);else if(kind==='story')setStory(a,nv);else setCloze(a,nv);renderExam(true);}
-function clearField(kind,a,b){if(kind==='conj')setConj(a,b,'');else if(kind==='story')setStory(a,'');else setCloze(a,'');renderExam(true);}
-function scrambleFor(answer,extraPool){const w=(answer||'').split(/\s+/).filter(Boolean);const ex=shuffle((extraPool||[]).filter(x=>!w.includes(x))).slice(0,2);return shuffle(w.concat(ex));}
-function bankUI(kind,a,b,answer,pool){
-  const bE=(b==null?'null':`'${b}'`), aE=JSON.stringify(a);
-  const chips=scrambleFor(answer,pool).map(w=>`<button class="tile yid" style="font-size:16px;padding:5px 11px" onclick="bankAppend('${kind}',${aE},${bE},'${enc(w)}')">${w}</button>`).join('');
-  return `<div class="bank" style="margin:4px 0;gap:6px">${chips}<button class="tile" style="font-size:13px;padding:5px 10px" onclick="bankPop('${kind}',${aE},${bE})">⌫</button><button class="tile" style="font-size:13px;padding:5px 10px" onclick="clearField('${kind}',${aE},${bE})">נקה</button></div>`;
-}
+function getField(kind,a,b){return kind==='conj'?getConj(a,b):kind==='story'?getStoryA(a):getCloze(a);}
+function putField(kind,a,b,nv){if(kind==='conj')setConj(a,b,nv);else if(kind==='story')setStory(a,nv);else setCloze(a,nv);}
+// active field for the fixed word-keyboard
+function fkey(kind,a,b){return kind+'|'+a+'|'+(b==null?'':b);}
+function setActive(kind,a,b){DB.active={kind:kind,a:a,b:b};renderExam(true);}
+function isActive(kind,a,b){return DB.active&&DB.active.kind===kind&&String(DB.active.a)===String(a)&&String(DB.active.b==null?'':DB.active.b)===String(b==null?'':b);}
+function kbdAppend(encw){if(!DB.active)return;const{kind,a,b}=DB.active;const word=decodeURIComponent(encw);if(kind==='cloze'){putField(kind,a,b,word);renderExam(true);return;}const cur=getField(kind,a,b);putField(kind,a,b,(cur?cur+' ':'')+word);renderExam(true);}
+function kbdPop(){if(!DB.active)return;const{kind,a,b}=DB.active;let cur=(getField(kind,a,b)||'').trim().split(/\s+/).filter(Boolean);cur.pop();putField(kind,a,b,cur.join(' '));renderExam(true);}
+function kbdClear(){if(!DB.active)return;const{kind,a,b}=DB.active;putField(kind,a,b,'');renderExam(true);}
+// deterministic (never-reshuffling) word list for the active field
+const KDISTRACT=['נישט','קיין','צי','געווען','וועט','זיך','אַ','די','אין','מיט','האָט','איז'];
+function stableSort(ws){return ws.slice().sort((x,y)=>x.length-y.length||x.localeCompare(y));}
+function kbdWordsFor(){if(!DB.active)return[];const{kind,a,b}=DB.active;
+  if(kind==='cloze')return EX.bank.slice();
+  let answer=kind==='conj'?correctFor(CB.find(v=>v.id==a),b):(()=>{const st=STORIES.find(s=>s.k===EX.storyKey);return st.items[a].a;})();
+  const toks=(answer||'').replace(/[?!.]/g,'').split(/\s+/).filter(Boolean);
+  const uniq=[...new Set(toks)];
+  const seed=(String(answer)).length;
+  const dist=KDISTRACT.filter(x=>!uniq.includes(x));
+  const extra=[dist[seed%dist.length],dist[(seed+5)%dist.length]].filter((x,i,arr)=>x&&arr.indexOf(x)===i);
+  return stableSort(uniq.concat(extra));}
+function renderKbd(){const el=document.getElementById('kbd');if(!el)return;
+  if(mode!=='exam'||DB.ansMode!=='bank'||!DB.active){el.style.display='none';el.innerHTML='';return;}
+  const{kind,a,b}=DB.active;const label=kind==='conj'?(FORM_FIELDS.find(f=>f[0]===b)||['',''])[1]:kind==='story'?'שאלה '+(a+1):'שיבוץ';
+  const words=kbdWordsFor().map(w=>`<button class="kw" onclick="kbdAppend('${enc(w)}')">${w}</button>`).join('');
+  el.innerHTML=`<div class="khd">🧩 מקלדת מילים · שדה פעיל: ${label}</div><div class="kwords">${words}<button class="kctl" onclick="kbdPop()">⌫ מחק מילה</button><button class="kctl" onclick="kbdClear()">נקה שדה</button></div>`;
+  el.style.display='';}
 // hints
 function hintFor(v,field,stage){
   const subj=v.presentSentence.split(' ')[0], t=new Set(v.tags||[]);
@@ -347,21 +373,21 @@ function fieldRow(v,field,label){
   const val=getConj(v.id,field);
   let inp;
   if(DB.ansMode==='type') inp=`<input class="exin yid" dir="rtl" value="${escAttr(val)}" oninput="setConj(${v.id},'${field}',this.value)">`;
-  else inp=`<div class="exbuilt yid">${val?val:'<span style=\'color:var(--ink-faint)\'>—</span>'}</div>`+bankUI('conj',v.id,field,correctFor(v,field));
+  else inp=`<div class="exbuilt yid${isActive('conj',v.id,field)?' active':''}" onclick="setActive('conj',${v.id},'${field}')">${val?val:'<span style=\'color:var(--ink-faint)\'>הקש/י כדי לבחור שדה זה</span>'}</div>`;
   return `<tr><td class="lbl">${label}</td><td>${inp}<div style="margin-top:3px"><button class="tile" style="font-size:12px;padding:3px 9px" onclick="hint('conj',${v.id},'${field}')">💡 רמז</button></div></td></tr>`;
 }
 function storyRow(qi,it){
   const val=getStoryA(qi);
   let inp;
   if(DB.ansMode==='type') inp=`<input class="exin yid" dir="rtl" value="${escAttr(val)}" oninput="setStory(${qi},this.value)">`;
-  else inp=`<div class="exbuilt yid">${val?val:'<span style=\'color:var(--ink-faint)\'>—</span>'}</div>`+bankUI('story',qi,null,it.a);
+  else inp=`<div class="exbuilt yid${isActive('story',qi,null)?' active':''}" onclick="setActive('story',${qi},null)">${val?val:'<span style=\'color:var(--ink-faint)\'>הקש/י כדי לבחור שדה זה</span>'}</div>`;
   return `<div style="margin:11px 0"><div class="yid" style="font-size:16px;margin-bottom:3px">${qi+1}. ${it.q}</div>${inp}<div style="margin-top:3px"><button class="tile" style="font-size:12px;padding:3px 9px" onclick="hint('story',${qi},null)">💡 רמז</button></div></div>`;
 }
 function clozeRow(s,k){
   const val=getCloze(s.verbId), parts=blankSentence(s.sentence,s.ans).split('______');
   let ctrl;
   if(DB.ansMode==='type') ctrl=`<input class="exin yid" dir="rtl" style="display:inline-block;width:auto;min-width:110px" value="${escAttr(val)}" oninput="setCloze(${s.verbId},this.value)">`;
-  else ctrl=`<span class="exbuilt yid" style="display:inline-block;min-width:90px">${val||'—'}</span> `+EX.bank.map(w=>`<button class="tile yid" style="font-size:14px;padding:3px 8px" onclick="clozePick(${s.verbId},'${enc(w)}')">${w}</button>`).join('');
+  else ctrl=`<span class="exbuilt yid${isActive('cloze',s.verbId,null)?' active':''}" style="display:inline-block;min-width:90px" onclick="setActive('cloze',${s.verbId},null)">${val||'הקש/י'}</span>`;
   return `<div style="margin:9px 0;line-height:2.1"><b>${k+1}.</b> <span class="yid">${parts[0]}</span>${ctrl}<span class="yid">${parts[1]||''}</span> <button class="tile" style="font-size:12px;padding:3px 9px" onclick="hint('cloze',${s.verbId},null)">💡</button></div>`;
 }
 function renderExam(keepScroll){
@@ -383,6 +409,7 @@ function renderExam(keepScroll){
     <div class="hint">שבץ/י כל מילה מהמחסן פעם אחת.</div>${EX.slots.map((s,k)=>clozeRow(s,k)).join('')}</div>`;
   const check=`<div class="row" style="margin:14px 0"><button class="btn" onclick="gradeExam()">✅ בדוק תשובות</button><button class="btn ghost" onclick="if(confirm('לנקות את כל התשובות במבחן זה?')){DB.exAns[EX.no]={conj:{},story:{},cloze:{}};if(DB.exGraded)delete DB.exGraded[EX.no];save();renderExam();}">אפס תשובות</button></div>`;
   document.getElementById('stage').innerHTML=`<h3 class="mh">חלק א׳ · הטיות (10 משפטים × 7 שדות)</h3>${A}<h3 class="mh">חלק ב׳ · סיפור (8 שאלות)</h3>${B}<h3 class="mh">חלק ג׳ · שיבוצים (10)</h3>${C}${check}${graded?examResultsHTML(graded):''}`;
+  renderKbd();
   window.scrollTo(0, keepScroll?scrollY:0);
 }
 function fieldOk(user,field,v){const u=norm(user);if(!u)return false;let acc;
