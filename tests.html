@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>יידיש — 6 מבחנים מלאים לדוגמה</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+:root{
+  --paper:#F4F0E6; --card:#FFFDF8; --card-2:#FBF7EE; --ink:#1B2A2C; --ink-soft:#4A5A5B; --ink-faint:#7C8A88;
+  --line:#E2D9C6; --line-soft:#EDE6D6; --teal:#0E8A7C; --teal-deep:#0B6B60; --teal-soft:#D6ECE7;
+  --gold:#C98A22; --gold-soft:#F3E5C6; --grape:#6B5BB0; --grape-soft:#E4DEF4; --good:#1F9E6E;
+  --shadow:0 1px 2px rgba(27,42,44,.05),0 6px 18px rgba(27,42,44,.08);
+}
+@media (prefers-color-scheme:dark){:root{
+  --paper:#12201F; --card:#1A2A28; --card-2:#213432; --ink:#ECE6D6; --ink-soft:#AFC0BC; --ink-faint:#7E918D;
+  --line:#2C3E3B; --line-soft:#25352F; --teal:#2FC8B4; --teal-deep:#5FD9C8; --teal-soft:#183430;
+  --gold:#E1AC4E; --gold-soft:#382E19; --grape:#A99CE6; --grape-soft:#282146; --good:#3FD08C;
+}}
+*{box-sizing:border-box;margin:0;padding:0}
+body{direction:rtl;background:var(--paper);color:var(--ink);min-height:100vh;
+  font-family:"Assistant","Heebo","Segoe UI",system-ui,-apple-system,"Arial Hebrew",Arial,sans-serif;line-height:1.55}
+.yid{font-family:"Frank Ruhl Libre","Times New Roman","David",serif;direction:rtl;unicode-bidi:isolate;font-weight:600}
+.wrap{max-width:900px;margin:0 auto;padding:16px 16px 70px}
+a.home{display:inline-block;color:var(--teal-deep);text-decoration:none;font-weight:700;font-size:14px;margin-bottom:8px}
+.bar{position:sticky;top:0;z-index:20;display:flex;gap:8px;flex-wrap:wrap;align-items:center;
+  background:color-mix(in srgb,var(--paper) 88%,transparent);backdrop-filter:blur(8px);padding:10px 0;border-bottom:1px solid var(--line-soft);margin-bottom:14px}
+.pick{border:1px solid var(--line);background:var(--card);border-radius:99px;padding:7px 13px;font-weight:800;font-size:14px;color:var(--ink-soft);cursor:pointer;font-family:inherit}
+.pick.on{background:var(--teal);color:#fff;border-color:var(--teal)}
+.keybtn{margin-inline-start:auto;border:none;background:var(--gold);color:#fff;border-radius:99px;padding:8px 16px;font-weight:800;font-size:14px;cursor:pointer;font-family:inherit}
+header.doc{text-align:center;border-bottom:3px double var(--teal);padding-bottom:12px;margin-bottom:16px}
+header.doc .uni{font-size:13px;color:var(--ink-faint);letter-spacing:.5px}
+header.doc h1{font-size:24px;color:var(--teal-deep);margin:5px 0 3px}
+header.doc .sub{color:var(--ink-soft);font-size:13.5px}
+.fields{display:flex;gap:22px;flex-wrap:wrap;justify-content:center;margin:8px 0 2px;color:var(--ink-soft);font-size:13px}
+.fields span{border-bottom:1px solid var(--line);min-width:150px;padding-bottom:2px}
+h2.part{background:var(--teal);color:#fff;padding:7px 13px;border-radius:8px;margin:24px 0 12px;font-size:18px}
+h2.part.b{background:var(--grape)} h2.part.c{background:var(--gold)}
+.vitem{background:var(--card);border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);padding:12px 14px;margin:12px 0;page-break-inside:avoid}
+.vhead{font-weight:800;margin-bottom:6px}
+.vhead .num{display:inline-block;background:var(--teal);color:#fff;border-radius:50%;width:24px;height:24px;line-height:24px;text-align:center;font-size:13px;margin-left:6px}
+.vhead .inf{color:var(--teal-deep)}
+table.conj{width:100%;border-collapse:collapse;font-size:15px}
+table.conj td{border:1px solid var(--line);padding:6px 9px;vertical-align:middle}
+table.conj td.lbl{background:var(--card-2);font-weight:800;white-space:nowrap;width:92px}
+.blankline{display:block;min-height:22px}
+.ans{display:none;color:var(--good)}
+body.showkey .ans{display:inline}
+body.showkey .vitem td .blankline{min-height:0}
+ol.story{padding-inline-start:22px;line-height:1.5}
+ol.story li{margin:9px 0}
+.amodel{display:none;color:var(--good);font-size:14px;margin-top:2px}
+body.showkey .amodel{display:block}
+.bank{background:var(--card-2);border:1px dashed color-mix(in srgb,var(--gold) 55%,var(--line));border-radius:10px;padding:11px 13px;margin:6px 0 12px;font-size:16px;line-height:2}
+.bank b{color:var(--gold)}
+ol.shib{padding-inline-start:22px;line-height:2.2}
+ol.shib li{margin:3px 0;font-size:16px}
+ol.shib .fill{display:inline-block;min-width:120px;border-bottom:1.5px solid var(--line);text-align:center}
+ol.shib .ans{color:var(--good);border:none}
+footer{color:var(--ink-faint);font-size:12px;text-align:center;margin-top:26px}
+@media print{.bar,a.home{display:none}.wrap{max-width:none}h2.part{-webkit-print-color-adjust:exact;print-color-adjust:exact}.exam{page-break-after:always}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="home" href="index.html">→ חזרה למדריך</a>
+  <div class="bar">
+    <span style="font-weight:800;font-size:14px">מבחן:</span>
+    <div id="picks" style="display:flex;gap:6px;flex-wrap:wrap"></div>
+    <button class="keybtn" id="keybtn" onclick="toggleKey()">🔑 הצג מפתח תשובות</button>
+  </div>
+  <div id="stage"></div>
+  <footer>הכל מ־60 משפטי ההטיה, 3 הסיפורים (תשובות המורה) ובנק השיבוצים · אין המצאות · בהצלחה במבחן 12/08</footer>
+</div>
+
+<script src="data.js"></script>
+<script>
+const CB=(window.YID&&YID.CONJUGATION_BANK)||[];
+const STORYQA={
+ p:{title:"וולאדקע / דאָס פּעקעלע פּוטער 🕯️", items:[
+  {q:"ווער זײַנען געווען די נאַציס?",a:"די נאַציס זײַנען געווען דײַטשן מיט ביקסן"},
+  {q:"וואָס איז אַ געטאָ?",a:"אַ געטאָ איז אַ קליינער צאָל גאַסן מיט אַ מויער"},
+  {q:"וואָס האָבן די נאַציס געטאָן די ייִדן פֿון געטאָ?",a:"די נאַציס האָבן די ייִדן פֿון געטאָ פֿאַרגאַזט און פֿאַרברענט"},
+  {q:"צוליב וואָס איז וואָלאַדקע געבליבן אויף יענער זײַט מויער?",a:"וואָלאַדקע איז געבליבן אויף יענער זײַט מויער כּדי צו העלפֿן"},
+  {q:"ווען האָבן די יונגע העלדישע באַשלאָסן צו מאַכן אַן אויפֿשטאַנד?",a:"די יונגע העלדישע ייִדן האָבן באַשלאָסן צו מאַכן אַן אויפֿשטאַנד ווען עס זײַנען שוין געבליבן ווייניק ייִדן אין געטאָ"},
+  {q:"ווי אַזוי האָט וואָלאַדקע געטראָגן דינאַמיט אין געטאָ?",a:"וואָלאַדקע האָט געטראָגן דינאַמיט אין געטאָ אין אַ פּעקעלע פּוטער"},
+  {q:"וואָס איז געשען ווען וואָלאַדקע איז געווען אויף דער מויער פֿון געטאָ?",a:"ווען וואָלאַדקע איז געווען אויף דער מויער פֿון געטאָ האָבן זיך דערהערט שאָסן"},
+  {q:"וואָס איז געווען די סכּנה בײַם אַראָפּשפּרינגען פֿון געטאָ מויער?",a:"די סכּנה איז געווען אַז זי קען נאָך פֿאַלן און דאָס פּעקעלע פּוטער קען אויפֿרײַסן"},
+ ]},
+ b:{title:"דער בוים און דאָס יינגל (העץ הנדיב) 🌳", items:[
+  {q:"וועמען האָט דער בוים ליב געהאַט?",a:"דער בוים האָט ליב געהאַט דאָס יינגל"},
+  {q:"וואָס האָט דאָס יינגל געזאַמלט?",a:"דאָס יינגל האָט געזאַמלט די בלעטער"},
+  {q:"אין וואָס האָבן זיי זיך געשפּילט?",a:"זיי האָבן זיך געשפּילט אין באַהעלטעניש"},
+  {q:"וואָס האָט דער בוים געגעבן?",a:"דער בוים האָט געגעבן זײַן פֿרוכט"},
+  {q:"פֿאַרוואָס האָט דאָס יינגל געוואָלט אַ שיף?",a:"דאָס יינגל האָט געוואָלט אַ שיף כּדי אַוועקצופֿאָרן"},
+  {q:"וואָס האָט דאָס יינגל געטאָן מיט די עפּל?",a:"דאָס יינגל האָט גענומען די עפּל אין מאַרק פֿאַרקויפֿן"},
+  {q:"פֿאַרוואָס איז דער בוים געווען טרויעריק?",a:"דער בוים איז געווען טרויעריק ווײַל דאָס יינגל איז ניט צוריקגעקומען אַ לאַנגע צײַט"},
+  {q:"פֿאַרוואָס האָט דאָס יינגל געוואָלט אַ הויז?",a:"דאָס יינגל האָט געוואָלט אַ הויז איך וויל אַ ווײַב און קינדער"},
+ ]},
+ s:{title:"דאָס שיסעלע מיט בוימל 🕎", items:[
+  {q:"וווּ שטייט דאָס הייזל?",a:"דאָס הייזל שטייט בײַם עק דאָרף"},
+  {q:"פֿאַרוואָס ווונדערן זיך די מענטשן?",a:"די מענטשן ווונדערן זיך וואָס ווי נאָר עס קומט דער ווינטער אַזוי שטעלט אַוועק דער באַלעבאָס יעדן אויף דער נאַכט דאָס שיסעלע מיט בוימל אויפֿן פֿענצטער"},
+  {q:"ווי אַזוי האָט געהייסן דער בעל-הבית?",a:"דער באַלעבאָס האָט געהייסן אברהם"},
+  {q:"ווען איז די מעשׂה געווען?",a:"די מעשׂה איז געווען מיט אַ צוואַנציק יאָר צוריק"},
+  {q:"וואָס האָט געזאָגט דער ערשטער געדאַנק?",a:"דער ערשטער געדאַנק האָט געזאָגט וואָס טוסטו דרעמל ניט אײַן"},
+  {q:"וואָס האָט ער דערזען אין חלום?",a:"ער האָט דערזען אין חלום אַ פֿײַערל"},
+  {q:"וואָס האָט דער אַלטער געזאָגט?",a:"דער אַלטער האָט געזאָגט אויב דו בחור האָסט ליב אַרבעט קענסטו בײַ מיר דאָ פֿאַרבלײַבן"},
+  {q:"וואָס טוט ער יעדן ווינטער?",a:"יעדן ווינטער צינדט ער אָן אַ שיסעלע מיט בוימל"},
+ ]},
+};
+// 6 exams: verb ids = window of 10; story rotation; shared word-bank (present forms) per user's spec
+const EXAMS=[
+ {story:'p', bank:["לערן","גייסט","שרײַבט","איז","האָבן","לויפֿט","מאַכן","קוקט","נעמט","אַרבעטן"]},
+ {story:'p', bank:["רעד","קומסט","לערנט","וואַרט","פֿאָרן","פֿאָרן אַרויס","גייען אַרײַן","רעדט אָפּ","קויפֿן אָפּ","לייענט אויס"]},
+ {story:'b', bank:["באַשרײַב","קויפֿסט אָפּ","פֿאַרקויפֿט","באַלערנט","לויפֿן אַרויס","פֿאַרמאַכט","גייען מיט","לויף נאָך","קומסט צו","פֿליט בײַ"]},
+ {story:'b', bank:["האָט מורא","איז שולדיק","טראַכטן אויס","ווערט פֿאַרחלשט","אַנטלויפֿן","דערצייל","חלומסט","האָט ליב","פסקנט","ווערן דורשטיק"]},
+ {story:'s', bank:["ווערט גרויס","זײַנען מצליח","צעברעך","פֿאַרשרײַבסט","באַקענט","שלאָפֿט","טאַנצן","אַרבעט","באַאַרבעטן","אַרבעט אַרײַן"]},
+ {story:'s', bank:["שווימסט","קריכט","לערנט אָפּ","לייענען אויס","פֿאַרקוקט זיך","וואַשן זיך","באַקען זיך","פֿאַרשרײַבסט זיך","ברענגען","וווינען"]},
+];
+const ROWS=[['translation','תרגום'],['past','עבר'],['future','עתיד'],['imperative','ציווי'],['negative','שלילה'],['positiveQuestion','שאלה +'],['negativeQuestion','שאלה −']];
+
+let cur=0;
+function verbsOf(i){return CB.slice(i*10, i*10+10);}
+function blankSentence(sent,word){
+  const idx=sent.indexOf(word);
+  if(idx<0) return sent+' ______';
+  return sent.slice(0,idx)+'______'+sent.slice(idx+word.length);
+}
+function renderPicks(){
+  document.getElementById('picks').innerHTML=EXAMS.map((_,i)=>`<button class="pick ${i===cur?'on':''}" onclick="setExam(${i})">${i+1}</button>`).join('');
+}
+function setExam(i){cur=i;render();window.scrollTo(0,0);}
+function toggleKey(){document.body.classList.toggle('showkey');document.getElementById('keybtn').textContent=document.body.classList.contains('showkey')?'🙈 הסתר מפתח תשובות':'🔑 הצג מפתח תשובות';}
+
+function render(){
+  renderPicks();
+  const ex=EXAMS[cur], verbs=verbsOf(cur), story=STORYQA[ex.story];
+  // Part A
+  let A=verbs.map((v,k)=>`<div class="vitem">
+    <div class="vhead"><span class="num">${k+1}</span><span class="yid" style="font-size:18px">${v.presentSentence}</span> · <span class="inf yid">${v.infinitive}</span></div>
+    <table class="conj"><tbody>
+      ${ROWS.map(([f,l])=>`<tr><td class="lbl">${l}</td><td>${f==='translation'?'':'<span class="yid ans">'+v[f]+'</span>'}${f==='translation'?'<span class="ans">'+(v.translation||'')+'</span>':''}<span class="blankline"></span></td></tr>`).join('')}
+    </tbody></table></div>`).join('');
+  // Part B
+  let B=`<div style="font-weight:700;margin-bottom:8px">סיפור: <span class="yid">${story.title}</span> — ענה/עני ביידיש במשפט שלם.</div>
+    <ol class="story">${story.items.map(it=>`<li><span class="yid">${it.q}</span><div class="amodel yid">✔ ${it.a}</div></li>`).join('')}</ol>`;
+  // Part C
+  let C=`<div class="bank">מחסן מילים: ${ex.bank.map(w=>`<b class="yid">${w}</b>`).join(' · ')}</div>
+    <ol class="shib">${verbs.map((v,k)=>{
+      const b=ex.bank[k]; const s=blankSentence(v.presentSentence,b);
+      const parts=s.split('______');
+      return `<li><span class="yid">${parts[0]}</span><span class="fill"><span class="ans yid">${b}</span></span><span class="yid">${parts[1]||''}</span></li>`;
+    }).join('')}</ol>`;
+
+  document.getElementById('stage').innerHTML=`<div class="exam">
+    <header class="doc">
+      <div class="uni">אוניברסיטת בר־אילן · יידיש למתחילים · גב' ורד קופל</div>
+      <h1>מבחן לדוגמה ${cur+1} מתוך 6</h1>
+      <div class="sub">3 חלקים: 10 הטיות · סיפור שלם (8 שאלות) · 10 שיבוצים ממחסן משותף</div>
+      <div class="fields"><span>שם: ______</span><span>ת.ז.: ______</span><span>ציון: ___</span></div>
+    </header>
+    <h2 class="part">חלק א׳ · הטיות (10) — מלא/י: תרגום · עבר · עתיד · ציווי · שלילה · שאלה+ · שאלה−</h2>
+    ${A}
+    <h2 class="part b">חלק ב׳ · סיפור (8 שאלות)</h2>
+    ${B}
+    <h2 class="part c">חלק ג׳ · שיבוצים (10) — שבץ/י כל מילה מהמחסן במקומה (כל מילה פעם אחת)</h2>
+    ${C}
+  </div>`;
+}
+if(!CB.length){document.getElementById('stage').innerHTML='<div class="vitem">שגיאה: data.js לא נטען.</div>';}
+else render();
+</script>
+</body>
+</html>
